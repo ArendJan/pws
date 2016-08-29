@@ -1,0 +1,1 @@
+Dit is de code die op de raspberry Pi draait. Dit wordt verzorgd door AJ.

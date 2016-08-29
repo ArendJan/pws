@@ -1,0 +1,1 @@
+Dit deel komt op de server. Dit deel is de man in the middle. Stuurt berichten naar de app en geeft aan de raspberry pi door of er updates zijn.
