@@ -12,9 +12,9 @@ $conn = db();
       if($checkstmt->rowCount() > 0){
           echo "Bestaat!";
           //Doe +1 bij aantal van product
-          $upstmt = "UPDATE producten SET aanta = aantal + 1 WHERE barcode = ?";
+          $upstmt = "UPDATE producten SET aantal = aantal + 1 WHERE barcode = ?";
           $z = $db->prepare($upstmt);
-          $z->execute(array($counter+1,$code));
+          $z->execute(array($code));
       } else {
           echo "Bestaat niet!";
           //Voeg product toe
