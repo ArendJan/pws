@@ -20,8 +20,8 @@ $conn = db();
           echo "Bestaat niet!";
           //Voeg product toe
           try {
-            $addstmt = $conn->prepare("INSERT INTO producten (barcode) VALUES (?)");
-            $addstmt->execute(array($code));
+            $addstmt = $conn->prepare("INSERT INTO producten (barcode, aantal) VALUES (?,?)");
+            $addstmt->execute(array($code, 1));
             }
         catch(PDOException $e)
             {
