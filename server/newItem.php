@@ -14,7 +14,7 @@ $conn = db();
           echo "Bestaat!";
           //Doe +1 bij aantal van product
           $upstmt = "UPDATE producten SET aantal = aantal + 1 WHERE barcode = ?";
-          $z = $db->prepare($upstmt);
+          $z = $conn->prepare($upstmt);
           $z->execute(array($code));
       } else {
           echo "Bestaat niet!";
