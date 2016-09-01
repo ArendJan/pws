@@ -3,9 +3,10 @@ require_once("php/start.php");
 $conn = db();
 
   $code = $_GET['code'];
+  echo "Barcode: $code";
 
       //Check of product al bestaat
-      $checkstmt = $conn->prepare("SELECT barcode FROM producten WHERE barcode = :barcode");
+      $checkstmt = $conn->prepare("SELECT barcode FROM producten WHERE barcode = :barcode")
       $checkstmt->bindParam(':barcode', $code);
       $checkstmt->execute();
 
