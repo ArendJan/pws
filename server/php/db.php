@@ -1,7 +1,7 @@
 <?php
 
 function connectDB(){
-  $servername = "localhost";
+  $servername = "rdbms.strato.de";
   $username = "U2672986";
   $password = "Profielwerkstuk2016";
 
@@ -13,6 +13,8 @@ try {
     }
 catch(PDOException $e)
     {
+      echo $e;
+      echo "je fukking db functie doet het niet kut!";
     die();
     }
 
