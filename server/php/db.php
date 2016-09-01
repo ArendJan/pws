@@ -3,7 +3,7 @@
 function connectDB(){
   $servername = "rdbms.strato.de";
   $username = "U2672986";
-  $password = "Profielwerkstuk2016";
+  $password = "Koelkast1";
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=DB2672986", $username, $password);

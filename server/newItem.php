@@ -6,7 +6,7 @@ $conn = db();
   echo "Barcode: $code";
 
       //Check of product al bestaat
-      $checkstmt = $conn->prepare("SELECT barcode FROM producten WHERE barcode = :barcode")
+      $checkstmt = $conn->prepare("SELECT barcode FROM producten WHERE barcode = :barcode");
       $checkstmt->bindParam(':barcode', $code);
       $checkstmt->execute();
 
@@ -20,8 +20,7 @@ $conn = db();
           echo "Bestaat niet!";
           //Voeg product toe
           try {
-            $addstmt = $conn->prepare("INSERT INTO producten (barcode)
-            VALUES (?)");
+            $addstmt = $conn->prepare("INSERT INTO producten (barcode) VALUES (?)");
             $addstmt->execute(array($code));
             }
         catch(PDOException $e)
