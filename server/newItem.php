@@ -1,5 +1,6 @@
 <?php
 require_once("php/start.php");
+require_once("php/getItem.php");
 $conn = db();
 
 $code = $_GET['code'];
@@ -20,8 +21,8 @@ if($checkstmt->rowCount() > 0){
   echo "Bestaat niet!";
   //Voeg product toe
   try {
-    $addstmt = $conn->prepare("INSERT INTO producten (barcode, aantal) VALUES (?,1)");
-    $addstmt->execute(array($code));
+    $addstmt = $conn->prepare("INSERT INTO producten (barcode, aantal,omschrijving) VALUES (?,1,?)");
+    $addstmt->execute(array($code,getTags($code)));
   }
   catch(PDOException $e)
   {
