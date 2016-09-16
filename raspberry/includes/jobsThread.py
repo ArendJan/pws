@@ -12,17 +12,18 @@ def updateCode():
     print "Restarting the program"
     restart()
 def downloadGithub():
-    cmd ="curl -H \"Authorization: token 210928caef2212cda9586bb6dab335af19bfdf1a\" \-L https://api.github.com/repos/arendjan/pws/tarball > wut.tar.gz"
+    cmd ="curl -H \"Authorization: token 210928caef2212cda9586bb6dab335af19bfdf1a\" \-L https://api.github.com/repos/arendjan/pws/tarball > ~/smartfridge/wut.tar.gz"
     os.system(cmd)
     cmd = "mkdir temp"
     os.system(cmd)
-    cmd = "tar -xvzf wut.tar.gz -C temp"
+    cmd = "tar -xvzf ~/smartfridge/wut.tar.gz -C ~/smartfridge/temp"
     os.system(cmd)
-    cmd = "mv -v ~/pws/temp/*/raspberry/* ~/pws "
+    cmd = "mv -v ~/smartfridge/temp/*/raspberry/* ~/smartfridge "
     os.system(cmd)
-    cmd = "rm -rf ~/pws/temp"
+    cmd = "rm -rf ~/smartfridge/temp"
     os.system(cmd)
-    cmd = "rm -rf ~/pws/wut.tar.gz"
+    cmd = "rm -rf ~/smartfridge/wut.tar.gz"
+    os.system(cmd)
 def restart():
     os.execl(sys.executable, sys.executable, *sys.argv)
 
