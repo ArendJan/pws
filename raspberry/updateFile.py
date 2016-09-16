@@ -1,0 +1,1 @@
+print "versie = 1"
