@@ -18,7 +18,11 @@ def downloadGithub():
     os.system(cmd)
     cmd = "tar -xvzf wut.tar.gz -C temp"
     os.system(cmd)
-    cmd = "mv -t ../pws temp/raspberry/*"
+    cmd = "mv -v ~/pws/temp/*/raspberry/* ~/pws "
+    os.system(cmd)
+    cmd = "rm -rf ~/pws/temp"
+    os.system(cmd)
+    cmd = "rm -rf ~/pws/wut.tar.gz"
 def restart():
     os.execl(sys.executable, sys.executable, *sys.argv)
 
