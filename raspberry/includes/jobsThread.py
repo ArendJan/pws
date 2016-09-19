@@ -12,17 +12,18 @@ def updateCode():
     print "Restarting the program"
     restart()
 def downloadGithub():
-    cmd ="curl -H \"Authorization: token 210928caef2212cda9586bb6dab335af19bfdf1a\" \-L https://api.github.com/repos/arendjan/pws/tarball > ~/smartfridge/wut.tar.gz"
+    dir_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))));
+    cmd ="curl -H \"Authorization: token 210928caef2212cda9586bb6dab335af19bfdf1a\" -Ls https://api.github.com/repos/arendjan/pws/tarball/AJMaandag199 > "+ dir_path + "/smartfridge/wut.tar.gz"
     os.system(cmd)
-    cmd = "mkdir temp"
+    cmd = "mkdir "+ dir_path + "/smartfridge/temp"
     os.system(cmd)
-    cmd = "tar -xvzf ~/smartfridge/wut.tar.gz -C ~/smartfridge/temp"
+    cmd = "tar -xvzf "+ dir_path + "/smartfridge/wut.tar.gz -C "+ dir_path + "/smartfridge/temp"
     os.system(cmd)
-    cmd = "mv -v ~/smartfridge/temp/*/raspberry/* ~/smartfridge "
+    cmd = "command cp -rfv "+ dir_path + "/smartfridge/temp/*/raspberry/* "+ dir_path + "/smartfridge "
     os.system(cmd)
-    cmd = "rm -rf ~/smartfridge/temp"
+    cmd = "rm -rf "+ dir_path + "/smartfridge/temp"
     os.system(cmd)
-    cmd = "rm -rf ~/smartfridge/wut.tar.gz"
+    cmd = "rm -rf "+ dir_path + "/smartfridge/wut.tar.gz"
     os.system(cmd)
 def restart():
     os.execl(sys.executable, sys.executable, *sys.argv)
