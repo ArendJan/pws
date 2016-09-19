@@ -6,24 +6,24 @@ $conn = db();
 $code = $_GET['code'];
 echo "Barcode: $code ";
 $desc = getTags($code);
-echo "Omschrijving: $desc ";
+echo "Description: $desc ";
 
 //Check of product al bestaat
-$checkstmt = $conn->prepare("SELECT barcode FROM producten WHERE barcode = :barcode");
+$checkstmt = $conn->prepare("SELECT barcode FROM products WHERE barcode = :barcode");
 $checkstmt->bindParam(':barcode', $code);
 $checkstmt->execute();
 
 if($checkstmt->rowCount() > 0){
-  echo "Bestaat! ";
+  echo "Exists! ";
   //Doe +1 bij aantal van product
-  $upstmt = "UPDATE producten SET aantal = aantal + 1 WHERE barcode = ?";
+  $upstmt = "UPDATE products SET ammount = ammount + 1 WHERE barcode = ?";
   $z = $conn->prepare($upstmt);
   $z->execute(array($code));
 } else {
-  echo "Bestaat niet! ";
+  echo "Doesn't exist! ";
   //Voeg product toe
   try {
-    $addstmt = $conn->prepare("INSERT INTO producten (barcode, aantal,omschrijving) VALUES (?,1,?)");
+    $addstmt = $conn->prepare("INSERT INTO products (barcode, ammount,description) VALUES (?,1,?)");
     $addstmt->execute(array($code,$desc));
   }
   catch(PDOException $e)
