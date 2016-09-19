@@ -12,7 +12,7 @@ def updateCode():
     print "Restarting the program"
     restart()
 def downloadGithub():
-    dir_path = os.path.dirname(os.path.realpath(__file__))+"../..";
+    dir_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))));
     cmd ="curl -H \"Authorization: token 210928caef2212cda9586bb6dab335af19bfdf1a\" \-L https://api.github.com/repos/arendjan/pws/tarball/AJMaandag199 > "+ dir_path + "/smartfridge/wut.tar.gz"
     os.system(cmd)
     cmd = "mkdir "+ dir_path + "/smartfridge/temp"
