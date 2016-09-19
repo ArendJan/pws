@@ -19,7 +19,7 @@ def downloadGithub():
     os.system(cmd)
     cmd = "tar -xvzf "+ dir_path + "/smartfridge/wut.tar.gz -C "+ dir_path + "/smartfridge/temp"
     os.system(cmd)
-    cmd = "yes | cp -rf "+ dir_path + "/smartfridge/temp/*/raspberry/* "+ dir_path + "/smartfridge "
+    cmd = "yes | cp -rfv "+ dir_path + "/smartfridge/temp/*/raspberry/* "+ dir_path + "/smartfridge "
     os.system(cmd)
     cmd = "rm -rf "+ dir_path + "/smartfridge/temp"
     os.system(cmd)
