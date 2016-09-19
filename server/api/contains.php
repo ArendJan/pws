@@ -9,41 +9,41 @@ if(empty($_GET['Sort'])){
 }
 
 if($sort == "everything"){
-  $stmt = $conn->prepare('SELECT * FROM producten');
+  $stmt = $conn->prepare('SELECT * FROM products');
   $stmt->execute();
   $result = $stmt -> fetchAll();
   foreach( $result as $row ) {
-    $aantal = $row['aantal'];
+    $ammount = $row['ammount'];
     $open = $row['open'];
-    $closed = $aantal - $open;
-    echo $row['omschrijving'] . ":<br>Ammount: " . $row['aantal'] . "<br>Closed: " . $closed . "<br>Opened: " . $row['open'] . "<br><br>";
+    $closed = $ammount - $open;
+    echo $row['description'] . ":<br>Ammount: " . $row['ammount'] . "<br>Closed: " . $closed . "<br>Opened: " . $row['open'] . "<br><br>";
   }
 }elseif ($sort == "opened") {
-  $stmt = $conn->prepare('SELECT * FROM producten WHERE open > 0');
+  $stmt = $conn->prepare('SELECT * FROM products WHERE open > 0');
   $stmt->execute();
   $result = $stmt -> fetchAll();
   foreach( $result as $row ) {
-    echo $row['omschrijving'] . ":<br>Opened: " . $row['open'] . "<br><br>";
+    echo $row['description'] . ":<br>Opened: " . $row['open'] . "<br><br>";
   }
 }elseif ($sort == "closed") {
-  $stmt = $conn->prepare('SELECT * FROM producten WHERE aantal > 0');
+  $stmt = $conn->prepare('SELECT * FROM products WHERE ammount > 0');
   $stmt->execute();
   $result = $stmt -> fetchAll();
   foreach( $result as $row ) {
-    $aantal = $row['aantal'];
+    $ammount = $row['ammount'];
     $open = $row['open'];
-    $closed = $aantal - $open;
-    echo $row['omschrijving'] . ":<br>Closed: " . $closed . "<br><br>";
+    $closed = $ammount - $open;
+    echo $row['description'] . ":<br>Closed: " . $closed . "<br><br>";
   }
 }elseif ($sort == "opened+closed") {
-  $stmt = $conn->prepare('SELECT * FROM producten WHERE aantal > 0');
+  $stmt = $conn->prepare('SELECT * FROM products WHERE ammount > 0');
   $stmt->execute();
   $result = $stmt -> fetchAll();
   foreach( $result as $row ) {
-    $aantal = $row['aantal'];
+    $ammount = $row['ammount'];
     $open = $row['open'];
-    $closed = $aantal - $open;
-    echo $row['omschrijving'] . ":<br>Closed " . $closed . "<br>Open: " . $row['open'] . "<br><br>";
+    $closed = $ammount - $open;
+    echo $row['description'] . ":<br>Closed " . $closed . "<br>Open: " . $row['open'] . "<br><br>";
   }
 }
 ?>
