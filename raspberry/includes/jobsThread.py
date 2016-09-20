@@ -1,32 +1,36 @@
 import os
 import settings
 import sys
+import pprint
+import json
+import sleep
+from .. import settings
+import jobs
+from threading import Thread
 def start():
     print "start jobs thread"
-    downloadGithub()
+
+def jobThread():
+    while 1:
+        data = request()
+        json = decode(data)
+        readAndParse(json)
+        time.sleep(settings.interval)
+
+def decode(data):
+    return json.load(data)
+
+def request():
+    return data
 
 
-def updateCode():
-    print "Downloading and installing new updates."
-    downloadGithub()
-    print "Restarting the program"
-    restart()
-def downloadGithub():
-    dir_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))));
-    cmd ="curl -H \"Authorization: token 210928caef2212cda9586bb6dab335af19bfdf1a\" -Ls https://api.github.com/repos/arendjan/pws/tarball/AJMaandag199 > "+ dir_path + "/smartfridge/wut.tar.gz"
-    os.system(cmd)
-    cmd = "mkdir "+ dir_path + "/smartfridge/temp"
-    os.system(cmd)
-    cmd = "tar -xvzf "+ dir_path + "/smartfridge/wut.tar.gz -C "+ dir_path + "/smartfridge/temp"
-    os.system(cmd)
-    cmd = "command cp -rfv "+ dir_path + "/smartfridge/temp/*/raspberry/* "+ dir_path + "/smartfridge "
-    os.system(cmd)
-    cmd = "rm -rf "+ dir_path + "/smartfridge/temp"
-    os.system(cmd)
-    cmd = "rm -rf "+ dir_path + "/smartfridge/wut.tar.gz"
-    os.system(cmd)
-def restart():
-    os.execl(sys.executable, sys.executable, *sys.argv)
+def readAndParse(json):
+    for job in json["jobs"]:
+        checkJob(job["id"])
+        thread = Thread(target = jobs.parseJob, args = (json,)) #we'll do this, so there won't be a big delay when parsing everything.
+        thread.start()
+
+
 
 def jobsThread():
     try:

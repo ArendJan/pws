@@ -1,1 +1,1 @@
-__all__ = ["jobsThread", "keyboardThread", "threads"]
+__all__ = ["jobsThread", "keyboardThread", "threads", "jobs"]
