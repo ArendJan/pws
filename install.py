@@ -18,7 +18,7 @@ print "creating directory"
 cmd = "mkdir "+ dir_path + "/smartfridge"
 os.system(cmd)
 print "downloading code from python"
-cmd ="curl -H \"Authorization: token 210928caef2212cda9586bb6dab335af19bfdf1a\" -Ls https://api.github.com/repos/arendjan/pws/tarball/AJMaandag199 > "+ dir_path + "/smartfridge/wut.tar.gz"
+cmd ="curl -H \"Authorization: token 210928caef2212cda9586bb6dab335af19bfdf1a\" -Ls https://api.github.com/repos/arendjan/pws/tarball > "+ dir_path + "/smartfridge/wut.tar.gz"
 os.system(cmd)
 cmd = "mkdir -m 777 "+ dir_path + "/smartfridge/temp"
 os.system(cmd)
