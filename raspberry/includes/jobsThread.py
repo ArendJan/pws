@@ -21,6 +21,16 @@ def decode(data):
     return json.load(data)
 
 def request():
+    try:
+        url = settings.url + "getJobs"
+        data = json.dump({
+        "userId":settings.userId
+        });
+        response = requests.get(url)
+        return json.loads(response.text)
+
+    except Interrupt:
+        print "ripppp"
     return data
 
 
@@ -33,10 +43,3 @@ def readAndParse(json):
 
 
 def jobsThread():
-    try:
-        url = "http://pws.svshizzle.com/status.php"
-        response = requests.get(url)
-        return json.loads(response.text)
-
-    except Interrupt:
-        print "ripppp"
