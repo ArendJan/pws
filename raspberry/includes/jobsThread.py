@@ -39,7 +39,3 @@ def readAndParse(json):
         checkJob(job["id"])
         thread = Thread(target = jobs.parseJob, args = (json,)) #we'll do this, so there won't be a big delay when parsing everything.
         thread.start()
-
-
-
-def jobsThread():
