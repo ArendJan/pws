@@ -10,6 +10,7 @@ from threading import Thread
 def start():
     print "start jobs thread"
     thread = Thread(target=jobThread, args=())
+    thread.start()
 
 def jobThread():
     while 1:
@@ -30,9 +31,9 @@ def request():
         response = requests.post(url, data={"JSON":postVars})
         return json.loads(response.text)
 
-    except Interrupt:
+    except Exception:
         print "ripppp"
-    return data
+    return "asdf"
 
 
 def readAndParse(json):
