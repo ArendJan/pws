@@ -1,12 +1,10 @@
 <?php
 
 function connectDB(){
-  $servername = "rdbms.strato.de";
-  $username = "U2672986";
-  $password = "Koelkast1";
 
+  include("settings.php");
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=DB2672986", $username, $password);
+    $conn = new PDO("mysql:host=$servername;dbname=".$dbname, $username, $password);
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
