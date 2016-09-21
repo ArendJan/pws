@@ -33,6 +33,8 @@ subprocess.Popen(cmd, shell=True).wait()
 print "copying the files"
 cmd = "command cp -rf "+ dir_path + "/smartfridge/temp/*/raspberry/* "+ dir_path + "/smartfridge "
 subprocess.Popen(cmd, shell=True).wait()
+cmd = "command cp -rf "+ dir_path + "/smartfridge/start.py "+ dir_path + "/ "
+subprocess.Popen(cmd, shell=True).wait()
 print "removing garbage"
 cmd = "rm -rf "+ dir_path + "/smartfridge/temp"
 subprocess.Popen(cmd, shell=True).wait()
