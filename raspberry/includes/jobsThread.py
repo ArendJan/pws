@@ -20,15 +20,16 @@ def jobThread():
         time.sleep(settings.interval)
 
 def decode(data):
-    return json.load(data)
+    return json.loads(unicode(data, 'iso-8859-15'))
 
 def request():
     try:
         url = settings.url + "defaultOutput/getJobs"
-        postVars = json.dump({
+        print url
+        postVars = json.dumps({
         "userId":settings.userId
         });
-        response = requests.post(url, data={"JSON":postVars})
+        response = Requests.post(url, data={"JSON":postVars})
         return json.loads(response.text)
 
     except Exception:
