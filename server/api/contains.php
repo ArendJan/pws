@@ -1,7 +1,7 @@
 <?php
 include_once('../php/start.php');
 $conn = db();
-http://stackoverflow.com/questions/19004783/reading-json-post-using-php
+Alle variabelen staan in post[json]
 
 
 if(empty($_GET['Sort'])){
