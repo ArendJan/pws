@@ -1,17 +1,23 @@
 <?php
 
-require_once(../newItem.php);
-require_once(../delItem.php);
-require_once(../openItem.php);
+require_once("/include/newItem.php");
+require_once("/include/delItem.php");
+require_once("/include/openItem.php");
 
-$code = $_POST["code"];
-$action = $_POST["action"];
+$data = json_decode($_POST['JSON'],true);
+
+$code = $data["barcode"];
+$action = $data["action"];
+$userId = $data['userId'];
 
 if($action == "add"){
-  add($code);
+  echo "Adding Product";
+  addItem($code,$userId);
 } elseif ($action == "del") {
+  echo "Removing Product";
   del($code);
 } elseif ($action == "open") {
+  echo "Opening Product";
   upate($code);
 }
 

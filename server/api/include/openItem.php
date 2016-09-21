@@ -1,6 +1,9 @@
 <?php
 require_once("../../php/start.php");
 $conn = db();
+
+
+
 $code = $_GET['code'];
 $userId = $_GET['userId'];
 
