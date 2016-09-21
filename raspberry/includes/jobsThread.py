@@ -3,7 +3,7 @@ import settings
 import sys
 import pprint
 import json
-import sleep
+import time
 from .. import settings
 import jobs
 from threading import Thread
