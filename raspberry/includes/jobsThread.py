@@ -31,7 +31,7 @@ def request():
         response = requests.post(url, data={"JSON":postVars})
         return json.loads(response.text)
 
-    except Interrupt:
+    except Exception:
         print "ripppp"
     return data
 
