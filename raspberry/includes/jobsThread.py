@@ -33,7 +33,7 @@ def request():
 
     except Exception:
         print "ripppp"
-    return data
+    return "asdf"
 
 
 def readAndParse(json):
