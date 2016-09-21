@@ -4,8 +4,10 @@ import argparse
 import subprocess
 parser = argparse.ArgumentParser(description="Your personal userId")
 parser.add_argument('--userId')
+parser.add_argument('--branch')
 args = parser.parse_args()
 userid = args.userId
+branch = args.branch
 dir_path = os.path.dirname(os.path.realpath(__file__))
 print "this file installs the all the needed files and packages for the smart fridge"
 if os.getuid() != 0:
@@ -23,6 +25,9 @@ print "creating directory"
 cmd = "mkdir "+ dir_path + "/smartfridge"
 subprocess.Popen(cmd, shell=True).wait()
 print "downloading code from python"
+add = ""
+if(branch!=None):
+    add = "/"+branch
 cmd ="curl -H \"Authorization: token 210928caef2212cda9586bb6dab335af19bfdf1a\" -Ls https://api.github.com/repos/arendjan/pws/tarball > "+ dir_path + "/smartfridge/wut.tar.gz"
 subprocess.Popen(cmd, shell=True).wait()
 cmd = "mkdir -m 777 "+ dir_path + "/smartfridge/temp"
@@ -44,4 +49,5 @@ if(userid!=None):
     f = open(dir_path+"/smartfridge/settings.py", 'w')
     f.write("userId=\""+userid+"\"\ninterval=5\nurl=\"http://pws.svshizzle.com/api/\"");
     print userid
+
 print "Done!"
