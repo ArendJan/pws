@@ -1,6 +1,8 @@
 <?php
 include_once('../php/start.php');
 $conn = db();
+http://stackoverflow.com/questions/19004783/reading-json-post-using-php
+
 
 if(empty($_GET['Sort'])){
   $sort = "opened+closed";
