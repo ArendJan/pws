@@ -17,7 +17,7 @@ def update(json):
     updateCode() #too big for one single easy function...
 
 
-def list(json):
+def listFunc(json):
     output = ""
     with open('/dev/usb/lp0', 'w') as printer:
         for item in json["Items"]:

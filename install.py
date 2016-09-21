@@ -28,7 +28,7 @@ print "downloading code from python"
 add = ""
 if(branch!=None):
     add = "/"+branch
-cmd ="curl -H \"Authorization: token 210928caef2212cda9586bb6dab335af19bfdf1a\" -Ls https://api.github.com/repos/arendjan/pws/tarball > "+ dir_path + "/smartfridge/wut.tar.gz"
+cmd ="curl -H \"Authorization: token 210928caef2212cda9586bb6dab335af19bfdf1a\" -Ls https://api.github.com/repos/arendjan/pws/tarball"+add+" > "+ dir_path + "/smartfridge/wut.tar.gz"
 subprocess.Popen(cmd, shell=True).wait()
 cmd = "mkdir -m 777 "+ dir_path + "/smartfridge/temp"
 subprocess.Popen(cmd, shell=True).wait()

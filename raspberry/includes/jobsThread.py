@@ -9,6 +9,7 @@ import jobs
 from threading import Thread
 def start():
     print "start jobs thread"
+    thread = Thread(target=jobThread, args=())
 
 def jobThread():
     while 1:

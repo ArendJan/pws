@@ -1,8 +1,8 @@
 <?php
-require_once("../../php/start.php");
+require_once(dirname(__FILE__)."/../../php/start.php");
 $conn = db();
 
-
+Deze code moet ff gefixt worden
 
 $code = $_GET['code'];
 $userId = $_GET['userId'];
