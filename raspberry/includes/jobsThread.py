@@ -23,10 +23,10 @@ def decode(data):
 def request():
     try:
         url = settings.url + "getJobs"
-        data = json.dump({
+        postVars = json.dump({
         "userId":settings.userId
         });
-        response = requests.get(url)
+        response = requests.post(url, data={"JSON":postVars})
         return json.loads(response.text)
 
     except Interrupt:
