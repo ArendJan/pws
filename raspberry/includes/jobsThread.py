@@ -2,7 +2,7 @@ import os
 import sys
 import pprint
 import json
-
+import requests
 import time
 from .. import settings
 import jobs
@@ -20,7 +20,7 @@ def jobThread():
         time.sleep(settings.interval)
 
 def decode(data):
-    return json.loads(unicode(data, 'iso-8859-15'))
+    return json.loads(response.text)
 
 def request():
     try:
@@ -29,8 +29,8 @@ def request():
         postVars = json.dumps({
         "userId":settings.userId
         });
-        response = Requests.post(url, data={"JSON":postVars})
-        return json.loads(response.text)
+        response = requests.post(url, data={"JSON":postVars})
+        return response.text
 
     except Exception:
         print "ripppp"
