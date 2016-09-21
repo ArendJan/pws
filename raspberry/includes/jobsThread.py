@@ -2,8 +2,9 @@ import os
 import sys
 import pprint
 import json
-import sleep
-from ... import settings
+
+import time
+from .. import settings
 import jobs
 from threading import Thread
 def start():
