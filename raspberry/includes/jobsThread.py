@@ -4,7 +4,7 @@ import sys
 import pprint
 import json
 import sleep
-from smartfridge import settings
+from ... import settings
 import jobs
 from threading import Thread
 def start():
