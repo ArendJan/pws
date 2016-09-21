@@ -20,7 +20,7 @@ def jobThread():
         time.sleep(settings.interval)
 
 def decode(data):
-    return json.loads(response.text)
+    return json.loads(data)
 
 def request():
     try:
