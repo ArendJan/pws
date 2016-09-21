@@ -24,7 +24,7 @@ def decode(data):
 
 def request():
     try:
-        url = settings.url + "getJobs"
+        url = settings.url + "defaultOutput/getJobs"
         postVars = json.dump({
         "userId":settings.userId
         });
