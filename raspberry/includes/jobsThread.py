@@ -1,5 +1,4 @@
 import os
-import settings
 import sys
 import pprint
 import json
