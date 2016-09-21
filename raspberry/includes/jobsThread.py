@@ -10,6 +10,7 @@ from threading import Thread
 def start():
     print "start jobs thread"
     thread = Thread(target=jobThread, args=())
+    thread.start()
 
 def jobThread():
     while 1:
