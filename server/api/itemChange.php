@@ -28,10 +28,10 @@ if (checkUserId($userId) == true){
     echo "Opening Product";
     openItem($code,$userId);
   }else{
-    echo "You forogt your action!"
+    echo "You forgot your action!";
   }
 
-} elseif(checkUserId($userId) == false){
+} else{
   echo "You forgot your userId, or you gave an invalid userId!";
 }
 
