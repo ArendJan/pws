@@ -1,10 +1,9 @@
 <?php
-require_once(dirname(__FILE__)."/../../php/start.php");
-require_once(dirname(__FILE__)."/getItem.php");
-$conn = db();
-stop de $conn in de functie, geen overhead en nu kan $conn niet gelezen worden
-Ook de requres in de functie
 function addItem($code, $userId){
+  require_once(dirname(__FILE__)."/../../php/start.php");
+  require_once(dirname(__FILE__)."/getItem.php");
+  $conn = db();
+
   echo "Barcode: $code ";
   $desc = getTags($code);
   echo "Description: $desc ";

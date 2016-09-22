@@ -14,16 +14,17 @@ $data = json_decode($_POST['JSON'],true);
 $code = $data["barcode"];
 $action = $data["action"];
 $userId = $data['userId'];
+
 echo $userId;
 if($action == "add"){
   echo "Adding Product";
   addItem($code,$userId);
 } elseif ($action == "del") {
   echo "Removing Product";
-  del($code);
+  delItem($code,$userId);
 } elseif ($action == "open") {
   echo "Opening Product";
-  upate($code);
+  openItem($code,$userId);
 }
 
  ?>
