@@ -20,10 +20,10 @@ if($action == "add"){
   addItem($code,$userId);
 } elseif ($action == "del") {
   echo "Removing Product";
-  del($code);
+  delItem($code,$userId);
 } elseif ($action == "open") {
   echo "Opening Product";
-  upate($code);
+  openItem($code,$userId);
 }
 
  ?>
