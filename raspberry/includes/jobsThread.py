@@ -1,14 +1,16 @@
 import os
-import settings
 import sys
 import pprint
 import json
+import requests
 import time
 from .. import settings
 import jobs
 from threading import Thread
 def start():
     print "start jobs thread"
+    thread = Thread(target=jobThread, args=())
+    thread.start()
 
 def jobThread():
     while 1:
@@ -18,20 +20,21 @@ def jobThread():
         time.sleep(settings.interval)
 
 def decode(data):
-    return json.load(data)
+    return json.loads(data)
 
 def request():
     try:
-        url = settings.url + "getJobs"
-        postVars = json.dump({
+        url = settings.url + "defaultOutput/getJobs"
+        print url
+        postVars = json.dumps({
         "userId":settings.userId
         });
         response = requests.post(url, data={"JSON":postVars})
-        return json.loads(response.text)
+        return response.text
 
-    except Interrupt:
+    except Exception:
         print "ripppp"
-    return data
+    return "asdf"
 
 
 def readAndParse(json):

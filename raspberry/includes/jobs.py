@@ -2,18 +2,9 @@ import subprocess
 #This is the file with all posible jobs defined.
 #If you want to add a job to the list, add it to the dictionary and create the correct function for it.
 
-options = {
-    "restart" : restart,
-    "qrCode" : qrCode,
-    "list" :listFunc,
-    "text" :  text,
-    "update" : update,
-    "shutdown" : shutdown
-}
 
 
-def parseJob(json):#this will call your function!
-    options[json["Type"]](json)
+
 
 
 def restart(json):
@@ -26,7 +17,7 @@ def update(json):
     updateCode() #too big for one single easy function...
 
 
-def list(json):
+def listFunc(json):
     output = ""
     with open('/dev/usb/lp0', 'w') as printer:
         for item in json["Items"]:
@@ -38,7 +29,7 @@ def text(json):
         printer.write("New text:\n"+json["Text"]+"\n\n\n")
 
 def qrCode(json):
-
+    print "lelelle"
 
 
 
@@ -69,3 +60,19 @@ def downloadGithub():
     cmd = "rm -rf "+ dir_path + "/smartfridge/wut.tar.gz"
     subprocess.Popen(cmd, shell=True).wait()
     os.execl(sys.executable, sys.executable, *sys.argv) #this is some magic, it'll restart the main,php function. Don't ask why :P
+
+
+
+
+
+
+options = {
+    "restart" : restart,
+    "qrCode" : qrCode,
+    "list" :listFunc,
+    "text" :  text,
+    "update" : update,
+    "shutdown" : shutdown
+}
+def parseJob(json):#this will call your function!
+    options[json["Type"]](json)
