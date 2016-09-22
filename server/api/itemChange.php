@@ -14,6 +14,7 @@ $data = json_decode($_POST['JSON'],true);
 $code = $data["barcode"];
 $action = $data["action"];
 $userId = $data['userId'];
+
 echo $userId;
 if($action == "add"){
   echo "Adding Product";
