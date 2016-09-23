@@ -2,11 +2,11 @@
 include_once('../php/start.php');
 $conn = db();
 
-$data = json_decode($_POST['JSON'],true);
-
 if (!isset($_POST['JSON'])){
   die("You have to post your values in _POST['JSON']");
 }
+
+$data = json_decode($_POST['JSON'],true);
 
 $userId = $data['userId'];
 $sort = $data["Sort"];
