@@ -11,6 +11,10 @@ require_once("include/openItem.php");
 
 require_once("include/checkUserId.php");
 
+if (!isset($_POST['JSON'])){
+  die("You have to post your values in _POST['JSON']");
+}
+
 $data = json_decode($_POST['JSON'],true);
 
 $code = $data["barcode"];
