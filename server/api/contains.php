@@ -4,6 +4,10 @@ $conn = db();
 
 $data = json_decode($_POST['JSON'],true);
 
+if (!isset($_POST['JSON'])){
+  die("You have to post your values in _POST['JSON']");
+}
+
 $userId = $data['userId'];
 $sort = $data["Sort"];
 
