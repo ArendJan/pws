@@ -84,6 +84,7 @@ options = {
     "shutdown" : shutdown
 }
 def parseJob(json):#this will call your function!
+    print json
     if json["Type"] in options:
         options[json["Type"]](json)
     else:
