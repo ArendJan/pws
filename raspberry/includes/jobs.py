@@ -1,4 +1,5 @@
 import subprocess
+
 #This is the file with all posible jobs defined.
 #If you want to add a job to the list, add it to the dictionary and create the correct function for it.
 
@@ -17,19 +18,25 @@ def update(json):
     updateCode() #too big for one single easy function...
 
 
-def listFunc(json):
+def listFunc(json):     #Prints the list of the items you should buy!!!
     output = ""
-    with open('/dev/usb/lp0', 'w') as printer:
-        for item in json["Items"]:
-            output += "- " + item["Title"]
-            printer.write("- " + item["Title"] + "\n")
 
-def text(json):
-    with open('/dev/usb/lp0', "w") as printer:
-        printer.write("New text:\n"+json["Text"]+"\n\n\n")
+    for item in json["Items"]: #iterates through the list
+        output += "- " + item["Title"] + "\n"
+    printCommand(output)
+
+def text(json): #Print the text entered on the website / app.
+    output = "New text:\n"+json["Text"]+"\n\n\n"
+    printCommand(output)
+
 
 def qrCode(json):
-    print "lelelle"
+    import barcode
+    from barcode.writer import ImageWriter
+    EAN = barcode.get_barcode_class('EAN')
+    ean = EAN(json["Barcode"], writer=ImageWriter())
+    ean.save("ean13_barcode")
+    #now print this thing!
 
 
 
@@ -38,6 +45,8 @@ def qrCode(json):
 
 
 
+def printCommand(text): #This is the function that is called with a string containing a text that should be printed.
+    subprocess.Popen("sudo echo $\"" + text + "\" > lpr")
 
 def updateCode():
     print "Downloading and installing new updates."
@@ -75,4 +84,7 @@ options = {
     "shutdown" : shutdown
 }
 def parseJob(json):#this will call your function!
-    options[json["Type"]](json)
+    if json["Type"] in options:
+        options[json["Type"]](json)
+    else:
+        print "Not added to the dictiona options"
