@@ -18,6 +18,7 @@ $type = $data["Type"];
 $json_array = array();
 
 if (checkUserId($userId) ==  true){
+  //Different statements if Type or Status is empty
   if ($status == ""){
     $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND type = ?');
     $stmt->execute(array($userId, $type));
