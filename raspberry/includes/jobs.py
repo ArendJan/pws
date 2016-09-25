@@ -1,4 +1,5 @@
 import subprocess
+import threading
 #This is the file with all posible jobs defined.
 #If you want to add a job to the list, add it to the dictionary and create the correct function for it.
 
@@ -7,36 +8,46 @@ import subprocess
 
 
 
-def restart(json):
+def restart(job):
     subprocess.Popen(["sudo", "restart"]) #Sends sudo restart to the terminal, which will restart the RPi
 
-def shutdown(json):
-    subprocess.Popen(["sudo", "halt"]) #Sends sudo halt to the terminal, which directly shuts the pi down
+def shutdown(job):
+    subprocess.Popen(["sudo", "halt"]).wait() #Sends sudo halt to the terminal, which directly shuts the pi down
 
-def update(json):
+def update(job):
     updateCode() #too big for one single easy function...
 
 
-def list(json):
+def listFunc(job):     #Prints the list of the items you should buy!!!
     output = ""
-    with open('/dev/usb/lp0', 'w') as printer:
-        for item in json["Items"]:
-            output += "- " + item["Title"]
-            printer.write("- " + item["Title"] + "\n")
 
-def text(json):
-    with open('/dev/usb/lp0', "w") as printer:
-        printer.write("New text:\n"+json["Text"]+"\n\n\n")
+    for item in job["Items"]: #iterates through the list
+        output += "- " + item["Title"] + ""
+    printCommand(output)
 
-def qrCode(json):
-    print "lelelle"
+def text(job): #Print the text entered on the website / app.
+    output = "New text:"+ job["Text"]+""
+    printCommand(output)
 
 
+def qrCode(job):
+    import barcode
+    from barcode.writer import ImageWriter
+    EAN = barcode.get_barcode_class('EAN')
+    ean = EAN(job["Code"], writer=ImageWriter())
+    ean.save("ean13_barcode")
+    #now print this thing!
 
 
 
 
 
+
+
+
+def printCommand(text): #This is the function that is called with a string containing a text that should be printed.
+
+    subprocess.Popen("sudo echo $\"" + text + "\" > lpr", shell=True).wait()
 
 
 def updateCode():
@@ -66,6 +77,8 @@ def downloadGithub():
 
 
 
+
+
 options = {
     "restart" : restart,
     "qrCode" : qrCode,
@@ -74,5 +87,9 @@ options = {
     "update" : update,
     "shutdown" : shutdown
 }
-def parseJob(json):#this will call your function!
-    options[json["Type"]](json)
+def parseJob(jsonX):#this will call your function!
+    print "Thread id:" + str(threading.current_thread().name)
+    if jsonX["Type"] in options:
+        options[jsonX["Type"]](jsonX)
+    else:
+        print "Not added to the dictionary options"

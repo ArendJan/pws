@@ -1,15 +1,15 @@
 <?php
 include_once('../php/start.php');
 $conn = db();
-Alle variabelen staan in post[json]
 
-$userId = $_GET['userId'];
-
-if(empty($_GET['Sort'])){
-  $sort = "opened+closed";
-} else {
-  $sort = $_GET['Sort'];
+if (!isset($_POST['JSON'])){
+  die("You have to post your values in _POST['JSON']");
 }
+
+$data = json_decode($_POST['JSON'],true);
+
+$userId = $data['userId'];
+$sort = $data["Sort"];
 
 if($sort == "everything"){
   $stmt = $conn->prepare('SELECT * FROM products WHERE userId = ?');
@@ -38,7 +38,7 @@ if($sort == "everything"){
     $closed = $ammount - $open;
     echo $row['description'] . ":<br>Closed: " . $closed . "<br><br>";
   }
-}elseif ($sort == "opened+closed") {
+}else{
   $stmt = $conn->prepare('SELECT * FROM products WHERE ammount > 0 AND userId = ?');
   $stmt->execute(array($userId));
   $result = $stmt -> fetchAll();
