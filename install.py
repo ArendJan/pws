@@ -56,6 +56,8 @@ cmd = "rm -rf "+ dir_path + "/smartfridge/temp"
 subprocess.Popen(cmd, shell=True).wait()
 cmd = "rm -rf "+ dir_path + "/smartfridge/wut.tar.gz"
 subprocess.Popen(cmd, shell=True).wait()
+cmd = "sudo chmod -R 777 "+ dir_path + "/smartfridge/"
+subprocess.Popen(cmd, shell=True).wait()
 if(userid!=None):
     f = open(dir_path+"/smartfridge/settings.py", 'w')
     f.write("userId=\""+userid+"\"\ninterval=5\nurl=\"http://pws.svshizzle.com/api/\"");
