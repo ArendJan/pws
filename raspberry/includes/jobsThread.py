@@ -18,7 +18,7 @@ def jobThread():
         data = request()
         jsonX = decode(data)
         readAndParse(jsonX)
-        #time.sleep(settings.interval)
+        time.sleep(settings.interval)
 
 def decode(data):
     return json.loads(data)
