@@ -54,7 +54,7 @@ if (checkUserId($userId) ==  true){
       array_push($json_array,$row_array);
       break;
       default:
-      echo "Kaas";
+      echo "Kaas<br>";
     }
   }
 } else {
