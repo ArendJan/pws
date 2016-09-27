@@ -47,7 +47,7 @@ def qrCode(job):
 
 def printCommand(text): #This is the function that is called with a string containing a text that should be printed.
 
-    subprocess.Popen("sudo echo $\"" + text + "\" > lpr", shell=True).wait()
+    subprocess.Popen("lpr <<< '"+text+"'", shell=True).wait()
 
 
 def updateCode():
