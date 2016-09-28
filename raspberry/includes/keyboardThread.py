@@ -1,9 +1,12 @@
 import RPi.GPIO as GPIO
 from threading import Thread
+import requests
+
+from .. import settings
 import time
 knopIn = 4
 knopOpen = 27
-knopOut = 28
+knopOut = 22
 ledIn = 18
 ledOpen = 23
 ledOut = 24
@@ -30,13 +33,12 @@ def start():
 def buttonThread():
     global state
     state = ""
-    state = "nothing"
+    state = "IN"
     statePrev = state
     lights = {
-    "nothing": 18,
-    "IN": 23,
-    "OPEN":24,
-    "OUT":25
+    "IN": ledIn,
+    "OPEN":ledOpen,
+    "OUT":ledOut
     }
     while True:
         if GPIO.input(knopIn) == False:
@@ -63,5 +65,21 @@ def buttonThread():
 
 def barcodeThread():
     while True:
-        time.sleep(2)
-        print state
+        data = raw_input() #Hier moet barcode code in komen
+        if(True):
+            request(data) #check of het een barcode is
+
+
+def request(code):
+    try:
+        url = settings.url + "defaultOutput/itemChange"
+        postVars = json.dumps({
+        "UserId":settings.userId,
+        "Barcode":code,
+        "Action":add
+        })
+        response = requests.post(url, data={"JSON":postVars})
+        print response.text
+
+    except Exception:
+        print "ripppp"
