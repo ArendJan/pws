@@ -39,16 +39,18 @@ def buttonThread():
     }
     while True:
         if GPIO.input(4) == False:
-
+            print "knopje"
             state = "IN"
             time.sleep(0.2)
 
         if GPIO.input(27) == False:
+            print "knopje"
             state = "OPEN"
 
             time.sleep(0.2)
 
         if GPIO.input(22) == False:
+            print "knopje"
             state = "OUT"
 
             time.sleep(0.2)
@@ -59,4 +61,5 @@ def buttonThread():
 
 def barcodeThread():
     while True:
+        time.sleep(2)
         print state
