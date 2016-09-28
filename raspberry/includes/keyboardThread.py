@@ -1,16 +1,17 @@
 import RPi.GPIO as GPIO
 from threading import Thread
 import time
+knopIn = 4
+knopOpen = 27
+knopOut = 28
+ledIn = 18
+ledOpen = 23
+ledOut = 24
 
 def start():
     GPIO.setmode(GPIO.BCM)
     print "start van keyboardthreads"
-    knopIn = 4
-    knopOpen = 27
-    knopOut = 28
-    ledIn = 18
-    ledOpen = 23
-    ledOut = 24
+
 
     GPIO.setup(knopIn, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     GPIO.setup(knopOpen, GPIO.IN, pull_up_down=GPIO.PUD_UP)
