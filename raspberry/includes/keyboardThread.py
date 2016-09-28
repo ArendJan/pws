@@ -20,10 +20,42 @@ def start():
     GPIO.output(ledIn, GPIO.LOW)
     GPIO.output(ledOpen, GPIO.LOW)
     GPIO.output(ledOut, GPIO.LOW)
+    thread = Thread(target=buttonThread, args=())
+    thread.start()
+    thread = Thread(target=barcodeThread, args=())
+    thread.start()
 
 def buttonThread():
     global state
     state = ""
+    state = "nothing"
+    statePrev = state
+    lights = {
+    "nothing": 18,
+    "IN": 23,
+    "OPEN":24,
+    "OUT":25
+    }
+    while True:
+        if GPIO.input(4) == False:
+
+            state = "IN"
+            time.sleep(0.2)
+
+        if GPIO.input(27) == False:
+            state = "OPEN"
+
+            time.sleep(0.2)
+
+        if GPIO.input(22) == False:
+            state = "OUT"
+
+            time.sleep(0.2)
+        if(state!=statePrev):
+            GPIO.output(lights[statePrev], GPIO.LOW)
+            GPIO.output(lights[state], GPIO.HIGH)
+            statePrev = state
 
 def barcodeThread():
-    print state
+    while True:
+        print state
