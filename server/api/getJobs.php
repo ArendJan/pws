@@ -12,8 +12,18 @@ if (!isset($_POST['JSON'])){
 $data = json_decode($_POST['JSON'],true);
 
 $userId = $data['UserId'];
-$status = $data["Status"];
-$type = $data["Type"];
+
+if (!isset($data["Status"]) || $data["Status"] == ""){
+  $status = "new";
+} else {
+  $status = $data["Status"];
+}
+
+if (!isset($data["Type"]) || $data["Type"] == ""){
+  $type = "all";
+} else {
+  $type = $data["Type"];
+}
 
 $json_array = array();
 
