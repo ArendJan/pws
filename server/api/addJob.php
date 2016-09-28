@@ -11,7 +11,7 @@ if (!isset($_POST['JSON'])){
 
 $data = json_decode($_POST['JSON'],true);
 
-$userId = $data['userId'];
+$userId = $data['UserId'];
 $type = $data["Type"];
 $barcode = $data["Barcode"];
 $text = $data["Text"];
