@@ -18,8 +18,19 @@ print "updating packages list"
 cmd = "sudo apt-get update"
 subprocess.Popen(cmd, shell=True).wait()
 
-print "installing curl"
-cmd = "sudo apt-get -qq install curl"
+print "installing curl and pip"
+cmd = "sudo apt-get -qq install curl python-setuptools python-dev build-essential python-pip"
+subprocess.Popen(cmd, shell=True).wait()
+
+print "Updating pip 1/2"
+cmd = "sudo pip install --upgrade pip"
+subprocess.Popen(cmd, shell=True).wait()
+
+print "Updating pip 2/2"
+cmd = "sudo pip install --upgrade virtualenv"
+subprocess.Popen(cmd, shell=True).wait()
+print "installing pyBarcode"
+cmd = "sudo pip install pyBarcode"
 subprocess.Popen(cmd, shell=True).wait()
 print "creating directory"
 cmd = "mkdir "+ dir_path + "/smartfridge"
@@ -44,6 +55,8 @@ print "removing garbage"
 cmd = "rm -rf "+ dir_path + "/smartfridge/temp"
 subprocess.Popen(cmd, shell=True).wait()
 cmd = "rm -rf "+ dir_path + "/smartfridge/wut.tar.gz"
+subprocess.Popen(cmd, shell=True).wait()
+cmd = "sudo chmod -R 777 "+ dir_path + "/smartfridge/"
 subprocess.Popen(cmd, shell=True).wait()
 if(userid!=None):
     f = open(dir_path+"/smartfridge/settings.py", 'w')

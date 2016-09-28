@@ -7,6 +7,7 @@ import time
 from .. import settings
 import jobs
 from threading import Thread
+
 def start():
     print "start jobs thread"
     thread = Thread(target=jobThread, args=())
@@ -15,8 +16,8 @@ def start():
 def jobThread():
     while 1:
         data = request()
-        json = decode(data)
-        readAndParse(json)
+        jsonX = decode(data)
+        readAndParse(jsonX)
         time.sleep(settings.interval)
 
 def decode(data):
@@ -25,10 +26,9 @@ def decode(data):
 def request():
     try:
         url = settings.url + "defaultOutput/getJobs"
-        print url
         postVars = json.dumps({
         "userId":settings.userId
-        });
+        })
         response = requests.post(url, data={"JSON":postVars})
         return response.text
 
@@ -37,8 +37,17 @@ def request():
     return "asdf"
 
 
-def readAndParse(json):
-    for job in json["jobs"]:
-        checkJob(job["id"])
-        thread = Thread(target = jobs.parseJob, args = (json,)) #we'll do this, so there won't be a big delay when parsing everything.
+def readAndParse(jsonX):
+    amount = len(jsonX["Jobs"])
+    for x in range(0,amount):
+        job = jsonX["Jobs"][x]
+        checkJob(job["JobId"])
+        thread = Thread(target = jobs.parseJob, args = (job,)) #we'll do this, so there won't be a big delay when parsing everything.
         thread.start()
+
+
+def checkJob(jobId):
+    url = settings.url + "markJobs"
+    postVars = json.dumps({ "userId": settings.userId, "jobId":jobId})
+    request.post(url, data={"JSON":postVars})
+    #maybe some sort of error checking...........

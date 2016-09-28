@@ -10,14 +10,13 @@ function delItem($code, $userId){
   $countstmt->bindParam(':userId', $userId);
   $count = $countstmt->fetchColumn();
 
-  if($count == 0) {
-    echo "Ammount > 0";
+  if($count =< 0) {
+    echo "Ammount = 0 or < 0 (Which is weird)";
+  } else {
+    echo "Ammount > 0!";
     //Doe -1 bij aantal van product
     $delstmt = $conn->prepare("UPDATE products SET ammount = ammount - 1 WHERE barcode = ? AND userId = ?");
     $delstmt->execute(array($code, $userId));
-  } else {
-    echo "Ammount = 0!";
   }
-
 }
  ?>
