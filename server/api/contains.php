@@ -12,7 +12,7 @@ if (!isset($_POST['JSON'])){
 
 $data = json_decode($_POST['JSON'],true);
 
-$userId = $data['userId'];
+$userId = $data['UserId'];
 $sort = $data["Sort"];
 
 if (checkUserId($userId) == false){
