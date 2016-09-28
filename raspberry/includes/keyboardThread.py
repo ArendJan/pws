@@ -1,6 +1,8 @@
-
+import RPi.GPIO as GPIO
+import time
 
 def start():
+    GPIO.setmode(GPIO.BCM)
     print "start van keyboardthreads"
     knopIn = 4
     knopOpen = 27
