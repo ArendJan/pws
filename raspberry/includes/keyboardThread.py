@@ -38,22 +38,23 @@ def buttonThread():
     "OUT":25
     }
     while True:
-        if GPIO.input(4) == False:
+        if GPIO.input(knopIn) == False:
             print "knopje"
             state = "IN"
             time.sleep(0.2)
 
-        if GPIO.input(27) == False:
+        if GPIO.input(knopOpen) == False:
             print "knopje"
             state = "OPEN"
 
             time.sleep(0.2)
 
-        if GPIO.input(22) == False:
+        if GPIO.input(knopOut) == False:
             print "knopje"
             state = "OUT"
 
             time.sleep(0.2)
+
         if(state!=statePrev):
             GPIO.output(lights[statePrev], GPIO.LOW)
             GPIO.output(lights[state], GPIO.HIGH)
