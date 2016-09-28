@@ -13,7 +13,12 @@ if (!isset($_POST['JSON'])){
 $data = json_decode($_POST['JSON'],true);
 
 $userId = $data['UserId'];
-$sort = $data["Sort"];
+
+if (!isset($data["Sort"]) || $data["Sort"] == ""){
+  $sort = "opened+closed";
+} else {
+  $sort = $data["Sort"];
+}
 
 if (checkUserId($userId) == false){
   die ('You forgot your userId, or gave an invalid userId!');
@@ -70,7 +75,7 @@ if($sort == "everything"){
 
     array_push($return_arr,$row_array);
   }
-}else{
+}elseif ($sort == "opened+closed")  {
   $stmt = $conn->prepare('SELECT * FROM products WHERE ammount > 0 AND userId = ?');
   $stmt->execute(array($userId));
   $result = $stmt -> fetchAll();
