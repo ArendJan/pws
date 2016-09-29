@@ -66,7 +66,7 @@ def buttonThread():
 def barcodeThread():
     while True:
         data = raw_input() #Hier moet barcode code in komen
-        if(True):
+        if(False):
             request(data) #check of het een barcode is
 
 
