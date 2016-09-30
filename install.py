@@ -16,22 +16,22 @@ if os.getuid() != 0:
 print "updating packages list"
 
 cmd = "sudo apt-get update"
-subprocess.Popen(cmd, shell=True).wait()
+#subprocess.Popen(cmd, shell=True).wait()
 
 print "installing curl and pip"
 cmd = "sudo apt-get -qq install curl python-setuptools python-dev build-essential python-pip"
-subprocess.Popen(cmd, shell=True).wait()
+#subprocess.Popen(cmd, shell=True).wait()
 
 print "Updating pip 1/2"
 cmd = "sudo pip install --upgrade pip"
-subprocess.Popen(cmd, shell=True).wait()
+#subprocess.Popen(cmd, shell=True).wait()
 
 print "Updating pip 2/2"
 cmd = "sudo pip install --upgrade virtualenv"
-subprocess.Popen(cmd, shell=True).wait()
+#subprocess.Popen(cmd, shell=True).wait()
 print "installing pyBarcode"
 cmd = "sudo pip install pyBarcode"
-subprocess.Popen(cmd, shell=True).wait()
+#subprocess.Popen(cmd, shell=True).wait()
 print "creating directory"
 cmd = "mkdir "+ dir_path + "/smartfridge"
 subprocess.Popen(cmd, shell=True).wait()

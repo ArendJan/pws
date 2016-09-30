@@ -27,7 +27,7 @@ def request():
     try:
         url = settings.url + "defaultOutput/getJobs"
         postVars = json.dumps({
-        "userId":settings.userId
+        "UserId":settings.userId
         })
         response = requests.post(url, data={"JSON":postVars})
         return response.text
@@ -48,6 +48,6 @@ def readAndParse(jsonX):
 
 def checkJob(jobId):
     url = settings.url + "markJobs"
-    postVars = json.dumps({ "userId": settings.userId, "jobId":jobId})
+    postVars = json.dumps({ "UserId": settings.userId, "JobId":jobId})
     request.post(url, data={"JSON":postVars})
     #maybe some sort of error checking...........
