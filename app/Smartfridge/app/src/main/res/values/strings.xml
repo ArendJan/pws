@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">Smartfridge</string>
+    <string name="title_activity_login">Log in</string>
+    <string name="loginText">Vul uw gebruikersnaam en de API url van de Smartfridge server in.</string>
+    <string name="loginHint">...</string>
+
+</resources>
