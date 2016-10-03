@@ -3,8 +3,7 @@ import keyboardThread
 
 def startAll():
         keyboardThread.start()
-        if(False):
-            jobsThread.start()
+        jobsThread.start()
 
 
 
