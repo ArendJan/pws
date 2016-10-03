@@ -49,5 +49,5 @@ def readAndParse(jsonX):
 def checkJob(jobId):
     url = settings.url + "markJobs"
     postVars = json.dumps({ "UserId": settings.userId, "JobId":jobId})
-    request.post(url, data={"JSON":postVars})
+    requests.post(url, data={"JSON":postVars})
     #maybe some sort of error checking...........
