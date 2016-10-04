@@ -1,11 +1,13 @@
 package com.svshizzle.pws.smartfridge.activity;
 
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,60 +37,90 @@ public class Login extends AppCompatActivity {
 
     void buttonOnClick(){
         progressDialog = ProgressDialog.show(this,getResources().getString(R.string.loginDialogTitle), getResources().getString(R.string.loginDialogTextAPIURLCheck), false);
-        //TODO:Dialog
         EditText UserId =(EditText) findViewById(R.id.loginUserIdField);
         String userId = UserId.getText().toString();
-        if(userId.isEmpty()){
-            Toast.makeText(this, getResources().getString(R.string.loginUserIdEmpty), Toast.LENGTH_LONG).show();
-            progressDialog.dismiss();
-        }
+
         final EditText APIURL = (EditText) findViewById(R.id.loginAPIURLField);
         final String apiurl = APIURL.getText().toString();
-        if(userId.isEmpty()){
-            Toast.makeText(this, getResources().getString(R.string.loginAPIURLEmpty), Toast.LENGTH_LONG).show();
-            progressDialog.dismiss();
+        new CheckLogin().execute(apiurl, userId);
+
+    }
+
+    private class checkReturn{
+        boolean error = false;
+        String errorText = "";
+
+        public String getErrorText() {
+            return errorText;
         }
 
-        //TODO: check server api, /api/checkServer
-        RequestClass requestCheck = new RequestClass(this){
-            @Override
-            protected void onPostExecute(RequestReturn result) {
-                super.onPostExecute(result);
-                if(!result.isError() && result.getResponse().equals("y")){
-                    requestCheckUserId(apiurl);
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.loginAPIURLFaulty), Toast.LENGTH_LONG).show();
-                    progressDialog.dismiss();
-                }
-            }
-        };
-        String url = apiurl + "serverCheck";
-        requestCheck.execute(url);
+        public void setErrorText(String errorText) {
+            this.errorText = errorText;
+        }
 
-        //TODO: check UserId.
+        public checkReturn(boolean error, String errorText) {
 
+            this.error = error;
+            this.errorText = errorText;
+        }
 
-        //TODO: register the phone to the userId for notifications.
+        public boolean isError() {
+            return error;
+        }
 
-    }
-    void requestCheckUserId(String apiurl){
-        progressDialog.setMessage(getResources().getString(R.string.loginDialogUserIdCheck));
-        RequestClass requestCheckUserId = new RequestClass(this){
-            @Override
-            protected void onPostExecute(RequestReturn result) {
-                super.onPostExecute(result);
-                if(!result.isError() && result.getResponse().equals("y")){
-                    //TODO:fire register notifications
-                }else{
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.loginUserIdFaulty), Toast.LENGTH_LONG).show();
-
-                    progressDialog.dismiss();
-                }
-            }
-        };
-        requestCheckUserId.execute(apiurl+"useridCheck");
-
+        public void setError(boolean error) {
+            this.error = error;
+        }
     }
 
+    private class CheckLogin extends AsyncTask<String, String, checkReturn>{
+        @Override
+        protected checkReturn doInBackground(String... strings) {
+            publishProgress(getResources().getString(R.string.loginDialogTextAPIURLCheck));
+            String APIURL = strings[0];
+            String UserId = strings[1];
+            if(APIURL.isEmpty()){
+                return new checkReturn(true, getResources().getString(R.string.loginAPIURLEmpty));
+
+            }
+            if(UserId.isEmpty()){
+                return new checkReturn(true, getResources().getString(R.string.loginUserIdEmpty));
+
+            }
+
+            RequestClass requestClass = new RequestClass(getApplication());
+            RequestReturn output = requestClass.getData(APIURL + getResources().getString(R.string.APIServerCheck));
+
+            if(output.isError()|| !output.getResponse().equals("y")){
+                return new checkReturn(true, getResources().getString(R.string.loginAPIURLFaulty));
+            }
+            publishProgress(getResources().getString(R.string.loginDialogUserIdCheck));
+            output = requestClass.getData(APIURL + getResources().getString(R.string.APIUserIdCheck));
+            if(output.isError() || !output.getResponse().equals("y")){
+                return new checkReturn(true, getResources().getString(R.string.loginUserIdFaulty));
+            }
+
+            return new checkReturn(false, "nice!!");
+        }
+
+
+
+        @Override
+        protected void onPostExecute(checkReturn s) {
+            super.onPostExecute(s);
+            if(s.isError()){
+                Toast.makeText(getApplicationContext(), s.getErrorText(), Toast.LENGTH_LONG).show();
+
+            }
+            progressDialog.dismiss();
+            //TODO:als het klaar is.
+
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            progressDialog.setMessage(values[0]);
+        }
+    }
 }
