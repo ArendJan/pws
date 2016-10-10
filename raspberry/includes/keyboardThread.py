@@ -4,12 +4,12 @@ import requests
 
 from .. import settings
 import time
-knopIn = 22
-knopOpen = 10
-knopOut = 9
-ledIn = 4
+knopIn = 9
+knopOpen = 22
+knopOut = 10
+ledIn = 27
 ledOpen = 17
-ledOut = 27
+ledOut = 4
 
 def start():
     GPIO.setmode(GPIO.BCM)
