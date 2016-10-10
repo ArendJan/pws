@@ -66,13 +66,15 @@ def buttonThread():
 def barcodeThread():
     while True:
         data = scanCode() #Hier moet barcode code in komen
-
+        #TODO: CHeck!!!
+        print state
+        print data
         request(data) #check of het een barcode is
 
 
 def request(code):
     try:
-        url = settings.url + "defaultOutput/itemChange"
+        url = settings.url + "itemChange"
         postVars = json.dumps({
         "UserId":settings.userId,
         "Barcode":code,
