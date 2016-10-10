@@ -88,7 +88,7 @@ options = {
     "shutdown" : shutdown
 }
 def parseJob(jsonX):#this will call your function!
-    print "Thread id:" + str(threading.current_thread().name)
+    
     if jsonX["Type"] in options:
         options[jsonX["Type"]](jsonX)
     else:

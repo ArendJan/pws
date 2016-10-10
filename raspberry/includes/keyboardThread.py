@@ -42,18 +42,18 @@ def buttonThread():
     }
     while True:
         if GPIO.input(knopIn) == False:
-            print "knopje"
+            print "knopjeIn"
             state = "IN"
             time.sleep(0.2)
 
         if GPIO.input(knopOpen) == False:
-            print "knopje"
+            print "knopjeOpen"
             state = "OPEN"
 
             time.sleep(0.2)
 
         if GPIO.input(knopOut) == False:
-            print "knopje"
+            print "knopjeOut"
             state = "OUT"
 
             time.sleep(0.2)
