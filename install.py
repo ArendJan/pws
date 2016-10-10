@@ -5,33 +5,35 @@ import subprocess
 parser = argparse.ArgumentParser(description="Your personal userId")
 parser.add_argument('--userId')
 parser.add_argument('--branch')
+parser.add_argument('--updateInstall')
 args = parser.parse_args()
 userid = args.userId
 branch = args.branch
+update = args.updateInstall
 dir_path = os.path.dirname(os.path.realpath(__file__))
 print "this file installs the all the needed files and packages for the smart fridge"
 if os.getuid() != 0:
     print "I need sudo right. plz (insert cute cat image)"
     sys.exit(1)
 print "updating packages list"
+if(update=="N"):
+    cmd = "sudo apt-get update"
+    subprocess.Popen(cmd, shell=True).wait()
 
-cmd = "sudo apt-get update"
-subprocess.Popen(cmd, shell=True).wait()
+    print "installing curl and pip"
+    cmd = "sudo apt-get -qq install curl python-setuptools python-dev build-essential python-pip"
+    subprocess.Popen(cmd, shell=True).wait()
 
-print "installing curl and pip"
-cmd = "sudo apt-get -qq install curl python-setuptools python-dev build-essential python-pip"
-subprocess.Popen(cmd, shell=True).wait()
+    print "Updating pip 1/2"
+    cmd = "sudo pip install --upgrade pip"
+    subprocess.Popen(cmd, shell=True).wait()
 
-print "Updating pip 1/2"
-cmd = "sudo pip install --upgrade pip"
-subprocess.Popen(cmd, shell=True).wait()
-
-print "Updating pip 2/2"
-cmd = "sudo pip install --upgrade virtualenv"
-subprocess.Popen(cmd, shell=True).wait()
-print "installing pyBarcode"
-cmd = "sudo pip install pyBarcode"
-subprocess.Popen(cmd, shell=True).wait()
+    print "Updating pip 2/2"
+    cmd = "sudo pip install --upgrade virtualenv"
+    subprocess.Popen(cmd, shell=True).wait()
+    print "installing pyBarcode"
+    cmd = "sudo pip install pyBarcode"
+    subprocess.Popen(cmd, shell=True).wait()
 print "creating directory"
 cmd = "mkdir "+ dir_path + "/smartfridge"
 subprocess.Popen(cmd, shell=True).wait()

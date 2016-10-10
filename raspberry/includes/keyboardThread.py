@@ -83,8 +83,10 @@ def request(code):
         response = requests.post(url, data={"JSON":postVars})
         print response.text
 
-    except Exception:
+    except Requests.exceptions.RequestException as e:
         print "ripppp"
+        print # coding=utf-8
+        
 
 
 def scanCode():
