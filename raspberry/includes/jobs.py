@@ -46,8 +46,13 @@ def qrCode(job):
 
 
 def printCommand(text): #This is the function that is called with a string containing a text that should be printed.
+    filex = open("printtext.txt", 'w')
+    filex.write(text)
+    print text
+    command = "cat 'printtext.txt' | lpr"
+    subprocess.Popen(command, shell=True).wait()
 
-    subprocess.Popen("lpr <<< '"+text+"'", shell=True).wait()
+    #subprocess.Popen("lpr <<< '"+text+"'", shell=True).wait()
 
 
 def updateCode():
@@ -88,7 +93,7 @@ options = {
     "shutdown" : shutdown
 }
 def parseJob(jsonX):#this will call your function!
-    
+
     if jsonX["Type"] in options:
         options[jsonX["Type"]](jsonX)
     else:
