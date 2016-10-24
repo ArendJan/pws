@@ -1,6 +1,8 @@
 package com.svshizzle.pws.smartfridge.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -49,6 +51,25 @@ public class Login extends AppCompatActivity {
     private class checkReturn{
         boolean error = false;
         String errorText = "";
+        String Userid = "";
+
+        public String getAPIURL() {
+            return APIURL;
+        }
+
+        public void setAPIURL(String APIURL) {
+            this.APIURL = APIURL;
+        }
+
+        public String getUserid() {
+            return Userid;
+        }
+
+        public void setUserid(String userid) {
+            Userid = userid;
+        }
+
+        String APIURL = "";
 
         public String getErrorText() {
             return errorText;
@@ -63,7 +84,14 @@ public class Login extends AppCompatActivity {
             this.error = error;
             this.errorText = errorText;
         }
+        public checkReturn(boolean error, String errorText, String userid, String apiurl) {
 
+            this.error = error;
+            this.errorText = errorText;
+            this.Userid = userid;
+            this.APIURL = apiurl;
+
+        }
         public boolean isError() {
             return error;
         }
@@ -100,7 +128,7 @@ public class Login extends AppCompatActivity {
                 return new checkReturn(true, getResources().getString(R.string.loginUserIdFaulty));
             }
 
-            return new checkReturn(false, "nice!!");
+            return new checkReturn(false,"", UserId, APIURL);
         }
 
 
@@ -111,6 +139,16 @@ public class Login extends AppCompatActivity {
             if(s.isError()){
                 Toast.makeText(getApplicationContext(), s.getErrorText(), Toast.LENGTH_LONG).show();
 
+            }else{
+                SharedPreferences settings = getApplicationContext().getSharedPreferences(getResources().getString(R.string.SharedPreferencesName), 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean(getResources().getString(R.string.SharedPreferencesSignedIn), true);
+                editor.putString(getResources().getString(R.string.SharedPreferencesUserId), s.getUserid());
+                editor.putString(getResources().getString(R.string.SharedPreferencesAPIURL), s.getAPIURL());
+                editor.apply();
+                Intent intent = new Intent(Login.this, MainActivity.class);
+                Login.this.startActivity(intent);
+                finish();
             }
             progressDialog.dismiss();
             //TODO:als het klaar is.

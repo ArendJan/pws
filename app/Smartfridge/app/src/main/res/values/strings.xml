@@ -38,4 +38,9 @@
     <string name="APIServerCheck">serverCheck</string>
     <string name="APIUserIdCheck">userIdCheck</string>
 
+
+    <string name="SharedPreferencesUserId">userid</string>
+    <string name="SharedPreferencesSignedIn">signedin</string>
+    <string name="SharedPreferencesAPIURL">apiurl</string>
+    <string name="SharedPreferencesName">preferences</string>
 </resources>

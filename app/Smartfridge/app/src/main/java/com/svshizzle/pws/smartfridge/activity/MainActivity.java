@@ -3,6 +3,7 @@ package com.svshizzle.pws.smartfridge.activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -77,10 +78,12 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
     }
     void loginCheck(){
-        if(true){
+        SharedPreferences settings = getApplicationContext().getSharedPreferences(getResources().getString(R.string.SharedPreferencesName), 0);
+
+        if(!settings.getBoolean(getResources().getString(R.string.SharedPreferencesSignedIn), false)){
             Intent intent = new Intent(MainActivity.this, Login.class);
             MainActivity.this.startActivity(intent);
-
+            finish();
         }
     }
 
