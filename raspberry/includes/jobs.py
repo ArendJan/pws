@@ -1,5 +1,8 @@
 import subprocess
 import threading
+from time import gmtime, strftime
+import os
+
 #This is the file with all posible jobs defined.
 #If you want to add a job to the list, add it to the dictionary and create the correct function for it.
 
@@ -22,7 +25,7 @@ def listFunc(job):     #Prints the list of the items you should buy!!!
     output = ""
 
     for item in job["Items"]: #iterates through the list
-        output += "- " + item["Title"] + ""
+        output += "- " + item["Title"] + "\n"
     printCommand(output)
 
 def text(job): #Print the text entered on the website / app.
@@ -46,12 +49,15 @@ def qrCode(job):
 
 
 def printCommand(text): #This is the function that is called with a string containing a text that should be printed.
-    filex = open("printtext.txt", 'w')
+    filename  = "printjobs/" + strftime("%Y%m%d%H%M%S", gmtime()) + ".txt"
+    filex = open(filename, 'w+')
     filex.write(text)
-    print text
-    command = "cat 'printtext.txt' | lpr"
-    subprocess.Popen(command, shell=True).wait()
+    filex.close()
 
+    command = "sudo lpr '/home/pi/"+ filename + "'"
+    print command
+    subprocess.Popen(command, shell=True).wait()
+    os.remove(filename)
     #subprocess.Popen("lpr <<< '"+text+"'", shell=True).wait()
 
 

@@ -30,6 +30,7 @@ def request():
         "UserId":settings.userId
         })
         response = requests.post(url, data={"JSON":postVars})
+        print response.text
         return response.text
 
     except Exception:
@@ -38,7 +39,7 @@ def request():
 
 
 def readAndParse(jsonX):
-    amount = len(jsonX["Jobs"])
+    amount = len(jsonX["Jobs"]) #TODO: error checking.
     for x in range(0,amount):
         job = jsonX["Jobs"][x]
         checkJob(job["JobId"])

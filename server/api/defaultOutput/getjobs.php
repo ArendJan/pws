@@ -7,7 +7,13 @@
 },
 {
 "Type":"text" ,
-"Text":"This will be printed by the fridge",
+"Text":"babababababananananananaaas",
+"Status":"new/done",
+"JobId":82733
+},
+{
+"Type":"text" ,
+"Text":"jooooooooooooooooooooooooooooooooooooooooooooooooooo",
 "Status":"new/done",
 "JobId":82733
 },
