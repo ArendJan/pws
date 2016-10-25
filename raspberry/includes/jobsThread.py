@@ -30,7 +30,7 @@ def request():
         "UserId":settings.userId
         })
         response = requests.post(url, data={"JSON":postVars})
-        print response.text
+        #print response.text
         return response.text
 
     except Exception:
