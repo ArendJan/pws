@@ -33,13 +33,13 @@ if (checkUserId($userId) == false){
 
 //Different statements if Type or Status is empty
 
-if ($status == "" && $type == ""){
+if ($status == "new" && $type == "all"){
   $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND status = ?');
   $stmt->execute(array($userId, "new"));
-} elseif ($status == ""){
+} elseif ($status == "new"){
   $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND type = ? AND status = ?');
   $stmt->execute(array($userId, $type, "new"));
-} elseif ($type == "") {
+} elseif ($type == "all") {
   $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND status = ?');
   $stmt->execute(array($userId, $status));
 }  else {
@@ -94,7 +94,7 @@ foreach( $result as $row ) {
     array_push($json_array,$row_array);
     break;
 
-    default:
+    case "all":
     $row_array['Type'] = $row['type'];
     $row_array['Code'] = $row['barcode'];
     $row_array['Text'] = $row['text'];
