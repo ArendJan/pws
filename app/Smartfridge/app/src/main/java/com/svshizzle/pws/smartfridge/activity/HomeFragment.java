@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
 
     void createList(String json){
         Log.d("adsf", "asdf");
-        Log.d("asdfasdf", json);
+//        Log.d("asdfasdf", json);
         try{
             JSONArray reader = new JSONArray(json);
             for(int x = 0; x<reader.length(); x++){
