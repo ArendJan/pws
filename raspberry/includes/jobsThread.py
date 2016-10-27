@@ -25,7 +25,7 @@ def decode(data):
 
 def request():
     try:
-        url = settings.url + "defaultOutput/getJobs"
+        url = settings.url + "getJobs"
         postVars = json.dumps({
         "UserId":settings.userId
         })
@@ -39,9 +39,9 @@ def request():
 
 
 def readAndParse(jsonX):
-    amount = len(jsonX["Jobs"]) #TODO: error checking.
+    amount = len(jsonX) #TODO: error checking.
     for x in range(0,amount):
-        job = jsonX["Jobs"][x]
+        job = jsonX[x]
         checkJob(job["JobId"])
         thread = Thread(target = jobs.parseJob, args = (job,)) #we'll do this, so there won't be a big delay when parsing everything.
         thread.start()

@@ -8,9 +8,12 @@ function delItem($code, $userId){
   $countstmt = $conn->prepare("SELECT ammount FROM products WHERE barcode = :barcode AND userId = :userId");
   $countstmt->bindParam(':barcode', $code);
   $countstmt->bindParam(':userId', $userId);
-  $count = $countstmt->fetchColumn();
+  $countstmt->execute();
 
-  if($count =< 0) {
+  echo "lel";
+  $count = $countstmt->fetchColumn();
+echo $count;
+  if($count <= 0) {
     echo "Ammount = 0 or < 0 (Which is weird)";
   } else {
     echo "Ammount > 0!";
@@ -19,4 +22,4 @@ function delItem($code, $userId){
     $delstmt->execute(array($code, $userId));
   }
 }
- ?>
+?>

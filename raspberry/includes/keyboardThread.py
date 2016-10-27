@@ -44,28 +44,29 @@ def start():
 def buttonThread():
     global state
     state = ""
-    state = "IN"
+    state = "add"
     statePrev = state
     lights = {
-    "IN": ledIn,
-    "OPEN":ledOpen,
-    "OUT":ledOut
+    "add": ledIn,
+    "open":ledOpen,
+    "del":ledOut
     }
     while True:
+        time.sleep(0.1)
         if GPIO.input(knopIn) == False:
             print "knopjeIn"
-            state = "IN"
+            state = "add"
             time.sleep(0.2)
 
         if GPIO.input(knopOpen) == False:
             print "knopjeOpen"
-            state = "OPEN"
+            state = "open"
 
             time.sleep(0.2)
 
         if GPIO.input(knopOut) == False:
             print "knopjeOut"
-            state = "OUT"
+            state = "del"
 
             time.sleep(0.2)
 
@@ -94,7 +95,7 @@ def barcodeThread():
         print "Scancode:" + str(stop - start)
         print "lel"
         thread = Thread(target=request, args=(data, state))
-        #thread.start()
+        thread.start()
         print "done"
 
 def request(code, astate):
@@ -109,6 +110,7 @@ def request(code, astate):
         })
         response = requests.post(url, data={"JSON":postVars})
         print response.text
+        print "responsejsjsjsdfhlkajsdflkjasdflkjasdfjlkasdfljk"
 
     except requests.exceptions.RequestException as e:
         print "ripppp"

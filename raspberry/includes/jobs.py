@@ -38,7 +38,9 @@ def qrCode(job):
     from barcode.writer import ImageWriter
     EAN = barcode.get_barcode_class('EAN')
     ean = EAN(job["Code"], writer=ImageWriter())
-    ean.save("ean13_barcode")
+    ean.save("smartfridge/ean13_barcode")
+    command = "lpr -o fit-to-page smartfridge/ean13_barcode.png"
+    subprocess.Popen(command, shell=True).wait()
     #now print this thing!
 
 
@@ -92,7 +94,7 @@ def downloadGithub():
 
 options = {
     "restart" : restart,
-    "qrCode" : qrCode,
+    "barcode" : qrCode,
     "list" :listFunc,
     "text" :  text,
     "update" : update,
