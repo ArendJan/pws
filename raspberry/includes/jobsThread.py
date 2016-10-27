@@ -27,9 +27,10 @@ def request():
     try:
         url = settings.url + "defaultOutput/getJobs"
         postVars = json.dumps({
-        "userId":settings.userId
+        "UserId":settings.userId
         })
         response = requests.post(url, data={"JSON":postVars})
+        #print response.text
         return response.text
 
     except Exception:
@@ -38,7 +39,7 @@ def request():
 
 
 def readAndParse(jsonX):
-    amount = len(jsonX["Jobs"])
+    amount = len(jsonX["Jobs"]) #TODO: error checking.
     for x in range(0,amount):
         job = jsonX["Jobs"][x]
         checkJob(job["JobId"])
@@ -47,7 +48,7 @@ def readAndParse(jsonX):
 
 
 def checkJob(jobId):
-    url = settings.url + "markJobs"
-    postVars = json.dumps({ "userId": settings.userId, "jobId":jobId})
-    request.post(url, data={"JSON":postVars})
+    url = settings.url + "markJob"
+    postVars = json.dumps({ "UserId": settings.userId, "JobId":jobId})
+    requests.post(url, data={"JSON":postVars})
     #maybe some sort of error checking...........

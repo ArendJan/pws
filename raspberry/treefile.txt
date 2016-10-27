@@ -1,0 +1,33 @@
+Folder PATH listing
+Volume serial number is 000000E8 16E4:EEBA
+F:.
+³   IP.php
+³   main.py
+³   sendIP.py
+³   settings.py
+³   start.py
+³   text.txt
+³   treefile.txt
+³   updateFile.py
+³   __init__.py
+³   
+ÃÄÄÄeersteTests
+³       button1.py
+³       button2.py
+³       button3.py
+³       button4.py
+³       button5.py
+³       dataDownload1.py
+³       dataDownload2.py
+³       keyboard1.py
+³       keyboard2.py
+³       keyboard3.py
+³       thread1.py
+³       
+ÀÄÄÄincludes
+        jobs.py
+        jobsThread.py
+        keyboardThread.py
+        threads.py
+        __init__.py
+        

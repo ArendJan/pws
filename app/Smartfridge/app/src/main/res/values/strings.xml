@@ -1,0 +1,46 @@
+<resources>
+
+    <string name="app_name">Smartfridge</string>
+    <string name="title_activity_login">Log in</string>
+    <string name="loginText">Vul uw gebruikersnaam en de API url van de Smartfridge server in.</string>
+    <string name="loginAPIURL">http://pws.svshizzle.com/api/</string>
+    <string name="loginUserIdHint">Your UserId</string>
+    <string name="loginUserIdEmpty">You forgot to enter a UserId.</string>
+    <string name="loginAPIURLEmpty">You forgot to enter a API URL.</string>
+<string name="loginDialogUserIdCheck">Checking your UserId.</string>
+    <string name="loginAPIURLFaulty">The API URL you provided is not correct.</string>
+    <string name="loginDialogTitle">Signing in...</string>
+    <string name="loginDialogTextAPIURLCheck">Checking the API URL you provided.</string>
+
+    <string name="loginUserIdFaulty">TheUserId you entered is not correct.</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="nav_item_home">Home</string>
+    <string name="nav_item_me">Ik</string>
+    <string name="nav_item_company">Bedrijven</string>
+    <string name="nav_item_settings">Instellingen</string>
+    <!-- navigation drawer item labels  -->
+    <string-array name="nav_drawer_labels">
+        <item>@string/nav_item_home</item>
+        <item>@string/nav_item_me</item>
+        <item>@string/nav_item_company</item>
+        <item>@string/nav_item_settings</item>
+    </string-array>
+
+    <string name="title_home">Home</string>
+
+
+
+
+    <!--
+    All the api server files etc-->
+    <string name="APIServerCheck">serverCheck</string>
+    <string name="APIUserIdCheck">userIdCheck</string>
+
+
+    <string name="SharedPreferencesUserId">userid</string>
+    <string name="SharedPreferencesSignedIn">signedin</string>
+    <string name="SharedPreferencesAPIURL">apiurl</string>
+    <string name="SharedPreferencesName">preferences</string>
+</resources>
