@@ -11,11 +11,16 @@ if (!isset($_POST['JSON'])){
 
 $data = json_decode($_POST['JSON'],true);
 
+<<<<<<< HEAD
 $userId = $data['userId'];
 if (!isset($data["Type"])){
   $type = $data["Type"];
 }
 
+=======
+$userId = $data['UserId'];
+$type = $data["Type"];
+>>>>>>> origin/VinniiThuis
 $barcode = $data["Barcode"];
 $text = $data["Text"];
 $list = $data["List"];

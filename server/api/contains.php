@@ -12,8 +12,13 @@ if (!isset($_POST['JSON'])){
 
 $data = json_decode($_POST['JSON'],true);
 
-$userId = $data['userId'];
-$sort = $data["Sort"];
+$userId = $data['UserId'];
+
+if (!isset($data["Sort"]) || $data["Sort"] == ""){
+  $sort = "opened+closed";
+} else {
+  $sort = $data["Sort"];
+}
 
 if (checkUserId($userId) == false){
   die ('You forgot your userId, or gave an invalid userId!');
@@ -30,12 +35,12 @@ if($sort == "everything"){
 
     //echo $row['description'] . ":<br>Ammount: " . $row['ammount'] . "<br>Closed: " . $closed . "<br>Opened: " . $row['open'] . "<br><br>";
 
-    $row_array['id'] = $row['ID'];
-    $row_array['name'] = $row['description'];
-    $row_array['barcode'] = $row['barcode'];
-    $row_array['ammount'] = $row['ammount'];
-    $row_array['closed'] = $closed;
-    $row_array['open'] = $row['open'];
+    $row_array['Id'] = $row['ID'];
+    $row_array['Name'] = $row['description'];
+    $row_array['Barcode'] = $row['barcode'];
+    $row_array['Ammount'] = $row['ammount'];
+    $row_array['Closed'] = $closed;
+    $row_array['Open'] = $row['open'];
 
     array_push($return_arr,$row_array);
   }
@@ -46,10 +51,10 @@ if($sort == "everything"){
   foreach( $result as $row ) {
 
     //echo $row['description'] . ":<br>Opened: " . $row['open'] . "<br><br>";
-    $row_array['id'] = $row['ID'];
-    $row_array['name'] = $row['description'];
-    $row_array['barcode'] = $row['barcode'];
-    $row_array['open'] = $row['open'];
+    $row_array['Id'] = $row['ID'];
+    $row_array['Name'] = $row['description'];
+    $row_array['Barcode'] = $row['barcode'];
+    $row_array['Open'] = $row['open'];
 
     array_push($return_arr,$row_array);
   }
@@ -63,14 +68,14 @@ if($sort == "everything"){
     $closed = $ammount - $open;
 
     //echo $row['description'] . ":<br>Closed: " . $closed . "<br><br>";
-    $row_array['id'] = $row['ID'];
-    $row_array['name'] = $row['description'];
-    $row_array['barcode'] = $row['barcode'];
-    $row_array['closed'] = $closed;
+    $row_array['Id'] = $row['ID'];
+    $row_array['Name'] = $row['description'];
+    $row_array['Barcode'] = $row['barcode'];
+    $row_array['Closed'] = $closed;
 
     array_push($return_arr,$row_array);
   }
-}else{
+}elseif ($sort == "opened+closed")  {
   $stmt = $conn->prepare('SELECT * FROM products WHERE ammount > 0 AND userId = ?');
   $stmt->execute(array($userId));
   $result = $stmt -> fetchAll();
@@ -81,11 +86,11 @@ if($sort == "everything"){
 
     //echo $row['description'] . ":<br>Closed " . $closed . "<br>Open: " . $row['open'] . "<br><br>";
 
-    $row_array['id'] = $row['ID'];
-    $row_array['name'] = $row['description'];
-    $row_array['barcode'] = $row['barcode'];
-    $row_array['closed'] = $closed;
-    $row_array['open'] = $row['open'];
+    $row_array['Id'] = $row['ID'];
+    $row_array['Name'] = $row['description'];
+    $row_array['Barcode'] = $row['barcode'];
+    $row_array['Closed'] = $closed;
+    $row_array['Open'] = $row['open'];
 
     array_push($return_arr,$row_array);
   }

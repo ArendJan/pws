@@ -17,9 +17,9 @@ if (!isset($_POST['JSON'])){
 
 $data = json_decode($_POST['JSON'],true);
 
-$code = $data["barcode"];
-$action = $data["action"];
-$userId = $data['userId'];
+$code = $data["Barcode"];
+$action = $data["Action"];
+$userId = $data['UserId'];
 
 if (checkUserId($userId) == true){
   if($action == "add"){

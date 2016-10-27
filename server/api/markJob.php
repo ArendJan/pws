@@ -12,12 +12,13 @@ if (!isset($_POST['JSON'])){
 
 $data = json_decode($_POST['JSON'],true);
 
-$userId = $data['userId'];
+$userId = $data['UserId'];
 $jobId = $data['JobId'];
-$status = $data["Status"];
 
-if ($status == ""){
+if (!isset($data["Status"]) || $data["Status"] == ""){
   $status = "done";
+} else {
+  $status = $data["Status"];
 }
 
 if ($status == "new" || $status == "done"){
