@@ -10,7 +10,7 @@ function delItem($code, $userId){
   $countstmt->bindParam(':userId', $userId);
   $count = $countstmt->fetchColumn();
 
-  if($count =< 0) {
+  if($count <= 0) {
     echo "Ammount = 0 or < 0 (Which is weird)";
   } else {
     echo "Ammount > 0!";
@@ -19,4 +19,4 @@ function delItem($code, $userId){
     $delstmt->execute(array($code, $userId));
   }
 }
- ?>
+?>
