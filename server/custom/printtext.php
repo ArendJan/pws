@@ -6,7 +6,7 @@ if(!isset($_POST["Text"])){
 }
 $conn = db();
 try {
-  $addstmt = $conn->prepare("INSERT INTO jobs (userId, type,text, done) VALUES (?,'text',?,'new')");
+  $addstmt = $conn->prepare("INSERT INTO jobs (userId, type,text, status) VALUES (?,'text',?,'new')");
   $addstmt->execute(array($masteruserId,$_POST["Text"]));
 }
 catch(PDOException $e)

@@ -52,6 +52,7 @@ def buttonThread():
     "del":ledOut
     }
     while True:
+        time.sleep(0.1)
         if GPIO.input(knopIn) == False:
             print "knopjeIn"
             state = "add"
