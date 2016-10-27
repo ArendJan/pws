@@ -11,16 +11,12 @@ if (!isset($_POST['JSON'])){
 
 $data = json_decode($_POST['JSON'],true);
 
-<<<<<<< HEAD
-$userId = $data['userId'];
-if (!isset($data["Type"])){
-  $type = $data["Type"];
-}
 
-=======
-$userId = $data['UserId'];
+$userId = $data['userId'];
+if (!isset($data["Type"]) || empty($data["Type"])){
+  die("You have to add the type of the job!");
+}
 $type = $data["Type"];
->>>>>>> origin/VinniiThuis
 $barcode = $data["Barcode"];
 $text = $data["Text"];
 $list = $data["List"];
