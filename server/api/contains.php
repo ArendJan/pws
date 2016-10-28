@@ -96,5 +96,5 @@ if($sort == "everything"){
   }
 }
 
-echo json_encode($return_arr);
+echo json_encode($return_arr, JSON_NUMERIC_CHECK);
 ?>

@@ -128,15 +128,11 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
                 // throw some exception
             }
 
-            // read output (only for GET)
-            if (postParameters == null) {
-                Log.d("wtf", "huh");
-                return null;
-            } else {
+
                 InputStream in =
                         new BufferedInputStream(urlConnection.getInputStream());
                 return getResponseText(in);
-            }
+
 
 
         } catch (MalformedURLException e) {
@@ -158,7 +154,7 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
     protected RequestReturn doInBackground(String... uri) {
 
         Map<String, String> map = new HashMap<String, String>();
-        map.put("JSON","{\"UserId\":\"kaasblokje\"}" );
+        map.put("JSON",jsonObject.toString());
 
         return new RequestReturn(requestUrl(uri[0], createQueryStringForParameters(map)), false);
 

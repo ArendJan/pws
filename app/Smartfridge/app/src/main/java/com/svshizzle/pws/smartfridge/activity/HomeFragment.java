@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 
 import com.svshizzle.pws.smartfridge.R;
+import com.svshizzle.pws.smartfridge.model.Item;
 import com.svshizzle.pws.smartfridge.request.RequestClass;
 import com.svshizzle.pws.smartfridge.request.RequestClassPost;
 import com.svshizzle.pws.smartfridge.request.RequestReturn;
@@ -45,29 +46,28 @@ public class HomeFragment extends Fragment {
         APIURL = sharedPreferences.getString(getResources().getString(R.string.SharedPreferencesAPIURL), "");
 
         activity = getActivity();
-        Log.d("'asdfadsf", "ebola");
         JSONObject jsonObject = new JSONObject();
         try {
 
             jsonObject.put("UserId", UserId);
 
         }catch (JSONException e ){
-            Toast.makeText(getActivity(),"LOLZ, something went wrong", Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(getActivity(),"LOLZ, something went wrong", Toast.LENGTH_LONG).show();
+
         RequestClassPost request = new RequestClassPost(getActivity(),jsonObject ){
             @Override
             protected void onPostExecute(RequestReturn requestReturn) {
                 super.onPostExecute(requestReturn);
                 if(requestReturn.isError()){
                     Log.d("adsf", "erriooooroorororoor");
+                }else {
+                    createList(requestReturn.getResponse());
                 }
-                createList(requestReturn.getResponse());
             }
         };
         String url = APIURL + "contains";
         request.execute(url);
-        Log.d("adsf", "asdfasdfasdf");
+
         return rootView;
     }
 
@@ -88,16 +88,14 @@ public class HomeFragment extends Fragment {
         try{
             JSONArray reader = new JSONArray(json);
             for(int x = 0; x<reader.length(); x++){
-                JSONObject item = reader.getJSONObject(x);
-                Toast.makeText(activity, "id is"+item.get("Id")+"name is "+item.get("Name"), Toast.LENGTH_LONG).show();
-                Log.d("adsf","id is"+item.get("Id")+"name is "+item.get("Name"));
+                JSONObject object = reader.getJSONObject(x);
+                Toast.makeText(activity, "id is"+object.get("Id")+"name is "+object.get("Name"), Toast.LENGTH_LONG).show();
+                Log.d("adsf","id is"+object.get("Id")+"name is "+object.get("Name"));
+                Item item = new Item(object.getInt("Closed"),object.getInt("Open"), object.getString("Name"), object.getInt("Id"), Integer.toString(object.getInt("Barcode")));
+
             }
         }catch (JSONException e){
             Toast.makeText(activity, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-            Log.d("asdf", e.getLocalizedMessage());
-            Log.d("asdf", e.getStackTrace().toString());
-            Log.d("adsf", json);
-
             //Shit, vincent did a shit job
         }
     }
