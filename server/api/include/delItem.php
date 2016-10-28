@@ -5,21 +5,25 @@ function delItem($code, $userId){
   $conn = db();
   echo "Barcode: $code ";
 
-  $countstmt = $conn->prepare("SELECT ammount FROM products WHERE barcode = :barcode AND userId = :userId");
-  $countstmt->bindParam(':barcode', $code);
-  $countstmt->bindParam(':userId', $userId);
-  $countstmt->execute();
+  $countstmt = $conn->prepare("SELECT * FROM products WHERE barcode = ? AND userId = ?");
+  $countstmt->execute(array($code, $userId));
+  $ding = $countstmt->fetch();
 
-  echo "lel";
-  $count = $countstmt->fetchColumn();
-echo $count;
-  if($count <= 0) {
-    echo "Ammount = 0 or < 0 (Which is weird)";
+  $ammount = $ding['Ammount'];
+  $open = $ding['Open'];
+
+  if ($open > 0){
+    //Doe -1 bij open
+    $delstmt = $conn->prepare("UPDATE products SET open = open - 1 WHERE barcode = ? AND userId = ?");
   } else {
-    echo "Ammount > 0!";
-    //Doe -1 bij aantal van product
-    $delstmt = $conn->prepare("UPDATE products SET ammount = ammount - 1 WHERE barcode = ? AND userId = ?");
-    $delstmt->execute(array($code, $userId));
+    if($ammount <= 0) {
+      die("Ammount = 0 or < 0 (Which is weird)");
+    } else {
+      echo "Ammount > 0!";
+      //Doe -1 bij aantal van product
+      $delstmt = $conn->prepare("UPDATE products SET ammount = ammount - 1 WHERE barcode = ? AND userId = ?");
+    }
   }
+  $delstmt->execute(array($code, $userId));
 }
 ?>
