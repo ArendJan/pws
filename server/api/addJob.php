@@ -11,11 +11,20 @@ if (!isset($_POST['JSON'])){
 
 $data = json_decode($_POST['JSON'],true);
 
-$userId = $data['UserId'];
+
+$userId = $data['userId'];
+if (!isset($data["Type"]) || empty($data["Type"])){
+  die("You have to add the type of the job!");
+}
 $type = $data["Type"];
 $barcode = $data["Barcode"];
 $text = $data["Text"];
 $list = $data["List"];
+
+if (checkUserId($userId) == false){
+  die ("You forgot your UserId, or gave an invalid UserId!");
+}
+
 
 
 $stmt = $conn->prepare("INSERT INTO jobs (userId, type, barcode, text, list, status) VALUES (?,?,?,?,?,?)");

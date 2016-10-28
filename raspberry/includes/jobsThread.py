@@ -25,11 +25,12 @@ def decode(data):
 
 def request():
     try:
-        url = settings.url + "defaultOutput/getJobs"
+        url = settings.url + "getJobs"
         postVars = json.dumps({
         "UserId":settings.userId
         })
         response = requests.post(url, data={"JSON":postVars})
+        print response.text
         return response.text
 
     except Exception:
@@ -38,16 +39,16 @@ def request():
 
 
 def readAndParse(jsonX):
-    amount = len(jsonX["Jobs"])
+    amount = len(jsonX) #TODO: error checking.
     for x in range(0,amount):
-        job = jsonX["Jobs"][x]
+        job = jsonX[x]
         checkJob(job["JobId"])
         thread = Thread(target = jobs.parseJob, args = (job,)) #we'll do this, so there won't be a big delay when parsing everything.
         thread.start()
 
 
 def checkJob(jobId):
-    url = settings.url + "markJobs"
+    url = settings.url + "markJob"
     postVars = json.dumps({ "UserId": settings.userId, "JobId":jobId})
-    request.post(url, data={"JSON":postVars})
+    requests.post(url, data={"JSON":postVars})
     #maybe some sort of error checking...........

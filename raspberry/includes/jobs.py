@@ -1,5 +1,8 @@
 import subprocess
 import threading
+from time import gmtime, strftime
+import os
+
 #This is the file with all posible jobs defined.
 #If you want to add a job to the list, add it to the dictionary and create the correct function for it.
 
@@ -22,7 +25,7 @@ def listFunc(job):     #Prints the list of the items you should buy!!!
     output = ""
 
     for item in job["Items"]: #iterates through the list
-        output += "- " + item["Title"] + ""
+        output += "- " + item["Title"] + "\n"
     printCommand(output)
 
 def text(job): #Print the text entered on the website / app.
@@ -35,7 +38,9 @@ def qrCode(job):
     from barcode.writer import ImageWriter
     EAN = barcode.get_barcode_class('EAN')
     ean = EAN(job["Code"], writer=ImageWriter())
-    ean.save("ean13_barcode")
+    ean.save("smartfridge/ean13_barcode")
+    command = "lpr -o fit-to-page smartfridge/ean13_barcode.png"
+    subprocess.Popen(command, shell=True).wait()
     #now print this thing!
 
 
@@ -46,8 +51,16 @@ def qrCode(job):
 
 
 def printCommand(text): #This is the function that is called with a string containing a text that should be printed.
+    filename  = "printjobs/" + strftime("%Y%m%d%H%M%S", gmtime()) + ".txt"
+    filex = open(filename, 'w+')
+    filex.write(text)
+    filex.close()
 
-    subprocess.Popen("lpr <<< '"+text+"'", shell=True).wait()
+    command = "sudo lpr '/home/pi/"+ filename + "'"
+    print command
+    subprocess.Popen(command, shell=True).wait()
+    os.remove(filename)
+    #subprocess.Popen("lpr <<< '"+text+"'", shell=True).wait()
 
 
 def updateCode():
@@ -81,14 +94,14 @@ def downloadGithub():
 
 options = {
     "restart" : restart,
-    "qrCode" : qrCode,
+    "barcode" : qrCode,
     "list" :listFunc,
     "text" :  text,
     "update" : update,
     "shutdown" : shutdown
 }
 def parseJob(jsonX):#this will call your function!
-    print "Thread id:" + str(threading.current_thread().name)
+
     if jsonX["Type"] in options:
         options[jsonX["Type"]](jsonX)
     else:
