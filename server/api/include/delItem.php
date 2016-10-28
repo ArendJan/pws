@@ -5,12 +5,15 @@ function delItem($code, $userId){
   $conn = db();
   echo "Barcode: $code ";
 
-  $countstmt = $conn->prepare("SELECT * FROM products WHERE barcode = ? AND userId = ?");
+  $countstmt = $conn->prepare("SELECT ammount, open FROM products WHERE barcode = ? AND userId = ?");
   $countstmt->execute(array($code, $userId));
   $ding = $countstmt->fetch();
 
   $ammount = $ding['Ammount'];
   $open = $ding['Open'];
+
+  echo $ammount;
+  echo $open;
 
   if ($open > 0){
     //Doe -1 bij open
