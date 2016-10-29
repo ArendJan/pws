@@ -6,18 +6,19 @@ import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import android.util.Log;
+import android.support.v4.widget.SwipeRefreshLayout;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
+
 
 
 import com.svshizzle.pws.smartfridge.R;
 import com.svshizzle.pws.smartfridge.adapter.HomeListAdapter;
 import com.svshizzle.pws.smartfridge.model.Item;
-import com.svshizzle.pws.smartfridge.request.RequestClass;
+
 import com.svshizzle.pws.smartfridge.request.RequestClassPost;
 import com.svshizzle.pws.smartfridge.request.RequestReturn;
 
@@ -33,6 +34,7 @@ public class HomeFragment extends Fragment {
     Activity activity;
     ListView listView;
     HomeListAdapter adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
     public HomeFragment() {
 
     }
@@ -47,11 +49,23 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_home_fragment, container, false);
+
+
+
         SharedPreferences sharedPreferences =  getActivity().getSharedPreferences(getResources().getString(R.string.SharedPreferencesName), 0);
         UserId = sharedPreferences.getString(getResources().getString(R.string.SharedPreferencesUserId), "");
         APIURL = sharedPreferences.getString(getResources().getString(R.string.SharedPreferencesAPIURL), "");
 
         activity = getActivity();
+
+        createSwipeRefresh(rootView);
+        createListContains();
+
+        return rootView;
+    }
+
+    private void createListContains() {
+        swipeRefreshLayout.setRefreshing(true);
         JSONObject jsonObject = new JSONObject();
         try {
 
@@ -65,7 +79,7 @@ public class HomeFragment extends Fragment {
             protected void onPostExecute(RequestReturn requestReturn) {
                 super.onPostExecute(requestReturn);
                 if(requestReturn.isError()){
-                    Log.d("adsf", "erriooooroorororoor");
+
                 }else {
                     createList(requestReturn.getResponse());
                 }
@@ -73,8 +87,6 @@ public class HomeFragment extends Fragment {
         };
         String url = APIURL + "contains";
         request.execute(url);
-
-        return rootView;
     }
 
 
@@ -90,15 +102,13 @@ public class HomeFragment extends Fragment {
 
     void createList(String json){
         ArrayList<Item> itemArrayList = new ArrayList<>();
-        Log.d("adsf", "asdf");
-        Log.d("asdfasdf", json);
+        //Log.d("adsf", "asdf");
+        //Log.d("asdfasdf", json);
         try{
             JSONArray reader = new JSONArray(json);
             for(int x = 0; x<reader.length(); x++){
 
                 JSONObject object = reader.getJSONObject(x);
-                Toast.makeText(activity, "id is"+object.get("Id")+"name is "+object.get("Name"), Toast.LENGTH_LONG).show();
-                Log.d("adsf","id is"+object.get("Id")+"name is "+object.get("Name"));
                 Item item = new Item(object.getInt("Closed"),object.getInt("Open"), object.getString("Name"), object.getInt("Id"), object.getString("Barcode"));
                 itemArrayList.add(item);
             }
@@ -106,11 +116,29 @@ public class HomeFragment extends Fragment {
             adapter = new HomeListAdapter(activity, itemArrayList);
             listView.setAdapter(adapter);
         }catch (JSONException e){
-            Toast.makeText(activity, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
             //Shit, vincent did a shit job
+        }finally {
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 
+    void createSwipeRefresh(View rootView) {
+
+
+
+
+                swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.homeScrollView);
+                swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        createListContains();
+                    }
+                });
+
+
+
+    }
 
 
 }
