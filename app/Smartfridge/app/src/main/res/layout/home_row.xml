@@ -40,7 +40,7 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:text="3 closed \& 1 open"
+                android:text="3 closed  1 open"
                 android:layout_width="214dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/Text"

@@ -10,10 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 
 import com.svshizzle.pws.smartfridge.R;
+import com.svshizzle.pws.smartfridge.adapter.HomeListAdapter;
 import com.svshizzle.pws.smartfridge.model.Item;
 import com.svshizzle.pws.smartfridge.request.RequestClass;
 import com.svshizzle.pws.smartfridge.request.RequestClassPost;
@@ -23,10 +25,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class HomeFragment extends Fragment {
     String APIURL = "";
     String UserId = "";
     Activity activity;
+    ListView listView;
+    HomeListAdapter adapter;
     public HomeFragment() {
 
     }
@@ -83,17 +89,22 @@ public class HomeFragment extends Fragment {
     }
 
     void createList(String json){
+        ArrayList<Item> itemArrayList = new ArrayList<>();
         Log.d("adsf", "asdf");
-//        Log.d("asdfasdf", json);
+        Log.d("asdfasdf", json);
         try{
             JSONArray reader = new JSONArray(json);
             for(int x = 0; x<reader.length(); x++){
+
                 JSONObject object = reader.getJSONObject(x);
                 Toast.makeText(activity, "id is"+object.get("Id")+"name is "+object.get("Name"), Toast.LENGTH_LONG).show();
                 Log.d("adsf","id is"+object.get("Id")+"name is "+object.get("Name"));
-                Item item = new Item(object.getInt("Closed"),object.getInt("Open"), object.getString("Name"), object.getInt("Id"), Integer.toString(object.getInt("Barcode")));
-
+                Item item = new Item(object.getInt("Closed"),object.getInt("Open"), object.getString("Name"), object.getInt("Id"), object.getString("Barcode"));
+                itemArrayList.add(item);
             }
+            listView = (ListView)activity.findViewById(R.id.homeListView);
+            adapter = new HomeListAdapter(activity, itemArrayList);
+            listView.setAdapter(adapter);
         }catch (JSONException e){
             Toast.makeText(activity, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             //Shit, vincent did a shit job

@@ -21,14 +21,14 @@ import com.svshizzle.pws.smartfridge.model.Item;
 
 import static android.R.attr.data;
 
-public class LazyAdapter extends BaseAdapter {
+public class HomeListAdapter extends BaseAdapter {
 
     private Activity activity;
     private ArrayList<Item> data;
     private static LayoutInflater inflater=null;
 
 
-    public LazyAdapter(Activity a, ArrayList<Item> d) {
+    public HomeListAdapter(Activity a, ArrayList<Item> d) {
         activity = a;
         data=d;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -58,10 +58,9 @@ public class LazyAdapter extends BaseAdapter {
         Item item =  data.get(position);
 
         // Setting all values in listview
-        title.setText(song.get(CustomizedListView.KEY_TITLE));
-        artist.setText(song.get(CustomizedListView.KEY_ARTIST));
-        duration.setText(song.get(CustomizedListView.KEY_DURATION));
-        imageLoader.DisplayImage(song.get(CustomizedListView.KEY_THUMB_URL), thumb_image);
+        title.setText(item.getTitle());
+        barcode.setText(item.getBarcode());
+        text.setText(item.getOpen() + " open & " +item.getClosed() + " closed");
         return vi;
     }
 }
