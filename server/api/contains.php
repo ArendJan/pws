@@ -86,15 +86,15 @@ if($sort == "everything"){
 
     //echo $row['description'] . ":<br>Closed " . $closed . "<br>Open: " . $row['open'] . "<br><br>";
 
-    $row_array['Id'] = $row['ID'];
+    $row_array['Id'] = intval($row['ID']);
     $row_array['Name'] = $row['description'];
-    $row_array['Barcode'] = $row['barcode'];
-    $row_array['Closed'] = $closed;
-    $row_array['Open'] = $row['open'];
+    $row_array['Barcode'] = strval($row['barcode']);
+    $row_array['Closed'] = intval($closed);
+    $row_array['Open'] = intval($row['open']);
 
     array_push($return_arr,$row_array);
   }
 }
 
-echo json_encode($return_arr, JSON_NUMERIC_CHECK);
+echo json_encode($return_arr);
 ?>
