@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,6 +12,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 
@@ -58,8 +60,20 @@ public class HomeFragment extends Fragment {
 
         activity = getActivity();
 
-        createSwipeRefresh(rootView);
-        createListContains();
+        new AsyncTask<Void, Void, Void>(){
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                createSwipeRefresh(activity);
+                createListContains();
+                super.onPostExecute(aVoid);
+            }
+        }.execute();
 
         return rootView;
     }
@@ -101,9 +115,7 @@ public class HomeFragment extends Fragment {
     }
 
     void createList(String json){
-        ArrayList<Item> itemArrayList = new ArrayList<>();
-        //Log.d("adsf", "asdf");
-        //Log.d("asdfasdf", json);
+        final ArrayList<Item> itemArrayList = new ArrayList<>();
         try{
             JSONArray reader = new JSONArray(json);
             for(int x = 0; x<reader.length(); x++){
@@ -115,6 +127,14 @@ public class HomeFragment extends Fragment {
             listView = (ListView)activity.findViewById(R.id.homeListView);
             adapter = new HomeListAdapter(activity, itemArrayList);
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Item item = itemArrayList.get(i);
+                    ItemDialog dialog = new ItemDialog(getActivity(), item);
+                    dialog.show();
+                }
+            });
         }catch (JSONException e){
 
             //Shit, vincent did a shit job
@@ -123,7 +143,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    void createSwipeRefresh(View rootView) {
+    void createSwipeRefresh(Activity rootView) {
 
 
 
