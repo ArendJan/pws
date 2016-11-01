@@ -67,7 +67,47 @@
                 android:background="@null" />
 
         </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="Closed:"
+                android:ems="10"
+                android:id="@+id/ItemDialogOpen" />
+
+            <Button
+                android:text="+"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="8sp"
+                android:minWidth="1dp"
+                android:minHeight="1dp"
+                android:background="@null" />
+
+            <TextView
+                android:text="10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:id="@+id/ItemDialogClosedAmount" />
+
+            <Button
+                android:text="-"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ItemDialogClosedDecreaseButton"
+                android:textSize="8sp"
+                android:minHeight="1dp"
+                android:minWidth="1dp"
+                android:gravity="right|end"
+                android:background="@null" />
+
+        </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
