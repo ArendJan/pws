@@ -35,12 +35,12 @@ if($sort == "everything"){
 
     //echo $row['description'] . ":<br>Ammount: " . $row['ammount'] . "<br>Closed: " . $closed . "<br>Opened: " . $row['open'] . "<br><br>";
 
-    $row_array['Id'] = $row['ID'];
+    $row_array['Id'] = intval($row['ID']);
     $row_array['Name'] = $row['description'];
-    $row_array['Barcode'] = $row['barcode'];
-    $row_array['Ammount'] = $row['ammount'];
-    $row_array['Closed'] = $closed;
-    $row_array['Open'] = $row['open'];
+    $row_array['Barcode'] = strval($row['barcode']);
+    $row_array['Ammount'] = intval($row['ammount']);
+    $row_array['Closed'] = intval($closed);
+    $row_array['Open'] = intval($row['open']);
 
     array_push($return_arr,$row_array);
   }
@@ -51,10 +51,10 @@ if($sort == "everything"){
   foreach( $result as $row ) {
 
     //echo $row['description'] . ":<br>Opened: " . $row['open'] . "<br><br>";
-    $row_array['Id'] = $row['ID'];
+    $row_array['Id'] = intval($row['ID']);
     $row_array['Name'] = $row['description'];
-    $row_array['Barcode'] = $row['barcode'];
-    $row_array['Open'] = $row['open'];
+    $row_array['Barcode'] = strval($row['barcode']);
+    $row_array['Open'] = intval($row['open']);
 
     array_push($return_arr,$row_array);
   }
@@ -68,10 +68,10 @@ if($sort == "everything"){
     $closed = $ammount - $open;
 
     //echo $row['description'] . ":<br>Closed: " . $closed . "<br><br>";
-    $row_array['Id'] = $row['ID'];
+    $row_array['Id'] = intval($row['ID']);
     $row_array['Name'] = $row['description'];
-    $row_array['Barcode'] = $row['barcode'];
-    $row_array['Closed'] = $closed;
+    $row_array['Barcode'] = strval($row['barcode']);
+    $row_array['Closed'] = intval($closed);
 
     array_push($return_arr,$row_array);
   }
