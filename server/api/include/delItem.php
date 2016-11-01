@@ -5,20 +5,27 @@ function delItem($code, $userId){
   $conn = db();
   echo "Barcode: $code ";
 
-  $countstmt = $conn->prepare("SELECT ammount FROM products WHERE barcode = :barcode AND userId = :userId");
-  $countstmt->bindParam(':barcode', $code);
-  $countstmt->bindParam(':userId', $userId);
-  $countstmt->execute();
+  $closedstmt = $conn->prepare("SELECT closed FROM products WHERE barcode = ? AND userId = ?");
+  $closedstmt->execute(array($code, $userId));
+  $closed = $countstmt->fetchColumn();
 
-  echo "lel";
-  $count = $countstmt->fetchColumn();
-echo $count;
-  if($count <= 0) {
-    echo "Ammount = 0 or < 0 (Which is weird)";
-  } else {
-    echo "Ammount > 0!";
+  $openstmt = $conn->prepare("SELECT open FROM products WHERE barcode = ? AND userId = ?");
+  $openstmt->execute(array($code, $userId));
+  $open = $openstmt->fetchColumn();
+
+  echo $closed;
+  echo $open;
+  if ($open > 0) {
+    cho "Open > 0!";
     //Doe -1 bij aantal van product
-    $delstmt = $conn->prepare("UPDATE products SET ammount = ammount - 1 WHERE barcode = ? AND userId = ?");
+    $delstmt = $conn->prepare("UPDATE products SET open = open - 1 WHERE barcode = ? AND userId = ?");
+    $delstmt->execute(array($code, $userId));
+  } else if($closed <= 0) {
+    echo "Closed = 0 or < 0 (Which is weird)";
+  } else {
+    echo "Closed > 0!";
+    //Doe -1 bij aantal van product
+    $delstmt = $conn->prepare("UPDATE products SET closed = closed - 1 WHERE barcode = ? AND userId = ?");
     $delstmt->execute(array($code, $userId));
   }
 }
