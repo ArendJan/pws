@@ -30,7 +30,7 @@
 
     <string name="title_home">Home</string>
 
-
+    <string name="noInternetMessage">Oops, you currently don\'t have a network connection. Try again when you do.</string>
 
 
     <!--

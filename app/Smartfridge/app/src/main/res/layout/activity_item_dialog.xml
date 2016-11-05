@@ -18,24 +18,61 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ViewSwitcher
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Large Text"
+                    android:id="@+id/ItemDialogTitle"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:text="Name"
+                    android:ems="10"
+                    android:id="@+id/ItemDialogTitleEdit" />
+
+            </ViewSwitcher>
+
+            <Button
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button2"
+                android:layout_weight="1"
+                android:background="@android:drawable/ic_menu_edit" />
+        </LinearLayout>
+
         <TextView
-            android:layout_width="wrap_content"
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:textAppearance="?android:textAppearanceSmall"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/ItemDialogTitle" />
+            android:id="@+id/ItemDialogBarcode" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
+
                 android:text="Open:"
-                android:ems="10"
+                android:textSize="18sp"
                 android:id="@+id/ItemDialogOpen" />
 
             <Button
@@ -53,6 +90,7 @@
                 android:layout_width="wrap_content"
                 android:id="@+id/ItemDialogOpenAmount"
                 android:layout_height="wrap_content"
+                android:textSize="18sp"
                 android:padding="10dp" />
 
             <Button
@@ -72,13 +110,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
+                android:textSize="18sp"
                 android:text="Closed:"
-                android:ems="10"
-                android:id="@+id/ItemDialogOpen" />
+                android:id="@+id/ItemDialogClosed" />
 
             <Button
                 android:text="+"
@@ -87,13 +124,15 @@
                 android:textSize="8sp"
                 android:minWidth="1dp"
                 android:minHeight="1dp"
-                android:background="@null" />
+                android:background="@null"
+                android:id="@+id/ItemDialogClosedIncreaseButton"/>
 
             <TextView
                 android:text="10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
+                android:textSize="18sp"
                 android:id="@+id/ItemDialogClosedAmount" />
 
             <Button

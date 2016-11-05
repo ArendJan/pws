@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -54,32 +55,14 @@ public class ItemDialog extends Dialog implements
         TextView closedNumberView = (TextView) findViewById(R.id.ItemDialogClosedAmount);
         Button openIncrease = (Button) findViewById(R.id.ItemDialogOpenIncreaseButton);
         Button openDecrease = (Button) findViewById(R.id.ItemDialogOpenDecreaseButton);
+        Button closedIncrease = (Button) findViewById(R.id.ItemDialogClosedIncreaseButton);
+        Button closedDecrease = (Button) findViewById(R.id.ItemDialogClosedDecreaseButton);
+        openDecrease.setOnClickListener(this);
+        openIncrease.setOnClickListener(this);
+        closedDecrease.setOnClickListener(this);
+        closedIncrease.setOnClickListener(this);
 
-        openDecrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-
-                    jsonObject.put("UserId", UserId);
-                    jsonObject.put("Barcode", item.getBarcode());
-                    jsonObject.put("Action", "del");
-                }catch (JSONException e ){
-                }
-                RequestClassPost requestClassPost = new RequestClassPost(c, jsonObject){
-                    @Override
-                    protected void onPostExecute(RequestReturn requestReturn) {
-                        super.onPostExecute(requestReturn);
-                        Log.d("return", requestReturn.getResponse());
-                        Log.d("asdf", "geenreturn");
-                    }
-                };
-                requestClassPost.execute(APIURL + "itemChange");
-
-            }
-        });
-
-
+        createScreen(item);
     }
 
 
@@ -93,10 +76,66 @@ public class ItemDialog extends Dialog implements
             case R.id.addHoursNo:
                 dismiss();
                 break;
+            case R.id.ItemDialogOpenDecreaseButton:
+                buttonChange("del");
+
+
+                break;
+            case R.id.ItemDialogOpenIncreaseButton:
+                buttonChange("open");
+                break;
+            case R.id.ItemDialogClosedDecreaseButton:
+                buttonChange("delClosed");
+                break;
+
             default:
                 break;
         }
         dismiss();
+    }
+
+    void buttonChange(String action){
+        JSONObject jsonObject = new JSONObject();
+        try {
+
+            jsonObject.put("UserId", UserId);
+            jsonObject.put("Barcode", item.getBarcode());
+            jsonObject.put("Action", action);
+        }catch (JSONException e ){
+        }
+        RequestClassPost requestClassPost = new RequestClassPost(c, jsonObject){
+            @Override
+            protected void onPostExecute(RequestReturn requestReturn) {
+                super.onPostExecute(requestReturn);
+                if(!requestReturn.isError()) {
+                    Log.d("return", requestReturn.getResponse());
+                    JSONObject object = new JSONObject();
+                    try {
+
+
+                        object = new JSONObject(requestReturn.getResponse());
+                    }catch (JSONException e){}
+
+                    createScreen(new Item().loadFromJson(object));
+                }else{
+                    Toast.makeText(c, c.getString(R.string.noInternetMessage), Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        requestClassPost.execute(APIURL + "itemChange");
+
+
+    }
+    void createScreen(Item item){
+        TextView openNumberView = (TextView) findViewById(R.id.ItemDialogOpenAmount);
+        TextView closedNumberView = (TextView) findViewById(R.id.ItemDialogClosedAmount);
+        TextView title = (TextView) findViewById(R.id.ItemDialogTitle);
+        TextView barcode = (TextView) findViewById(R.id.ItemDialogBarcode);
+        title.setText(item.getTitle());
+        openNumberView.setText(Integer.toString(item.getOpen()));
+        closedNumberView.setText(Integer.toString(item.getClosed()));
+        barcode.setText(item.getBarcode());
+
     }
 }
 

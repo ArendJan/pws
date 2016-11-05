@@ -1,7 +1,8 @@
 package com.svshizzle.pws.smartfridge.request;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -152,11 +153,16 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
     }
     @Override
     protected RequestReturn doInBackground(String... uri) {
-
+        if(!isNetworkAvailable(activity)){
+            return new RequestReturn("No internet connection", true);
+        }
         Map<String, String> map = new HashMap<String, String>();
         map.put("JSON",jsonObject.toString());
-
-        return new RequestReturn(requestUrl(uri[0], createQueryStringForParameters(map)), false);
+        String output = requestUrl(uri[0], createQueryStringForParameters(map));
+        if(output == null){
+            return new RequestReturn(output, true);
+        }
+        return new RequestReturn(output, false);
 
     }
     private static String getResponseText(InputStream inStream) {
@@ -188,6 +194,9 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
         Log.d("anoes",parametersAsQueryString.toString());
         return parametersAsQueryString.toString();
     }
-
+    public boolean isNetworkAvailable(final Context context) {
+        final ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+    }
 }
 

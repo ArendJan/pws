@@ -1,7 +1,7 @@
 package com.svshizzle.pws.smartfridge.request;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;

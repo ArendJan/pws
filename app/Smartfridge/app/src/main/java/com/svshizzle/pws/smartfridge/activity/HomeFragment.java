@@ -3,12 +3,13 @@ package com.svshizzle.pws.smartfridge.activity;
 import android.app.Activity;
 import android.app.Fragment;
 
-import android.content.SharedPreferences;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 
 import com.svshizzle.pws.smartfridge.R;
 import com.svshizzle.pws.smartfridge.adapter.HomeListAdapter;
+import com.svshizzle.pws.smartfridge.api.Smartfridge;
 import com.svshizzle.pws.smartfridge.model.Item;
 
 import com.svshizzle.pws.smartfridge.request.RequestClassPost;
@@ -31,8 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
-    String APIURL = "";
-    String UserId = "";
+
     Activity activity;
     ListView listView;
     HomeListAdapter adapter;
@@ -53,11 +54,6 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.activity_home_fragment, container, false);
 
 
-
-        SharedPreferences sharedPreferences =  getActivity().getSharedPreferences(getResources().getString(R.string.SharedPreferencesName), 0);
-        UserId = sharedPreferences.getString(getResources().getString(R.string.SharedPreferencesUserId), "");
-        APIURL = sharedPreferences.getString(getResources().getString(R.string.SharedPreferencesAPIURL), "");
-
         activity = getActivity();
 
         new AsyncTask<Void, Void, Void>(){
@@ -69,8 +65,9 @@ public class HomeFragment extends Fragment {
 
             @Override
             protected void onPostExecute(Void aVoid) {
+
                 createSwipeRefresh(activity);
-                createListContains();
+                createList();
                 super.onPostExecute(aVoid);
             }
         }.execute();
@@ -78,30 +75,7 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
-    private void createListContains() {
-        swipeRefreshLayout.setRefreshing(true);
-        JSONObject jsonObject = new JSONObject();
-        try {
 
-            jsonObject.put("UserId", UserId);
-
-        }catch (JSONException e ){
-        }
-
-        RequestClassPost request = new RequestClassPost(getActivity(),jsonObject ){
-            @Override
-            protected void onPostExecute(RequestReturn requestReturn) {
-                super.onPostExecute(requestReturn);
-                if(requestReturn.isError()){
-
-                }else {
-                    createList(requestReturn.getResponse());
-                }
-            }
-        };
-        String url = APIURL + "contains";
-        request.execute(url);
-    }
 
 
     @Override
@@ -114,33 +88,46 @@ public class HomeFragment extends Fragment {
         super.onDetach();
     }
 
-    void createList(String json){
+    void createList(){
         final ArrayList<Item> itemArrayList = new ArrayList<>();
-        try{
-            JSONArray reader = new JSONArray(json);
-            for(int x = 0; x<reader.length(); x++){
+        Smartfridge smartfridge = new Smartfridge(getActivity()){
 
-                JSONObject object = reader.getJSONObject(x);
-                Item item = new Item(object.getInt("Closed"),object.getInt("Open"), object.getString("Name"), object.getInt("Id"), object.getString("Barcode"));
-                itemArrayList.add(item);
-            }
-            listView = (ListView)activity.findViewById(R.id.homeListView);
-            adapter = new HomeListAdapter(activity, itemArrayList);
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Item item = itemArrayList.get(i);
-                    ItemDialog dialog = new ItemDialog(getActivity(), item);
-                    dialog.show();
+            @Override
+            public void containsDone(ArrayList<Item> items) {
+
+                Log.d("dit", "is eets");
+                for(int x = 0;x<items.size();x++){
+                    itemArrayList.add(items.get(x));
                 }
-            });
-        }catch (JSONException e){
+                listView = (ListView)activity.findViewById(R.id.homeListView);
+                adapter = new HomeListAdapter(activity, itemArrayList);
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Item item = itemArrayList.get(i);
+                        ItemDialog dialog = new ItemDialog(getActivity(), item);
+                        dialog.show();
+                    }
+                });
+            }
 
-            //Shit, vincent did a shit job
-        }finally {
-            swipeRefreshLayout.setRefreshing(false);
+            @Override
+            public void containsError(String e) {
+                super.containsError(e);
+                //Shit, vincent did something wrong.
+            }
+        };
+        if(!smartfridge.isSignedin()){
+           Log.d("not", "signedin");
         }
+        Log.d("uid", smartfridge.getUserid());
+        smartfridge.contains();
+
+
+
+            swipeRefreshLayout.setRefreshing(false);
+
     }
 
     void createSwipeRefresh(Activity rootView) {
@@ -152,7 +139,7 @@ public class HomeFragment extends Fragment {
                 swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        createListContains();
+                        createList();
                     }
                 });
 
