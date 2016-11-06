@@ -36,12 +36,14 @@ if (checkUserId($userId) == false){
   if($action == "add"){
     echo "Adding Product";
     addItem($code,$userId);
-  } elseif ($action == "del") {
+  } else if ($action == "del") {
     echo "Removing Product";
     delItem($code,$userId);
-  } elseif ($action == "open") {
+  } else if ($action == "open") {
     echo "Opening Product";
     openItem($code,$userId);
+  }else{
+    echo "Not a correct action";
   }
 
  ?>
