@@ -16,15 +16,15 @@ function delItem($code, $userId){
   echo $closed;
   echo $open;
   if ($open > 0) {
-    cho "Open > 0!";
-    //Doe -1 bij aantal van product
+    echo "Open > 0!";
+    //Doe -1 bij open product
     $delstmt = $conn->prepare("UPDATE products SET open = open - 1 WHERE barcode = ? AND userId = ?");
     $delstmt->execute(array($code, $userId));
   } else if($closed <= 0) {
     echo "Closed = 0 or < 0 (Which is weird)";
   } else {
     echo "Closed > 0!";
-    //Doe -1 bij aantal van product
+    //Doe -1 bij closed product
     $delstmt = $conn->prepare("UPDATE products SET closed = closed - 1 WHERE barcode = ? AND userId = ?");
     $delstmt->execute(array($code, $userId));
   }
