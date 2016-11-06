@@ -1,8 +1,9 @@
 package com.svshizzle.pws.smartfridge.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,17 +17,22 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.svshizzle.pws.smartfridge.R;
+import com.svshizzle.pws.smartfridge.api.Smartfridge;
+import com.svshizzle.pws.smartfridge.api.SmartfridgeSave;
 import com.svshizzle.pws.smartfridge.request.RequestClass;
 import com.svshizzle.pws.smartfridge.request.RequestReturn;
 
 public class Login extends AppCompatActivity {
     ProgressDialog progressDialog;
+    Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        activity = this;
         Button button =(Button) findViewById(R.id.loginOkButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,10 +122,16 @@ public class Login extends AppCompatActivity {
 
             }
 
+
+
+
+
+
             RequestClass requestClass = new RequestClass(getApplication());
             RequestReturn output = requestClass.getData(APIURL + getResources().getString(R.string.APIServerCheck));
 
             if(output.isError()|| !output.getResponse().equals("y")){
+                Log.d("wut", output.getResponse());
                 return new checkReturn(true, getResources().getString(R.string.loginAPIURLFaulty));
             }
             publishProgress(getResources().getString(R.string.loginDialogUserIdCheck));
@@ -140,13 +152,15 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), s.getErrorText(), Toast.LENGTH_LONG).show();
 
             }else{
-                SharedPreferences settings = getApplicationContext().getSharedPreferences(getResources().getString(R.string.SharedPreferencesName), 0);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putBoolean(getResources().getString(R.string.SharedPreferencesSignedIn), true);
-                editor.putString(getResources().getString(R.string.SharedPreferencesUserId), s.getUserid());
-                editor.putString(getResources().getString(R.string.SharedPreferencesAPIURL), s.getAPIURL());
-                editor.apply();
+                Smartfridge smartfridge = new Smartfridge(activity);
+                smartfridge.setSettings(s.APIURL, s.Userid);
                 Intent intent = new Intent(Login.this, MainActivity.class);
+                if(SmartfridgeSave.getAPIURL(activity).equals(s.APIURL)){
+                    Log.d("hehe", "eindelijk!!!");
+                }
+                else{
+                    Log.d("hehe", "kuuuuuuuuuuuuuuuuuuuuuuuuuuutttttttttttttttt");
+                }
                 Login.this.startActivity(intent);
                 finish();
             }

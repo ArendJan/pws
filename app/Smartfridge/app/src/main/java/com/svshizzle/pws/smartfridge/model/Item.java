@@ -1,5 +1,8 @@
 package com.svshizzle.pws.smartfridge.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Arend-Jan on 28-10-2016.
  */
@@ -18,7 +21,9 @@ public class Item {
         this.id = id;
         this.barcode = barcode;
     }
+    public Item(){
 
+    }
     public int getClosed() {
         return closed;
     }
@@ -57,5 +62,21 @@ public class Item {
 
     public void setBarcode(String barcode) {
         this.barcode = barcode;
+    }
+
+    public Item loadFromJson(JSONObject object){
+        try {
+
+
+            this.closed = object.getInt("Closed");
+            this.open = object.getInt("Open");
+            this.title = object.getString("Name");
+            this.id = object.getInt("Id");
+            this.barcode = object.getString("Barcode");
+            return this;
+        }catch (JSONException e){
+
+        }
+        return this;
     }
 }

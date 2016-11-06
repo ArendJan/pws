@@ -15,11 +15,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.google.gson.Gson;
 
 
 import com.svshizzle.pws.smartfridge.R;
+import com.svshizzle.pws.smartfridge.api.Smartfridge;
 import com.svshizzle.pws.smartfridge.model.Item;
 import com.svshizzle.pws.smartfridge.request.RequestClassPost;
 import com.svshizzle.pws.smartfridge.request.RequestReturn;
@@ -29,15 +32,14 @@ import org.json.JSONObject;
 
 public class ItemDialog extends Dialog implements
         android.view.View.OnClickListener {
-    String APIURL = "";
-    String UserId = "";
-    public Activity c;
+
+    public Activity activity;
     public Item item;
 
     public ItemDialog(Activity a, Item item) {
         super(a);
         // TODO Auto-generated constructor stub
-        this.c = a;
+        this.activity = a;
         this.item = item;
     }
 
@@ -46,57 +48,100 @@ public class ItemDialog extends Dialog implements
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_item_dialog);
-        SharedPreferences sharedPreferences =  c.getSharedPreferences(c.getString(R.string.SharedPreferencesName), 0);
-        UserId = sharedPreferences.getString(c.getString(R.string.SharedPreferencesUserId), "");
-        APIURL = sharedPreferences.getString(c.getString(R.string.SharedPreferencesAPIURL), "");
-
-        TextView openNumberView = (TextView) findViewById(R.id.ItemDialogOpenAmount);
-        TextView closedNumberView = (TextView) findViewById(R.id.ItemDialogClosedAmount);
         Button openIncrease = (Button) findViewById(R.id.ItemDialogOpenIncreaseButton);
         Button openDecrease = (Button) findViewById(R.id.ItemDialogOpenDecreaseButton);
+        Button closedIncrease = (Button) findViewById(R.id.ItemDialogClosedIncreaseButton);
+        Button closedDecrease = (Button) findViewById(R.id.ItemDialogClosedDecreaseButton);
+        Button titleChange = (Button) findViewById(R.id.ItemDialogTitleButton);
+        titleChange.setOnClickListener(this);
+        openDecrease.setOnClickListener(this);
+        openIncrease.setOnClickListener(this);
+        closedDecrease.setOnClickListener(this);
+        closedIncrease.setOnClickListener(this);
 
-        openDecrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-
-                    jsonObject.put("UserId", UserId);
-                    jsonObject.put("Barcode", item.getBarcode());
-                    jsonObject.put("Action", "del");
-                }catch (JSONException e ){
-                }
-                RequestClassPost requestClassPost = new RequestClassPost(c, jsonObject){
-                    @Override
-                    protected void onPostExecute(RequestReturn requestReturn) {
-                        super.onPostExecute(requestReturn);
-                        Log.d("return", requestReturn.getResponse());
-                        Log.d("asdf", "geenreturn");
-                    }
-                };
-                requestClassPost.execute(APIURL + "itemChange");
-
-            }
-        });
-
-
+        createScreen(item);
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.addHoursYes:
 
+            case R.id.ItemDialogOk:
                 dismiss();
                 break;
-            case R.id.addHoursNo:
-                dismiss();
+            case R.id.ItemDialogOpenDecreaseButton:
+                buttonChange("delOpen");
+
+
+                break;
+            case R.id.ItemDialogOpenIncreaseButton:
+                buttonChange("open");
+                break;
+            case R.id.ItemDialogClosedDecreaseButton:
+                buttonChange("delClosed");
+                break;
+            case R.id.ItemDialogClosedIncreaseButton:
+                buttonChange("closed");
+                break;
+            case R.id.ItemDialogTitleButton:
+                changeText();
                 break;
             default:
                 break;
         }
-        dismiss();
+
+    }
+
+    private void buttonChange(final String action){
+
+        Smartfridge smartfridge = new Smartfridge(activity){
+            @Override
+            public void changeItemDone(Item item) {
+                createScreen(item);
+            }
+
+            @Override
+            public void changeItemError(String e) {
+                Toast.makeText(activity, activity.getString(R.string.noInternetMessage), Toast.LENGTH_LONG).show();
+            }
+        };
+        smartfridge.changeItem(action, item.getBarcode());
+
+
+    }
+    private void createScreen(Item item){
+        TextView openNumberView = (TextView) findViewById(R.id.ItemDialogOpenAmount);
+        TextView closedNumberView = (TextView) findViewById(R.id.ItemDialogClosedAmount);
+        TextView title = (TextView) findViewById(R.id.ItemDialogTitle);
+        TextView barcode = (TextView) findViewById(R.id.ItemDialogBarcode);
+        EditText titleEdit = (EditText) findViewById(R.id.ItemDialogTitleEdit);
+        titleEdit.setText(item.getTitle());
+        title.setText(item.getTitle());
+        openNumberView.setText(Integer.toString(item.getOpen()));
+        closedNumberView.setText(Integer.toString(item.getClosed()));
+        barcode.setText(item.getBarcode());
+
+    }
+
+    private void changeText(){
+        ViewSwitcher viewSwitcher = (ViewSwitcher) findViewById(R.id.ItemDialogViewSwitcher);
+        TextView textView = (TextView) findViewById(R.id.ItemDialogTitle);
+        EditText editText = (EditText) findViewById(R.id.ItemDialogTitleEdit);
+
+        if(viewSwitcher.getCurrentView() != textView){
+            viewSwitcher.showPrevious();
+        }else if(viewSwitcher.getCurrentView() != editText){
+            textView.setText(editText.getText());
+            viewSwitcher.showNext();
+            Smartfridge smartfridge = new Smartfridge(activity){
+                @Override
+                public void changeTitleDone(Item item) {
+                    createScreen(item);
+                }
+            };
+            smartfridge.changeTitle(editText.getText().toString(), item.getBarcode());
+        }
     }
 }
 
