@@ -39,7 +39,7 @@ if($sort == "everything"){
     $row_array['Name'] = $row['description'];
     $row_array['Barcode'] = strval($row['barcode']);
     $row_array['Ammount'] = $amount;
-    $row_array['Closed'] = intval($row['closed'];
+    $row_array['Closed'] = intval($row['closed']);
     $row_array['Open'] = intval($row['open']);
 
     array_push($return_arr,$row_array);
