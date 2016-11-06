@@ -152,5 +152,83 @@ public class Smartfridge {
     }
 
 
+    public void changeItem(String change, String barcode){
+        JSONObject jsonObject = new JSONObject();
+        try {
+
+            jsonObject.put("UserId",userid);
+            jsonObject.put("Barcode", barcode);
+            jsonObject.put("Action", change);
+        }catch (JSONException e ){
+        }
+        RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
+            @Override
+            protected void onPostExecute(RequestReturn requestReturn) {
+                super.onPostExecute(requestReturn);
+                if(!requestReturn.isError()) {
+                    Log.d("return", requestReturn.getResponse());
+                    JSONObject object = new JSONObject();
+                    try {
+
+
+                        object = new JSONObject(requestReturn.getResponse());
+                    }catch (JSONException e){}
+
+                    changeItemDone(new Item().loadFromJson(object));
+                }else{
+                    changeItemError(requestReturn.getResponse());
+                }
+            }
+        };
+        requestClassPost.execute(apiUrl + "itemChange");
+
+    }
+
+    public void changeItemDone(Item item){
+
+    }
+    public void changeItemError(String e){
+
+    }
+
+
+    public void changeTitle(String title, String barcode){
+        JSONObject jsonObject = new JSONObject();
+        try {
+
+            jsonObject.put("UserId",userid);
+            jsonObject.put("Barcode", barcode);
+            jsonObject.put("Title", title);
+        }catch (JSONException e ){
+        }
+        RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
+            @Override
+            protected void onPostExecute(RequestReturn requestReturn) {
+                super.onPostExecute(requestReturn);
+                if(!requestReturn.isError()) {
+                    Log.d("return", requestReturn.getResponse());
+                    JSONObject object = new JSONObject();
+                    try {
+
+
+                        object = new JSONObject(requestReturn.getResponse());
+                    }catch (JSONException e){}
+
+                    changeTitleDone(new Item().loadFromJson(object));
+                }else{
+                    changeTitleError(requestReturn.getResponse());
+                }
+            }
+        };
+        requestClassPost.execute(apiUrl + "titleChange");
+    }
+    public void changeTitleDone(Item item){
+
+    }
+    public void changeTitleError(String e){
+
+    }
+
+
 
 }

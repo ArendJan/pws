@@ -137,12 +137,12 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
 
 
         } catch (MalformedURLException e) {
-            Log.d("kut", e.getLocalizedMessage());
+            Log.d("malformedurlexception", e.getLocalizedMessage());
             // handle invalid URL
         } catch (SocketTimeoutException e) {
-            Log.d("kut", e.getLocalizedMessage());// hadle timeout
+            Log.d("sockettimeout", e.getLocalizedMessage());// hadle timeout
         } catch (IOException e) {
-            Log.d("kut", e.getLocalizedMessage());// handle I/0
+            Log.d("ioexception", e.getLocalizedMessage());// handle I/0
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -160,7 +160,7 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
         map.put("JSON",jsonObject.toString());
         String output = requestUrl(uri[0], createQueryStringForParameters(map));
         if(output == null){
-            return new RequestReturn(output, true);
+            return new RequestReturn("null", true);
         }
         return new RequestReturn(output, false);
 

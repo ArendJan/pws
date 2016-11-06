@@ -54,7 +54,11 @@ public class RequestClass extends AsyncTask<String, String, RequestReturn> {
         protected RequestReturn doInBackground(String... uri) {
 
 
-            return getData(uri[0]);
+
+                throw new IllegalArgumentException();
+
+
+            //return getData(uri[0]);
 
         }
 

@@ -110,11 +110,14 @@ public class HomeFragment extends Fragment {
                         dialog.show();
                     }
                 });
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void containsError(String e) {
-                super.containsError(e);
+
+                Log.d("ebola", e);
+                swipeRefreshLayout.setRefreshing(false);
                 //Shit, vincent did something wrong.
             }
         };
@@ -126,7 +129,7 @@ public class HomeFragment extends Fragment {
 
 
 
-            swipeRefreshLayout.setRefreshing(false);
+
 
     }
 
