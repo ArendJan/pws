@@ -3,17 +3,41 @@ package com.svshizzle.pws.smartfridge.activity;
 import android.app.Activity;
 import android.app.Fragment;
 
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.support.v4.widget.SwipeRefreshLayout;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
 
 
 import com.svshizzle.pws.smartfridge.R;
+import com.svshizzle.pws.smartfridge.adapter.HomeListAdapter;
+import com.svshizzle.pws.smartfridge.api.Smartfridge;
+import com.svshizzle.pws.smartfridge.model.Item;
+
+import com.svshizzle.pws.smartfridge.request.RequestClassPost;
+import com.svshizzle.pws.smartfridge.request.RequestReturn;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
+    Activity activity;
+    ListView listView;
+    HomeListAdapter adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
     public HomeFragment() {
 
     }
@@ -29,8 +53,29 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_home_fragment, container, false);
 
+
+        activity = getActivity();
+
+        new AsyncTask<Void, Void, Void>(){
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+
+                createSwipeRefresh(activity);
+                createList();
+                super.onPostExecute(aVoid);
+            }
+        }.execute();
+
         return rootView;
     }
+
+
 
 
     @Override
@@ -42,4 +87,69 @@ public class HomeFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
+    void createList(){
+        final ArrayList<Item> itemArrayList = new ArrayList<>();
+        Smartfridge smartfridge = new Smartfridge(getActivity()){
+
+            @Override
+            public void containsDone(ArrayList<Item> items) {
+
+                Log.d("dit", "is eets");
+                for(int x = 0;x<items.size();x++){
+                    itemArrayList.add(items.get(x));
+                }
+                listView = (ListView)activity.findViewById(R.id.homeListView);
+                adapter = new HomeListAdapter(activity, itemArrayList);
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Item item = itemArrayList.get(i);
+                        ItemDialog dialog = new ItemDialog(getActivity(), item);
+                        dialog.show();
+                    }
+                });
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void containsError(String e) {
+
+                Log.d("ebola", e);
+                swipeRefreshLayout.setRefreshing(false);
+                //Shit, vincent did something wrong.
+            }
+        };
+        if(!smartfridge.isSignedin()){
+           Log.d("not", "signedin");
+        }
+        Log.d("uid", smartfridge.getUserid());
+        smartfridge.contains();
+
+
+
+
+
+    }
+
+    void createSwipeRefresh(Activity rootView) {
+
+
+
+
+                swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.homeScrollView);
+                swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        createList();
+                    }
+                });
+
+
+
+    }
+
+
 }
+

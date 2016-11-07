@@ -1,7 +1,7 @@
 package com.svshizzle.pws.smartfridge.request;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -54,7 +54,11 @@ public class RequestClass extends AsyncTask<String, String, RequestReturn> {
         protected RequestReturn doInBackground(String... uri) {
 
 
-            return getData(uri[0]);
+
+                throw new IllegalArgumentException();
+
+
+            //return getData(uri[0]);
 
         }
 

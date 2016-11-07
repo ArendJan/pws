@@ -15,13 +15,13 @@ function addItem($code, $userId){
   if($checkstmt->rowCount() > 0){
     echo "Exists! ";
     //Doe +1 bij aantal van product
-    $upstmt = $conn->prepare("UPDATE products SET ammount = ammount + 1 WHERE barcode = ? AND userID = ?");
+    $upstmt = $conn->prepare("UPDATE products SET closed = closed + 1 WHERE barcode = ? AND userID = ?");
     $upstmt->execute(array($code, $userId));
   } else {
     echo "Doesn't exist! ";
     //Voeg product toe
     try {
-      $addstmt = $conn->prepare("INSERT INTO products (barcode, ammount, description, userId) VALUES (?,1,?,?)");
+      $addstmt = $conn->prepare("INSERT INTO products (barcode, closed, description, userId) VALUES (?,1,?,?)");
       $addstmt->execute(array($code,$desc,$userId));
     }
     catch(PDOException $e)

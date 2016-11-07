@@ -29,18 +29,18 @@ if($sort == "everything"){
   $stmt->execute(array($userId));
   $result = $stmt -> fetchAll();
   foreach( $result as $row ) {
-    $ammount = $row['ammount'];
+    $closed = $row['closed'];
     $open = $row['open'];
-    $closed = $ammount - $open;
+    $amount = $open + $closed;
 
     //echo $row['description'] . ":<br>Ammount: " . $row['ammount'] . "<br>Closed: " . $closed . "<br>Opened: " . $row['open'] . "<br><br>";
 
-    $row_array['Id'] = $row['ID'];
+    $row_array['Id'] = intval($row['ID']);
     $row_array['Name'] = $row['description'];
-    $row_array['Barcode'] = $row['barcode'];
-    $row_array['Ammount'] = $row['ammount'];
-    $row_array['Closed'] = $closed;
-    $row_array['Open'] = $row['open'];
+    $row_array['Barcode'] = strval($row['barcode']);
+    $row_array['Ammount'] = $amount;
+    $row_array['Closed'] = intval($row['closed'];
+    $row_array['Open'] = intval($row['open']);
 
     array_push($return_arr,$row_array);
   }
@@ -51,46 +51,40 @@ if($sort == "everything"){
   foreach( $result as $row ) {
 
     //echo $row['description'] . ":<br>Opened: " . $row['open'] . "<br><br>";
-    $row_array['Id'] = $row['ID'];
+    $row_array['Id'] = intval($row['ID']);
     $row_array['Name'] = $row['description'];
-    $row_array['Barcode'] = $row['barcode'];
-    $row_array['Open'] = $row['open'];
+    $row_array['Barcode'] = strval($row['barcode']);
+    $row_array['Open'] = intval($row['open']);
 
     array_push($return_arr,$row_array);
   }
 }elseif ($sort == "closed") {
-  $stmt = $conn->prepare('SELECT * FROM products WHERE ammount > 0 AND userId = ?');
+  $stmt = $conn->prepare('SELECT * FROM products WHERE closed > 0 AND userId = ?');
   $stmt->execute(array($userId));
   $result = $stmt -> fetchAll();
   foreach( $result as $row ) {
-    $ammount = $row['ammount'];
-    $open = $row['open'];
-    $closed = $ammount - $open;
 
     //echo $row['description'] . ":<br>Closed: " . $closed . "<br><br>";
-    $row_array['Id'] = $row['ID'];
+    $row_array['Id'] = intval($row['ID']);
     $row_array['Name'] = $row['description'];
-    $row_array['Barcode'] = $row['barcode'];
-    $row_array['Closed'] = $closed;
+    $row_array['Barcode'] = strval($row['barcode']);
+    $row_array['Closed'] = intval($row['closed']);
 
     array_push($return_arr,$row_array);
   }
 }elseif ($sort == "opened+closed")  {
-  $stmt = $conn->prepare('SELECT * FROM products WHERE ammount > 0 AND userId = ?');
+  $stmt = $conn->prepare('SELECT * FROM products WHERE closed > 0 OR open > 0 AND userId = ?');
   $stmt->execute(array($userId));
   $result = $stmt -> fetchAll();
   foreach( $result as $row ) {
-    $ammount = $row['ammount'];
-    $open = $row['open'];
-    $closed = $ammount - $open;
 
     //echo $row['description'] . ":<br>Closed " . $closed . "<br>Open: " . $row['open'] . "<br><br>";
 
-    $row_array['Id'] = $row['ID'];
+    $row_array['Id'] = intval($row['ID']);
     $row_array['Name'] = $row['description'];
-    $row_array['Barcode'] = $row['barcode'];
-    $row_array['Closed'] = $closed;
-    $row_array['Open'] = $row['open'];
+    $row_array['Barcode'] = strval($row['barcode']);
+    $row_array['Closed'] = intval($row['closed']);
+    $row_array['Open'] = intval($row['open']);
 
     array_push($return_arr,$row_array);
   }
