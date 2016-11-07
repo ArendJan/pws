@@ -15,12 +15,16 @@ def start():
 
 def jobThread():
     while 1:
-        data = request()
-        jsonX = decode(data)
-        readAndParse(jsonX)
-        time.sleep(settings.interval)
+        try:
+            data = request()
+            jsonX = decode(data)
+            readAndParse(jsonX)
+            time.sleep(settings.interval)
+        except Exception:
+            print "oops, wifi has some dezease"
 
 def decode(data):
+
     return json.loads(data)
 
 def request():
@@ -35,20 +39,25 @@ def request():
 
     except Exception:
         print "ripppp"
-    return "asdf"
+    return "[]"
 
 
 def readAndParse(jsonX):
-    amount = len(jsonX) #TODO: error checking.
-    for x in range(0,amount):
-        job = jsonX[x]
-        checkJob(job["JobId"])
-        thread = Thread(target = jobs.parseJob, args = (job,)) #we'll do this, so there won't be a big delay when parsing everything.
-        thread.start()
-
+    try:
+        amount = len(jsonX) #TODO: error checking.
+        for x in range(0,amount):
+            job = jsonX[x]
+            checkJob(job["JobId"])
+            thread = Thread(target = jobs.parseJob, args = (job,)) #we'll do this, so there won't be a big delay when parsing everything.
+            thread.start()
+    except Exception:
+        print "readandparse error"
 
 def checkJob(jobId):
-    url = settings.url + "markJob"
-    postVars = json.dumps({ "UserId": settings.userId, "JobId":jobId})
-    requests.post(url, data={"JSON":postVars})
+    try:
+        url = settings.url + "markJob"
+        postVars = json.dumps({ "UserId": settings.userId, "JobId":jobId})
+        requests.post(url, data={"JSON":postVars}, timeout=20)
+    except Exception:
+        print "oeps"
     #maybe some sort of error checking...........
