@@ -6,6 +6,8 @@ error_reporting(E_ALL);
 require_once("include/newItem.php");
 
 require_once("include/delItem.php");
+require_once("include/delOpen.php");
+require_once("include/delClosed.php");
 
 require_once("include/openItem.php");
 
@@ -42,6 +44,12 @@ if (checkUserId($userId) == false){
   } else if ($action == "open") {
     echo "Opening Product";
     openItem($code,$userId);
+  } else if ($action == "delOpen") {
+    echo "Deleting Open Product";
+    delOpen($code,$userId);
+  } else if ($action == "delClosed") {
+    echo "Deleting Closed Product";
+    delClosed($code,$userId);
   }else{
     echo "Not a correct action";
   }
