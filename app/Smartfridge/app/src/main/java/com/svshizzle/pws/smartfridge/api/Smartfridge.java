@@ -167,12 +167,15 @@ public class Smartfridge {
                 super.onPostExecute(requestReturn);
                 if(!requestReturn.isError()) {
                     Log.d("return", requestReturn.getResponse());
-                    JSONObject object = new JSONObject();
+                    JSONObject object;
                     try {
 
 
                         object = new JSONObject(requestReturn.getResponse());
-                    }catch (JSONException e){}
+                    }catch (JSONException e){
+                        changeItemError(e.getLocalizedMessage());
+                        return;
+                    }
 
                     changeItemDone(new Item().loadFromJson(object));
                 }else{
