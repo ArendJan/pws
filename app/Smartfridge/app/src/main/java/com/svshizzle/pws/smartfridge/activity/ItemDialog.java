@@ -71,6 +71,7 @@ public class ItemDialog extends Dialog implements
 
             case R.id.ItemDialogOk:
                 Log.d("ok", "of je sok");
+                changeText();
                 dismiss();
                 break;
             case R.id.ItemDialogOpenDecreaseButton:
@@ -135,17 +136,19 @@ public class ItemDialog extends Dialog implements
 
         if(viewSwitcher.getCurrentView() != editText ){
             viewSwitcher.showPrevious();
-        }else if(viewSwitcher.getCurrentView() != textView){
+        }else if(viewSwitcher.getCurrentView() != textView) {
             textView.setText(editText.getText());
             viewSwitcher.showNext();
-            Smartfridge smartfridge = new Smartfridge(activity){
-                @Override
-                public void changeTitleDone(Item item) {
-                    ItemDialog.item = item;
-                    createScreen(item);
-                }
-            };
-            smartfridge.changeTitle(editText.getText().toString(), item.getBarcode());
+            if (!editText.getText().toString().equals(item.getTitle())) {
+                Smartfridge smartfridge = new Smartfridge(activity) {
+                    @Override
+                    public void changeTitleDone(Item item) {
+                        ItemDialog.item = item;
+                        createScreen(item);
+                    }
+                };
+                smartfridge.changeTitle(editText.getText().toString(), item.getBarcode());
+            }
         }
     }
 }
