@@ -73,7 +73,9 @@ subprocess.Popen(cmd, shell=True).wait()
 #Only sudo has permission, but we need to have permission!
 cmd = "sudo chmod -R 777 "+ dir_path + "/smartfridge/"
 subprocess.Popen(cmd, shell=True).wait()
-
+#Only sudo has permission, but we need to have permission!
+cmd = "sudo chmod -R 777 "+ dir_path + "/smartfridge/printjobs"
+subprocess.Popen(cmd, shell=True).wait()
 #If you've entered an userId, the whole settings file will be rewritten.
 if(userid!=None):
     f = open(dir_path+"/smartfridge/settings.py", 'w')

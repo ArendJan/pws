@@ -1,0 +1,2 @@
+This folder contains every job that is send to the printer.
+If there is a file in this folder, something went wrong.
