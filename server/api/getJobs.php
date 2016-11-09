@@ -17,9 +17,6 @@ $data = json_decode($_POST['JSON'],true);
 
 $userId = $data['UserId'];
 
-require_once("include/log.php");
-logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
-
 if (!isset($data["Status"]) || $data["Status"] == ""){
   $status = "new";
 } else {
@@ -35,6 +32,8 @@ if (!isset($data["Type"]) || $data["Type"] == ""){
 $json_array = array();
 
 if (checkUserId($userId) == false){
+  require_once("include/log.php");
+  logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
   die ("You forgot your UserId, or gave an invalid UserId!");
 }
 
