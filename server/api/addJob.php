@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 include_once('../php/start.php');
 require_once("include/checkUserId.php");
 
@@ -11,8 +15,11 @@ if (!isset($_POST['JSON'])){
 
 $data = json_decode($_POST['JSON'],true);
 
-
 $userId = $data['userId'];
+
+require_once("include/log.php");
+logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
+
 if (!isset($data["Type"]) || empty($data["Type"])){
   die("You have to add the type of the job!");
 }

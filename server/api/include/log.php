@@ -1,11 +1,12 @@
 <?php
 
-include_once('../../php/start.php');
-$conn = db();
+function logging($script, $params, $userId){
 
-function log($script, $params){
-  $logstmt = $conn->prepare("INSERT INTO log (time, script, params) VALUES (?,?,?)");
-  $logstmt->execute(array(date('Y-m-d H:i:s'),$script,$params));
+  require_once(dirname(__FILE__)."/../../php/start.php");
+  $conn = db();
+
+  $logstmt = $conn->prepare("INSERT INTO logging (time, script, params, userId) VALUES (?,?,?,?)");
+  $logstmt->execute(array(date('Y-m-d H:i:s'),$script,$params,$userId));
 }
 
  ?>
