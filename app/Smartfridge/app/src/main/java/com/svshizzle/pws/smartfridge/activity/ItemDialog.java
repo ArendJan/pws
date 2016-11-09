@@ -34,7 +34,7 @@ public class ItemDialog extends Dialog implements
         android.view.View.OnClickListener {
 
     public Activity activity;
-    public Item item;
+    public static Item item;
 
     public ItemDialog(Activity a, Item item) {
         super(a);
@@ -53,6 +53,8 @@ public class ItemDialog extends Dialog implements
         Button closedIncrease = (Button) findViewById(R.id.ItemDialogClosedIncreaseButton);
         Button closedDecrease = (Button) findViewById(R.id.ItemDialogClosedDecreaseButton);
         Button titleChange = (Button) findViewById(R.id.ItemDialogTitleButton);
+        Button okButton = (Button) findViewById(R.id.ItemDialogOk);
+        okButton.setOnClickListener(this);
         titleChange.setOnClickListener(this);
         openDecrease.setOnClickListener(this);
         openIncrease.setOnClickListener(this);
@@ -68,6 +70,8 @@ public class ItemDialog extends Dialog implements
         switch (v.getId()) {
 
             case R.id.ItemDialogOk:
+                Log.d("ok", "of je sok");
+                changeText();
                 dismiss();
                 break;
             case R.id.ItemDialogOpenDecreaseButton:
@@ -82,12 +86,13 @@ public class ItemDialog extends Dialog implements
                 buttonChange("delClosed");
                 break;
             case R.id.ItemDialogClosedIncreaseButton:
-                buttonChange("closed");
+                buttonChange("add");
                 break;
             case R.id.ItemDialogTitleButton:
                 changeText();
                 break;
             default:
+                Log.d("oops", "default is not ok");
                 break;
         }
 
@@ -129,18 +134,21 @@ public class ItemDialog extends Dialog implements
         TextView textView = (TextView) findViewById(R.id.ItemDialogTitle);
         EditText editText = (EditText) findViewById(R.id.ItemDialogTitleEdit);
 
-        if(viewSwitcher.getCurrentView() != textView){
+        if(viewSwitcher.getCurrentView() != editText ){
             viewSwitcher.showPrevious();
-        }else if(viewSwitcher.getCurrentView() != editText){
+        }else if(viewSwitcher.getCurrentView() != textView) {
             textView.setText(editText.getText());
             viewSwitcher.showNext();
-            Smartfridge smartfridge = new Smartfridge(activity){
-                @Override
-                public void changeTitleDone(Item item) {
-                    createScreen(item);
-                }
-            };
-            smartfridge.changeTitle(editText.getText().toString(), item.getBarcode());
+            if (!editText.getText().toString().equals(item.getTitle())) {
+                Smartfridge smartfridge = new Smartfridge(activity) {
+                    @Override
+                    public void changeTitleDone(Item item) {
+                        ItemDialog.item = item;
+                        createScreen(item);
+                    }
+                };
+                smartfridge.changeTitle(editText.getText().toString(), item.getBarcode());
+            }
         }
     }
 }

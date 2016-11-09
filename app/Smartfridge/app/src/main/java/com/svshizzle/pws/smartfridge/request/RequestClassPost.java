@@ -143,6 +143,8 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
             Log.d("sockettimeout", e.getLocalizedMessage());// hadle timeout
         } catch (IOException e) {
             Log.d("ioexception", e.getLocalizedMessage());// handle I/0
+            Log.d("uitleg", e.getMessage());
+            Log.d("uitleg", e.getStackTrace().toString());
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
