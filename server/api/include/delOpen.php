@@ -1,6 +1,7 @@
 <?php
 
 function delOpen($code, $userId){
+
   require_once(dirname(__FILE__)."/../../php/start.php");
   $conn = db();
   echo "Barcode: $code ";

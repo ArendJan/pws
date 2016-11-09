@@ -3,6 +3,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 require_once("include/checkUserId.php");
 
 if (!isset($_POST['JSON'])){
@@ -10,6 +11,11 @@ if (!isset($_POST['JSON'])){
 }
 
 $data = json_decode($_POST['JSON'],true);
+
+$userId = $data['UserId'];
+
+require_once("include/log.php");
+logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
 
 if (!isset($data["Barcode"])){
   die("You have to post your barcode!");
@@ -22,8 +28,6 @@ if (!isset($data["Title"]) || $data['Title'] == ""){
 }
 
   $title = $data["Title"];
-
-$userId = $data['UserId'];
 
 if (!checkUserId($userId)){
   die('You forgot your userId, or you gave an invalid userId!');

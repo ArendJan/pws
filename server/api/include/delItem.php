@@ -1,6 +1,7 @@
 <?php
 
 function delItem($code, $userId){
+
   require_once(dirname(__FILE__)."/../../php/start.php");
   $conn = db();
   echo "Barcode: $code ";
