@@ -2,7 +2,7 @@ import subprocess
 import threading
 from time import gmtime, strftime
 import os
-
+import datetime
 #This is the file with all posible jobs defined.
 #If you want to add a job to the list, add it to the dictionary and create the correct function for it.
 
@@ -29,7 +29,7 @@ def listFunc(job):     #Prints the list of the items you should buy!!!
     printCommand(output)
 
 def text(job): #Print the text entered on the website / app.
-    output = "New text:"+ job["Text"]+""
+    output = ""+ job["Text"]+""
     printCommand(output)
 
 
@@ -38,8 +38,9 @@ def qrCode(job):
     from barcode.writer import ImageWriter
     EAN = barcode.get_barcode_class('EAN')
     ean = EAN(job["Code"], writer=ImageWriter())
-    ean.save("smartfridge/ean13_barcode")
-    command = "lpr -o fit-to-page smartfridge/ean13_barcode.png"
+    filename = os.path.dirname(os.path.realpath(__file__)) + "/../printjobs/" + getTimeStamp() + ".txt"
+    ean.save( os.path.dirname(os.path.realpath(__file__)) + "/../printjobs/ean13_barcode")
+    command = "lpr -o fit-to-page " + os.path.dirname(os.path.realpath(__file__)) + "/../printjobs/ean13_barcode.png"
     subprocess.Popen(command, shell=True).wait()
     #now print this thing!
 
@@ -51,17 +52,20 @@ def qrCode(job):
 
 
 def printCommand(text): #This is the function that is called with a string containing a text that should be printed.
-    filename  = "printjobs/" + strftime("%Y%m%d%H%M%S", gmtime()) + ".txt"
+    filename = os.path.dirname(os.path.realpath(__file__)) + "/../printjobs/" + getTimeStamp() + ".txt"
     filex = open(filename, 'w+')
     filex.write(text)
     filex.close()
 
-    command = "sudo lpr '/home/pi/"+ filename + "'"
+    command = "sudo lpr '"+ filename + "'"
     print command
     subprocess.Popen(command, shell=True).wait()
     os.remove(filename)
     #subprocess.Popen("lpr <<< '"+text+"'", shell=True).wait()
 
+def getTimeStamp():
+    dt = datetime.datetime.now()
+    return dt.strftime("%Y%j%H%M%S") + str(dt.microsecond)
 
 def updateCode():
     print "Downloading and installing new updates."

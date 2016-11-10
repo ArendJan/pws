@@ -1,12 +1,13 @@
 <?php
 
 function openItem($code, $userId){
+
   require_once(dirname(__FILE__)."/../../php/start.php");
   $conn = db();
 
   $closedstmt = $conn->prepare("SELECT closed FROM products WHERE barcode = ? AND userId = ?");
   $closedstmt->execute(array($code, $userId));
-  $closed = $countstmt->fetchColumn();
+  $closed = $closedstmt->fetchColumn();
 
   if ($closed <= 0){
     echo "Closed = 0 or < 0 (Which is weird)";

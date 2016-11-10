@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 include_once('../php/start.php');
 require_once("include/checkUserId.php");
 
@@ -28,6 +32,8 @@ if (!isset($data["Type"]) || $data["Type"] == ""){
 $json_array = array();
 
 if (checkUserId($userId) == false){
+  require_once("include/log.php");
+  logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
   die ("You forgot your UserId, or gave an invalid UserId!");
 }
 

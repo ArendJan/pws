@@ -17,20 +17,20 @@
     <string name="drawer_close">Close</string>
 
     <string name="nav_item_home">Home</string>
-    <string name="nav_item_me">Ik</string>
-    <string name="nav_item_company">Bedrijven</string>
+    <string name="nav_item_print">Print</string>
+    <string name="nav_item_log">Log</string>
     <string name="nav_item_settings">Instellingen</string>
     <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_home</item>
-        <item>@string/nav_item_me</item>
-        <item>@string/nav_item_company</item>
+        <item>@string/nav_item_print</item>
+        <item>@string/nav_item_log</item>
         <item>@string/nav_item_settings</item>
     </string-array>
 
     <string name="title_home">Home</string>
 
-
+    <string name="noInternetMessage">Oops, you currently don\'t have a network connection. Try again when you do.</string>
 
 
     <!--

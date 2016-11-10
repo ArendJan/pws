@@ -1,7 +1,8 @@
 package com.svshizzle.pws.smartfridge.request;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -136,12 +137,14 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
 
 
         } catch (MalformedURLException e) {
-            Log.d("kut", e.getLocalizedMessage());
+            Log.d("malformedurlexception", e.getLocalizedMessage());
             // handle invalid URL
         } catch (SocketTimeoutException e) {
-            Log.d("kut", e.getLocalizedMessage());// hadle timeout
+            Log.d("sockettimeout", e.getLocalizedMessage());// hadle timeout
         } catch (IOException e) {
-            Log.d("kut", e.getLocalizedMessage());// handle I/0
+            Log.d("ioexception", e.getLocalizedMessage());// handle I/0
+            Log.d("uitleg", e.getMessage());
+            Log.d("uitleg", e.getStackTrace().toString());
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -152,11 +155,16 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
     }
     @Override
     protected RequestReturn doInBackground(String... uri) {
-
+        if(!isNetworkAvailable(activity)){
+            return new RequestReturn("No internet connection", true);
+        }
         Map<String, String> map = new HashMap<String, String>();
         map.put("JSON",jsonObject.toString());
-
-        return new RequestReturn(requestUrl(uri[0], createQueryStringForParameters(map)), false);
+        String output = requestUrl(uri[0], createQueryStringForParameters(map));
+        if(output == null){
+            return new RequestReturn("null", true);
+        }
+        return new RequestReturn(output, false);
 
     }
     private static String getResponseText(InputStream inStream) {
@@ -188,6 +196,9 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
         Log.d("anoes",parametersAsQueryString.toString());
         return parametersAsQueryString.toString();
     }
-
+    public boolean isNetworkAvailable(final Context context) {
+        final ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+    }
 }
 
