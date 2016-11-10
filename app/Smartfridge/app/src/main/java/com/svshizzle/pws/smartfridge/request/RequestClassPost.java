@@ -154,7 +154,7 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
         return null;
     }
     @Override
-    protected RequestReturn doInBackground(String... uri) {
+    public  RequestReturn doInBackground(String... uri) {
         if(!isNetworkAvailable(activity)){
             return new RequestReturn("No internet connection", true);
         }
