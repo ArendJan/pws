@@ -20,7 +20,11 @@ import com.svshizzle.pws.smartfridge.R;
 import com.svshizzle.pws.smartfridge.api.Smartfridge;
 import com.svshizzle.pws.smartfridge.api.SmartfridgeSave;
 import com.svshizzle.pws.smartfridge.request.RequestClass;
+import com.svshizzle.pws.smartfridge.request.RequestClassPost;
 import com.svshizzle.pws.smartfridge.request.RequestReturn;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Login extends AppCompatActivity {
     ProgressDialog progressDialog;
@@ -130,13 +134,33 @@ public class Login extends AppCompatActivity {
             RequestClass requestClass = new RequestClass(getApplication());
             RequestReturn output = requestClass.getData(APIURL + getResources().getString(R.string.APIServerCheck));
 
+
+
             if(output.isError()|| !output.getResponse().equals("y")){
                 Log.d("wut", output.getResponse());
                 return new checkReturn(true, getResources().getString(R.string.loginAPIURLFaulty));
             }
             publishProgress(getResources().getString(R.string.loginDialogUserIdCheck));
-            output = requestClass.getData(APIURL + getResources().getString(R.string.APIUserIdCheck));
-            if(output.isError() || !output.getResponse().equals("y")){
+            JSONObject jsonObject = new JSONObject();
+            try {
+
+                jsonObject.put("UserId",UserId);
+
+            }catch (JSONException e ){
+            }
+            RequestClassPost requestClassPost = new RequestClassPost(getApplication(), jsonObject);
+            output = requestClassPost.doInBackground(APIURL + getResources().getString(R.string.APIUserIdCheck));
+            Log.d("output", output.getResponse());
+            boolean correctUserId = false;
+            try {
+                jsonObject = new JSONObject(output.getResponse());
+                correctUserId = jsonObject.getString("check").equals("y");
+            }catch (JSONException exception){
+                Log.d("exc", exception.getMessage());
+                return new checkReturn(true, getResources().getString(R.string.loginUserIdFaulty));
+            }
+            if(output.isError() || !correctUserId){
+                Log.d("hiero", "gaathetmis");
                 return new checkReturn(true, getResources().getString(R.string.loginUserIdFaulty));
             }
 
