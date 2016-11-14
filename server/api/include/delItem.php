@@ -10,8 +10,8 @@ function delItem($code, $userId){
   $countstmt->execute(array($code, $userId));
   $ding = $countstmt->fetch();
 
-  $closed = $ding['Closed'];
-  $open = $ding['Open'];
+  $closed = $ding['closed'];
+  $open = $ding['open'];
 
   echo $closed;
   echo $open;

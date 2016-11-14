@@ -24,6 +24,7 @@ stop = timeit.default_timer()
 print stop - start
 def start():
     GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
     print "start van keyboardthreads"
 
 

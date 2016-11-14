@@ -1,10 +1,10 @@
 import jobsThread
 import keyboardThread
-
+import awakeThread
 def startAll():
         keyboardThread.start()
         jobsThread.start()
-
+        awakeThread.start()
 
 
 
