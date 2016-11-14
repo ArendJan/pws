@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 function retour($vale){
-  echo "{\"check\":\"" . $vale . "\"}"; 
+  return "{\"check\":\"" . $vale . "\"}"; 
 }
 
 require_once("include/checkUserId.php");
@@ -17,13 +17,13 @@ $userId = $data['UserId'];
 
 
 if(checkUserId($userId)){
-  retour("y");
-  $output = "y";
+  $output = retour("y");
+  
 }else{
-  retour("n");
-  $output = "n";
+  $output = retour("n");
+  
 }
-
+echo $output;
 require_once("include/log.php");
 
 logging(basename($_SERVER['PHP_SELF']),$output, $userId);

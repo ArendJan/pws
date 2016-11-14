@@ -20,13 +20,16 @@ $userId = $data['UserId'];
 require_once("include/log.php");
 logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
 
-if (!isset($data["Type"]) || empty($data["Type"])){
-  die("You have to add the type of the job!");
+if (!isset($data["Barcode"]) || empty($data["Barcode"])){
+  die("You have to add the barcode of the item!");
 }
-$type = $data["Type"];
+if (!isset($data["Title"]) || empty($data["Title"])){
+  die("You have to add the title of the item!");
+}
+
 $barcode = $data["Barcode"];
-$text = $data["Text"];
-$list = $data["List"];
+$title = $data["Title"];
+
 
 if (checkUserId($userId) == false){
   die ("You forgot your UserId, or gave an invalid UserId!");
@@ -34,11 +37,11 @@ if (checkUserId($userId) == false){
 
 
 
-$stmt = $conn->prepare("INSERT INTO jobs (userId, type, barcode, text, list, status) VALUES (?,?,?,?,?,?)");
-$stmt->execute(array($userId, $type, $barcode, $text, $list, "new"));
+$stmt = $conn->prepare("INSERT INTO `products` (`ID`, `userId`, `barcode`, `description`, `ammount`, `open`, `closed`) VALUES (NULL, ?, ?, ?, '0', '0', '0');");
+$stmt->execute(array($userId, $barcode, $title));
 
-$last_id = $conn->lastInsertId('jobs');
-$arr = array('JobId' => $last_id);
+$last_id = $conn->lastInsertId('products');
+$arr = array('Id' => $last_id);
 echo json_encode($arr);
 
 ?>
