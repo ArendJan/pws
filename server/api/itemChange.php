@@ -5,7 +5,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once("include/log.php");
-logging(basename($_SERVER['PHP_SELF']),$_POST['JSON']);
 
 require_once("include/newItem.php");
 
