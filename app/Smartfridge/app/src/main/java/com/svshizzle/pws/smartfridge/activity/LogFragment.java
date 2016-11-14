@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.svshizzle.pws.smartfridge.R;
+import com.svshizzle.pws.smartfridge.api.Smartfridge;
 
 
 public class LogFragment extends Fragment {
@@ -27,6 +28,8 @@ public class LogFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_home_fragment, container, false);
 
+        Smartfridge smartfridge = new Smartfridge(getActivity());
+        smartfridge.getLog();
 
 
 

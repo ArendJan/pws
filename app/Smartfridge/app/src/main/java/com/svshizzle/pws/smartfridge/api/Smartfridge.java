@@ -11,6 +11,7 @@ import com.svshizzle.pws.smartfridge.R;
 import com.svshizzle.pws.smartfridge.activity.Login;
 import com.svshizzle.pws.smartfridge.activity.MainActivity;
 import com.svshizzle.pws.smartfridge.model.Item;
+import com.svshizzle.pws.smartfridge.model.LogItem;
 import com.svshizzle.pws.smartfridge.request.RequestClass;
 import com.svshizzle.pws.smartfridge.request.RequestClassPost;
 import com.svshizzle.pws.smartfridge.request.RequestReturn;
@@ -419,6 +420,50 @@ public class Smartfridge {
 
     }
 
+    public void getLog(){
+        JSONObject jsonObject = new JSONObject();
+        try {
+
+            jsonObject.put("UserId",userid);
+
+        }catch (JSONException e ){
+        }
+        RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
+            @Override
+            protected void onPostExecute(RequestReturn requestReturn) {
+                super.onPostExecute(requestReturn);
+
+                if(!requestReturn.isError()) {
+                    ArrayList<LogItem> logs = new ArrayList<LogItem>();
+                    try {
+
+                        Log.d("asdf", requestReturn.getResponse());
+                        JSONArray reader = new JSONArray(requestReturn.getResponse());
+                        for (int x = 0; x < reader.length(); x++) {
+                            Log.d("item", "weet ik niet");
+                            JSONObject object = reader.getJSONObject(x);
+                            LogItem log = new LogItem();
+                            log.loadFromJson(object);
+                            logs.add(log);
+                        }
+                    }catch (JSONException e){
+                        getLogError(e.getLocalizedMessage());
+                        return;
+                    }
+                    getLogDone(logs);
+                }else{
+                    getLogError(requestReturn.getResponse());
+                }
+            }
+        };
+        requestClassPost.execute(apiUrl + "getLog");
+    }
+    public void getLogDone(ArrayList<LogItem> items){
+
+    }
+    public void getLogError(String e){
+
+    }
 
 
 }
