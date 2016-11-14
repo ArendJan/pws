@@ -11,7 +11,7 @@ function openItem($code, $userId){
   }
   catch(PDOException $e)
   {
-    echo "n";
+    echo "n " . $e;
   }
   echo "y";
 }
