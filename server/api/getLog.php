@@ -32,7 +32,8 @@ foreach( $result as $row ) {
     $row_array['ID'] = $row['ID'];
     $row_array['Time'] = $row['time'];
     $row_array['Script'] = $row['script'];
-    $row_array['Params'] = $row['params'];
+    $row_array['Params'] = json_decode($row['params']);
+    $row_array["UserId"] = $row["userId"];
     array_push($json_array,$row_array);
 
 }
