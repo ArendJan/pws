@@ -17,18 +17,21 @@
     <string name="drawer_close">Close</string>
 
     <string name="nav_item_home">Home</string>
-    <string name="nav_item_print">Print</string>
+    <string name="nav_item_jobs">Jobs</string>
     <string name="nav_item_log">Log</string>
     <string name="nav_item_settings">Instellingen</string>
     <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_home</item>
-        <item>@string/nav_item_print</item>
+        <item>@string/nav_item_jobs</item>
         <item>@string/nav_item_log</item>
         <item>@string/nav_item_settings</item>
     </string-array>
 
     <string name="title_home">Home</string>
+    <string name="title_jobs">Jobs</string>
+    <string name="title_log">Log</string>
+    <string name="title_settings">Settings</string>
 
     <string name="noInternetMessage">Oops, you currently don\'t have a network connection. Try again when you do.</string>
 
@@ -43,4 +46,24 @@
     <string name="SharedPreferencesSignedIn">signedin</string>
     <string name="SharedPreferencesAPIURL">apiurl</string>
     <string name="SharedPreferencesName">preferences</string>
+
+
+
+    <!--
+    Texts for the buttons @job
+    -->
+    <string name="jobs_shutdown_button">Shutdown</string>
+    <string name="jobs_shutdown_text">Send a message to the fridge to shutdown:</string>
+    <string name="jobs_shutdown_text_done">Shutdown message sent!</string>
+    <string name="jobs_restart_button">Restart</string>
+    <string name="jobs_restart_text">Restart the fridge computer:</string>
+    <string name="jobs_restart_text_done">The fridge will restart soon!</string>
+    <string name="jobs_print_text">Print a text:</string>
+    <string name="jobs_print_button">Print</string>
+    <string name="jobs_print_text_done">Text printed!</string>
+    <string name="jobs_barcode_text">Print a barcode for an item,\n fill in the title here:</string>
+    <string name="jobs_barcode_button">Print barcode</string>
+    <string name="jobs_barcode_hint">Box of cookies</string>
+    <string name="jobs_barcode_text_done">Barcode is being printed</string>
+    <string name="jobs_barcode_text_create_done">Item added to database</string>
 </resources>

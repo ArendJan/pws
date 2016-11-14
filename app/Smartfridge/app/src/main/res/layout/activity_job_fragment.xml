@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.svshizzle.pws.smartfridge.activity.HomeFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="@string/jobs_shutdown_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView"
+                android:layout_weight="1"
+                tools:text="@string/jobs_shutdown_text" />
+
+            <Button
+                android:text="@string/jobs_shutdown_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/jobs_shutdown_button"
+                android:layout_weight="1"
+                tools:text="@string/jobs_shutdown_button" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:text="@string/jobs_restart_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2"
+                android:layout_weight="1"
+                tools:text="@string/jobs_restart_text" />
+
+            <Button
+                android:text="@string/jobs_restart_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/jobs_restart_button"
+                android:layout_weight="1"
+                tools:text="@string/jobs_restart_button" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="#000000"/>
+        <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+>
+
+            <TextView
+                android:text="@string/jobs_print_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView3"
+                android:layout_weight="1"
+                tools:text="@string/jobs_print_text" />
+
+            <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Hi Fridge"
+            android:ems="10"
+            android:id="@+id/jobs_print_editText"
+            android:layout_weight="1" />
+        </LinearLayout>
+
+        <Button
+                android:text="@string/jobs_print_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/jobs_print_button"
+                tools:text="@string/jobs_print_button" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="#000000"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="@string/jobs_barcode_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView4"
+                tools:text="@string/jobs_barcode_text" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="@string/jobs_barcode_hint"
+                android:ems="10"
+                android:id="@+id/jobs_barcode_edittext"
+                android:layout_weight="1"
+                tools:text="@string/jobs_barcode_hint" />
+        </LinearLayout>
+
+        <Button
+            android:text="@string/jobs_barcode_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/jobs_barcode_button"
+            tools:text="@string/jobs_barcode_button" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>
