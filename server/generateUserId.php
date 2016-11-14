@@ -21,7 +21,7 @@
       <input type="text" maxlength="300" id="email"></input>
       <button id="generate">Generate userId!</button>
     </p>
-    <div id="done">
+    <div id="done" style="display:none">
     </div>
   </div>
 
@@ -36,6 +36,15 @@
       email = $("#email").val();
       $.ajax({url: "/custom/generate.php", data:{Email:email}, type:'POST', success: function(result){
         console.log(result);
+        result = JSON.parse(result);
+        if(result.Error==true){
+
+          $("#done").show();
+          $("#done").html(result.ErrorMessage + " Please try again.");
+        }else if(result.Error==false){
+          $("#done").show();
+          $("#done").html("This is your userId: "+ result.ErrorMessage +". You also recieve an email with this userId!");
+        }
       }});
     });
   });
@@ -45,12 +54,3 @@
 </body>
 
 </html>
-
-
-<?php
-
-$userId = uniqid();
-
-echo $userId;
-
-?>
