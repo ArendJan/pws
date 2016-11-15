@@ -66,4 +66,26 @@
     <string name="jobs_barcode_hint">Box of cookies</string>
     <string name="jobs_barcode_text_done">Barcode is being printed</string>
     <string name="jobs_barcode_text_create_done">Item added to database</string>
+
+    <string name="log_item_markJob">The job with id %1$s was done.</string>
+    <string name="log_item_markJob_barcode">A barcode(%1$s) was printed. #%2$s</string>
+    <string name="log_item_markJob_text">A text(%1$s) came out of the printer. #%2$s</string>
+    <string name="log_item_markJob_reboot">The fridge rebooted. #%1$s</string>
+    <string name="log_item_markJob_shutdown">The fridge went down. #%1$s</string>
+
+
+    <string name="log_item_createJob_shutdown">A shutdown command was sent.</string>
+    <string name="log_item_createJob_reboot">A reboot command was sent.</string>
+    <string name="log_item_createJob_barcode">A barcode(%1$s) job was added.</string>
+    <string name="log_item_createJob_text">A text(%1$s) was printed.</string>
+    <string name="log_item_createJob_list">A list of items was added to the fridges jobs.</string>
+    <string name="log_item_createJob">A job was added.</string>
+
+    <string name="log_item_itemChange_del">You removed an item(%1$s) from the fridge.</string>
+    <string name="log_item_itemChange_open">An open item(%1$s) was added to the fridge.</string>
+    <string name="log_item_itemChange_add">An closed item(%1$s) was added to the fridge.</string>
+    <string name="log_item_itemChange">An item(%1$s) was changed.</string>
+
+
+
 </resources>

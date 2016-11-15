@@ -5,7 +5,7 @@
     android:clickable="true">
 
     <TextView
-        android:id="@+id/Name"
+        android:id="@+id/log_row_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="30dp"
