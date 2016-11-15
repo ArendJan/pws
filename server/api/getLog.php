@@ -23,19 +23,68 @@ if (checkUserId($userId) == false){
   die ("You forgot your UserId, or gave an invalid UserId!");
 }
 
-  $stmt = $conn->prepare('SELECT * FROM logging WHERE userId = ?');
-  $stmt->execute(array($userId));
+$stmt = $conn->prepare('SELECT * FROM logging WHERE userId = ? ORDER BY ID DESC ');
+$stmt->execute(array($userId));
 
 $result = $stmt -> fetchAll();
 foreach( $result as $row ) {
-
-    $row_array['ID'] = $row['ID'];
-    $row_array['Time'] = $row['time'];
-    $row_array['Script'] = $row['script'];
-    $row_array['Params'] = json_decode($row['params']);
-    $row_array["UserId"] = $row["userId"];
-    array_push($json_array,$row_array);
-
+  
+  $row_array['ID'] = $row['ID'];
+  $row_array['Time'] = $row['time'];
+  $row_array['Script'] = $row['script'];
+  $row_array['Params'] = json_decode($row['params']);
+  $row_array["UserId"] = $row["userId"];
+  if($row["script"]=="markJob.php"){
+    $jobId2 = $row_array["Params"]->JobId;
+  
+    $stmt2 = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND ID = ?');
+    if ($stmt2->execute(array($userId, $jobId2))) {
+  
+      $rowX = $stmt2->fetch();
+      
+      
+        $job = array();
+        $job["ID"] = $rowX["ID"];
+        $job["Type"] = $rowX["type"];
+        $job["Barcode"] = $rowX["barcode"];
+        $job["Text"] = $rowX["text"];
+        $job["List"] = $rowX["list"];
+        $job["Status"] = $rowX["status"];
+        //print_r
+        //print_r($rowX);
+        $row_array["JobDetails"] = $job;
+        //print_r($job);
+      
+    }else {
+    
+    }
+  }
+  if($row["script"]=="itemChange.php"){
+    $barcode = $row_array["Params"]->Barcode;
+  
+    $stmt2 = $conn->prepare('SELECT * FROM products WHERE userId = ? AND barcode = ?');
+    if ($stmt2->execute(array($userId, $barcode))) {
+  
+      $rowX = $stmt2->fetch();
+      
+      
+        $item = array();
+        $item["Title"] = $rowX["description"];
+        $item["Barcode"] = $rowX["barcode"];
+        $item["Open"] = $rowX["open"];
+        $item["Closed"] = $rowX["closed"];
+        $item["ID"] = $rowX["ID"];
+        //print_r
+        //print_r($rowX);
+        $row_array["ItemDetails"] = $item;
+        //print_r($job);
+      
+    }else {
+    
+    }
+  }
+  array_push($json_array,$row_array);
+  
 }
 
 echo json_encode($json_array);
