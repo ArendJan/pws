@@ -1,7 +1,7 @@
 <?php
 
 function openItem($code, $userId){
-
+  require_once("log.php");
   require_once(dirname(__FILE__)."/../../php/start.php");
   $conn = db();
 
@@ -11,8 +11,8 @@ function openItem($code, $userId){
   }
   catch(PDOException $e)
   {
-    echo "n " . $e;
+    errorLogging(basename($_SERVER['PHP_SELF']), $code, $userId, $e);
+    die();
   }
-  echo "y";
 }
 ?>
