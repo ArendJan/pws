@@ -61,7 +61,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.Name);
+            title = (TextView) itemView.findViewById(R.id.log_row_title);
         }
     }
 }
