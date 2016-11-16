@@ -32,10 +32,14 @@ if (checkUserId($userId) == false){
   die ("You forgot your UserId, or gave an invalid UserId!");
 }
 
-
-
-$stmt = $conn->prepare("INSERT INTO jobs (userId, type, barcode, text, list, status) VALUES (?,?,?,?,?,?)");
-$stmt->execute(array($userId, $type, $barcode, $text, $list, "new"));
+try{
+  $stmt = $conn->prepare("INSERT INTO jobs (userId, type, barcode, text, list, status) VALUES (?,?,?,?,?,?)");
+  $stmt->execute(array($userId, $type, $barcode, $text, $list, "new"));
+}
+catch (PDOException $e){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+  die;
+}
 
 $last_id = $conn->lastInsertId('jobs');
 $arr = array('JobId' => $last_id);

@@ -37,8 +37,15 @@ if ($status == "new" || $status == "done"){
     die ('You forgot your jobId, or gave an invalid jobId!');
   }
 
+try{
   $upstmt = $conn->prepare('UPDATE jobs SET status = ? WHERE userId = ? AND ID = ?');
   $upstmt->execute(array($status, $userId, $jobId));
+}
+catch (PDOException $e){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+  die;
+}
+
 } else {
   die ('You gave an invalid status!');
 }

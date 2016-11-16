@@ -33,8 +33,14 @@ if (checkUserId($userId) == false){
 }
 
 if($sort == "everything"){
-  $stmt = $conn->prepare('SELECT * FROM products WHERE userId = ?');
-  $stmt->execute(array($userId));
+  try{
+    $stmt = $conn->prepare('SELECT * FROM products WHERE userId = ?');
+    $stmt->execute(array($userId));
+  }
+  catch (PDOException $e){
+    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+    die;
+  }
   $result = $stmt -> fetchAll();
   foreach( $result as $row ) {
     $closed = $row['closed'];
@@ -53,8 +59,14 @@ if($sort == "everything"){
     array_push($return_arr,$row_array);
   }
 }elseif ($sort == "opened") {
-  $stmt = $conn->prepare('SELECT * FROM products WHERE open > 0 AND userId = ?');
-  $stmt->execute(array($userId));
+  try{
+    $stmt = $conn->prepare('SELECT * FROM products WHERE open > 0 AND userId = ?');
+    $stmt->execute(array($userId));
+  }
+  catch (PDOException $e){
+    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+    die;
+  }
   $result = $stmt -> fetchAll();
   foreach( $result as $row ) {
 
@@ -67,8 +79,14 @@ if($sort == "everything"){
     array_push($return_arr,$row_array);
   }
 }elseif ($sort == "closed") {
-  $stmt = $conn->prepare('SELECT * FROM products WHERE closed > 0 AND userId = ?');
-  $stmt->execute(array($userId));
+  try{
+    $stmt = $conn->prepare('SELECT * FROM products WHERE closed > 0 AND userId = ?');
+    $stmt->execute(array($userId));
+  }
+  catch (PDOException $e){
+    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+    die;
+  }
   $result = $stmt -> fetchAll();
   foreach( $result as $row ) {
 
@@ -81,8 +99,14 @@ if($sort == "everything"){
     array_push($return_arr,$row_array);
   }
 }elseif ($sort == "opened+closed")  {
-  $stmt = $conn->prepare('SELECT * FROM products WHERE closed > 0 OR open > 0 AND userId = ?');
-  $stmt->execute(array($userId));
+  try{
+    $stmt = $conn->prepare('SELECT * FROM products WHERE closed > 0 OR open > 0 AND userId = ?');
+    $stmt->execute(array($userId));
+  }
+  catch (PDOException $e){
+    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+    die;
+  }
   $result = $stmt -> fetchAll();
   foreach( $result as $row ) {
 

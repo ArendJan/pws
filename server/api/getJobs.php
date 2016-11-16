@@ -40,17 +40,41 @@ if (checkUserId($userId) == false){
 //Different statements if Type or Status is empty
 
 if ($status == "new" && $type == "all"){
-  $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND status = ?');
-  $stmt->execute(array($userId, "new"));
+  try{
+    $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND status = ?');
+    $stmt->execute(array($userId, "new"));
+  }
+  catch (PDOException $e){
+    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+    die;
+  }
 } elseif ($status == "new"){
-  $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND type = ? AND status = ?');
-  $stmt->execute(array($userId, $type, "new"));
+  try{
+    $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND type = ? AND status = ?');
+    $stmt->execute(array($userId, $type, "new"));
+  }
+  catch (PDOException $e){
+    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+    die;
+  }
 } elseif ($type == "all") {
-  $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND status = ?');
-  $stmt->execute(array($userId, $status));
+  try{
+    $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND status = ?');
+    $stmt->execute(array($userId, $status));
+  }
+  catch (PDOException $e){
+    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+    die;
+  }
 }  else {
-  $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND type = ? AND status = ?');
-  $stmt->execute(array($userId, $type, $status));
+  try{
+    $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND type = ? AND status = ?');
+    $stmt->execute(array($userId, $type, $status));
+  }
+  catch (PDOException $e){
+    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+    die;
+  }
 }
 
 $result = $stmt -> fetchAll();

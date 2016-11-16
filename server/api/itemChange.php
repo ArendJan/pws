@@ -29,7 +29,6 @@ $data = json_decode($_POST['JSON'],true);
 
 $userId = $data['UserId'];
 
-require_once("include/log.php");
 logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
 
 if (!isset($data["Barcode"])){
@@ -66,8 +65,15 @@ if($action == "add"){
   die ("Not a correct action");
 }
 
-$returnstmt = $conn->prepare('SELECT * FROM products WHERE userId = ? AND barcode = ?');
-$returnstmt->execute(array($userId, $code));
+try{
+  $returnstmt = $conn->prepare('SELECT * FROM products WHERE userId = ? AND barcode = ?');
+  $returnstmt->execute(array($userId, $code));
+}
+catch (PDOException $e){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+  die;
+}
+
 $result = $returnstmt -> fetch();
 
 $return_arr = array();

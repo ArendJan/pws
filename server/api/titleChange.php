@@ -35,8 +35,14 @@ if (!checkUserId($userId)){
 require_once(dirname(__FILE__)."/../php/start.php");
 $conn = db();
 
-$open2stmt = $conn->prepare("UPDATE products SET description = ? WHERE barcode = ? AND userId = ?");
-$open2stmt->execute(array($title, $code, $userId));
+try{
+  $open2stmt = $conn->prepare("UPDATE products SET description = ? WHERE barcode = ? AND userId = ?");
+  $open2stmt->execute(array($title, $code, $userId));
+}
+catch (PDOException $e){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+  die;
+}
 
 require_once(dirname(__FILE__)."/include/returnItem.php");
 echo returnItem($barcode);

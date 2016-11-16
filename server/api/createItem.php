@@ -36,9 +36,14 @@ if (checkUserId($userId) == false){
 }
 
 
-
-$stmt = $conn->prepare("INSERT INTO `products` (`ID`, `userId`, `barcode`, `description`, `ammount`, `open`, `closed`) VALUES (NULL, ?, ?, ?, '0', '0', '0');");
-$stmt->execute(array($userId, $barcode, $title));
+try{
+  $stmt = $conn->prepare("INSERT INTO `products` (`ID`, `userId`, `barcode`, `description`, `ammount`, `open`, `closed`) VALUES (NULL, ?, ?, ?, '0', '0', '0');");
+  $stmt->execute(array($userId, $barcode, $title));
+}
+catch (PDOException $e){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+  die;
+}
 
 $last_id = $conn->lastInsertId('products');
 $arr = array('Id' => $last_id);
