@@ -20,6 +20,7 @@ if (!isset($_POST['JSON'])){
 
 $data = json_decode($_POST['JSON'],true);
 
+$userId = $data['UserId'];
 logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
 
 if (!isset($data["Sort"]) || $data["Sort"] == ""){
@@ -28,12 +29,11 @@ if (!isset($data["Sort"]) || $data["Sort"] == ""){
   $sort = $data["Sort"];
 }
 
-if (checkUserId($_POST['UserId']) == false){
+if (checkUserId($data['UserId']) == false){
   errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
   die;
 }
 
-$userId = $data['UserId'];
 
 if($sort == "everything"){
   try{

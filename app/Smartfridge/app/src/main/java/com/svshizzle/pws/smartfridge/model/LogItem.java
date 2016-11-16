@@ -76,7 +76,11 @@ public class LogItem {
             this.time = object.getString("Time");
             this.id = object.getInt("ID");
             this.script = object.getString("Script");
-            this.parameters = object.getJSONObject("Params");
+            try {
+                this.parameters = object.getJSONObject("Params");
+            }catch (JSONException e){
+                this.parameters = new JSONObject();
+            }
             this.userId = object.getString("UserId");
             Log.d("script=", script);
             if("markJob.php".equals(script)){

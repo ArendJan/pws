@@ -102,29 +102,36 @@ public class Smartfridge {
                 if(requestReturn.isError()){
                     containsError(requestReturn.getResponse());
                 }else {
-                    ArrayList<Item> items = new ArrayList<Item>();
+
                     try {
 
                         Log.d("asdf", requestReturn.getResponse());
-                        JSONArray reader = new JSONArray(requestReturn.getResponse());
-                        for (int x = 0; x < reader.length(); x++) {
+                        containsDone(processContains(requestReturn.getResponse()));
+                        SmartfridgeSave.setContainsBackup(activity, requestReturn.getResponse());
 
-                            JSONObject object = reader.getJSONObject(x);
-                            Item item = new Item();
-                            item.loadFromJson(object);
-                            items.add(item);
-                        }
                     }catch (JSONException e){
                         containsError(e.getLocalizedMessage());
-                        return;
+
                     }
-                    containsDone(items);
+
 
                 }
             }
         };
         String url = "http://pws.svshizzle.com/api/contains";
         request.execute(url);
+    }
+    public ArrayList<Item> processContains(String output)throws JSONException{
+        ArrayList<Item> items = new ArrayList<Item>();
+        JSONArray reader = new JSONArray(output);
+        for (int x = 0; x < reader.length(); x++) {
+
+            JSONObject object = reader.getJSONObject(x);
+            Item item = new Item();
+            item.loadFromJson(object);
+            items.add(item);
+        }
+        return items;
     }
 
     public void containsDone(ArrayList<Item> items){
@@ -428,33 +435,26 @@ public class Smartfridge {
 
         }catch (JSONException e ){
         }
-        RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
+        final RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
             @Override
             protected void onPostExecute(RequestReturn requestReturn) {
                 super.onPostExecute(requestReturn);
 
                 if(!requestReturn.isError()) {
-                    ArrayList<LogItem> logs = new ArrayList<LogItem>();
-                    try {
 
-                        Log.d("asdf", requestReturn.getResponse());
-                        JSONArray reader = new JSONArray(requestReturn.getResponse());
-                        for (int x = 0; x < reader.length(); x++) {
-                            Log.d("item", "weet ik niet");
-                            JSONObject object = reader.getJSONObject(x);
-                            LogItem log = new LogItem();
-                            log.loadFromJson(object);
-                            logs.add(log);
-                        }
+                    try {
+                        ArrayList<LogItem> logs = processLog(requestReturn.getResponse());
+                        getLogDone(logs);
+                        SmartfridgeSave.setLogBackup(activity, requestReturn.getResponse());
                     }catch (JSONException e){
                         getLogError(e.getLocalizedMessage());
-                        return;
+
                     }
-                    getLogDone(logs);
-                }else{
-                    getLogError(requestReturn.getResponse());
+                    }else{
+                        getLogError("Jsonerror");
+                    }
                 }
-            }
+
         };
         requestClassPost.execute(apiUrl + "getLog");
     }
@@ -463,6 +463,19 @@ public class Smartfridge {
     }
     public void getLogError(String e){
 
+    }
+
+    public ArrayList<LogItem> processLog(String output) throws JSONException{
+        ArrayList<LogItem> logs = new ArrayList<LogItem>();
+            JSONArray reader = new JSONArray(output);
+            for (int x = 0; x < reader.length(); x++) {
+
+                JSONObject object = reader.getJSONObject(x);
+                LogItem log = new LogItem();
+                log.loadFromJson(object);
+                logs.add(log);
+            }
+return logs;
     }
 
 
