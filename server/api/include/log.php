@@ -21,7 +21,6 @@ function errorLogging($script, $params, $userId, $e){
     die ("An error occured during error logging:S $e");
   }
 
-  echo "An error occured!";
   $arr = array('error' => $e);
   echo json_encode($arr);
 }
