@@ -2,28 +2,25 @@
 
 function openItem($code, $userId){
 
+  //Alles wat nodig is require_once
+  require_once("log.php");
   require_once(dirname(__FILE__)."/../../php/start.php");
+
   $conn = db();
 
-  $closedstmt = $conn->prepare("SELECT closed FROM products WHERE barcode = ? AND userId = ?");
-  $closedstmt->execute(array($code, $userId));
-  $closed = $closedstmt->fetchColumn();
+  //Functie parameteres doorgooien naar JSON voor in DB
+  $params = array('code' => $code, 'userId' => $userId);
+  $params = json_encode($params);
 
-  if ($closed <= 0){
-    echo "Closed = 0 or < 0 (Which is weird)";
-  } else {
-    echo "Closed > 0!";
-    try {
-      $openstmt = $conn->prepare("UPDATE products SET open = open + 1 WHERE barcode = ? AND userId = ?");
-      $openstmt->execute(array($code, $userId));
-      $open2stmt = $conn->prepare("UPDATE products SET closed = closed - 1 WHERE barcode = ? AND userId = ?");
-      $open2stmt->execute(array($code, $userId));
-    }
-    catch(PDOException $e)
-    {
-      echo "n";
-    }
-    echo "y";
+  try {
+    $openstmt = $conn->prepare("UPDATE products SET open = open + 1 WHERE barcode = ? AND userId = ?");
+    $openstmt->execute(array($code, $userId));
+  }
+  //Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
+  catch(PDOException $e)
+  {
+    errorLogging(basename($_SERVER['PHP_SELF']), $params, $userId, $e);
+    die();
   }
 }
- ?>
+?>
