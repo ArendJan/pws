@@ -18,15 +18,11 @@ if (!isset($_POST['JSON'])){
 
 $data = json_decode($_POST['JSON'],true);
 
-if (checkUserId($_POST['UserId']) == false){
+if (checkUserId($data['UserId']) == false){
   errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
   die;
 }
 
-if (checkUserId($_POST['UserId']) == false){
-  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
-  die;
-}
 
 $userId = $data['UserId'];
 

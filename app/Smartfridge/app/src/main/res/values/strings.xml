@@ -46,6 +46,8 @@
     <string name="SharedPreferencesSignedIn">signedin</string>
     <string name="SharedPreferencesAPIURL">apiurl</string>
     <string name="SharedPreferencesName">preferences</string>
+    <string name="SharedPreferencesContainsBackup">containsbackup</string>
+    <string name="SharedPreferencesLogBackup">logbackup</string>
 
 
 
