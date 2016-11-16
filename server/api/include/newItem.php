@@ -6,6 +6,9 @@ function addItem($code, $userId){
   require_once(dirname(__FILE__)."/getItem.php");
   $conn = db();
 
+  $params = array('code' => $code, 'userId' => $userId);
+  $params = json_encode($params);
+
   //Check of product al bestaat
   try{
     $checkstmt = $conn->prepare("SELECT barcode FROM products WHERE barcode = ? AND userId = ?");
@@ -13,7 +16,7 @@ function addItem($code, $userId){
       $checkstmt->execute(array($code, $userId));
   }
   catch (PDOException $e){
-    errorLogging(basename($_SERVER['PHP_SELF']), $code, $userId, $e);
+    errorLogging(basename($_SERVER['PHP_SELF']), $params, $userId, $e);
     die();
   }
 
@@ -24,7 +27,7 @@ function addItem($code, $userId){
       $upstmt->execute(array($code, $userId));
     }
     catch (PDOException $e){
-      errorLogging(basename($_SERVER['PHP_SELF']), $code, $userId, $e);
+      errorLogging(basename($_SERVER['PHP_SELF']), $params, $userId, $e);
       die();
     }
   } else {
@@ -36,7 +39,7 @@ function addItem($code, $userId){
     }
     catch(PDOException $e)
     {
-      errorLogging(basename($_SERVER['PHP_SELF']), $code, $userId, $e);
+      errorLogging(basename($_SERVER['PHP_SELF']), $params, $userId, $e);
       die();
     }
   }

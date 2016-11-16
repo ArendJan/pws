@@ -5,12 +5,15 @@ function delClosed($code, $userId){
   require_once(dirname(__FILE__)."/../../php/start.php");
   $conn = db();
 
+  $params = array('code' => $code, 'userId' => $userId);
+  $params = json_encode($params);
+
   try {
     $countstmt = $conn->prepare("SELECT closed FROM products WHERE barcode = ? AND userId = ?");
     $countstmt->execute(array($code, $userId));
   }
   catch (PDOException $e){
-    errorLogging(basename($_SERVER['PHP_SELF']), $code, $userId, $e);
+    errorLogging(basename($_SERVER['PHP_SELF']), $params, $userId, $e);
     die();
   }
 
@@ -28,7 +31,7 @@ function delClosed($code, $userId){
       $delstmt->execute(array($code, $userId));
     }
     catch (PDOException $e){
-      errorLogging(basename($_SERVER['PHP_SELF']), $code, $userId, $e);
+      errorLogging(basename($_SERVER['PHP_SELF']), $params, $userId, $e);
       die();
     }
 
