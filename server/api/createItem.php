@@ -12,30 +12,33 @@ require_once("include/checkUserId.php");
 $conn = db();
 
 if (!isset($_POST['JSON'])){
-  die("You have to post your values in _POST['JSON']");
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "No _POST['JSON']");
+  die;
 }
 
 $data = json_decode($_POST['JSON'],true);
+
+if (checkUserId($_POST['UserId']) == false){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
+  die;
+}
 
 $userId = $data['UserId'];
 
 logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
 
 if (!isset($data["Barcode"]) || empty($data["Barcode"])){
-  die("You have to add the barcode of the item!");
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, "You forgot a barcode");
+  die;
 }
-if (!isset($data["Title"]) || empty($data["Title"])){
-  die("You have to add the title of the item!");
-}
-
 $barcode = $data["Barcode"];
-$title = $data["Title"];
 
-
-if (checkUserId($userId) == false){
-  die ("You forgot your UserId, or gave an invalid UserId!");
+if (!isset($data["Title"]) || empty($data["Title"])){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, "You forgot a title");
+  die;
 }
 
+$title = $data["Title"];
 
 try{
   $stmt = $conn->prepare("INSERT INTO `products` (`ID`, `userId`, `barcode`, `description`, `ammount`, `open`, `closed`) VALUES (NULL, ?, ?, ?, '0', '0', '0');");

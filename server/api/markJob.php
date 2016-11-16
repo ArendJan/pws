@@ -12,17 +12,24 @@ require_once("include/checkJobId.php");
 $conn = db();
 
 if (!isset($_POST['JSON'])){
-  die("You have to post your values in _POST['JSON']");
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "No _POST['JSON']");
+  die;
 }
 
 $data = json_decode($_POST['JSON'],true);
 
-$userId = $data['UserId'];
+if (checkUserId($_POST['UserId']) == false){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
+  die;
+}
+
+if (checkUserId($_POST['UserId']) == false){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
+  die;
+}
 
 require_once("include/log.php");
 logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
-
-$jobId = $data['JobId'];
 
 if (!isset($data["Status"]) || $data["Status"] == ""){
   $status = "done";
@@ -31,12 +38,19 @@ if (!isset($data["Status"]) || $data["Status"] == ""){
 }
 
 if ($status == "new" || $status == "done"){
-  if (checkUserId($userId) == false){
-    die ('You forgot your userId, or gave an invalid userId!');
+  if (checkUserId($_POST['UserId']) == false){
+    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
+    die;
   }
+
+  $userId = $data['UserId'];
+
   if (checkJobId($jobId) == false){
-    die ('You forgot your jobId, or gave an invalid jobId!');
+    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, "Forgot jobId, or invalid jobId");
+    die;
   }
+
+  $jobId = $data['JobId'];
 
 try{
   $upstmt = $conn->prepare('UPDATE jobs SET status = ? WHERE userId = ? AND ID = ?');
@@ -49,7 +63,8 @@ catch (PDOException $e){
 }
 
 } else {
-  die ('You gave an invalid status!');
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, "Invalid status");
+  die;
 }
 
 $arr = array('JobId' => $jobId, 'Status' => $status);

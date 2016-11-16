@@ -12,18 +12,25 @@ require_once("include/log.php");
 $conn = db();
 
 if (!isset($_POST['JSON'])){
-  die("You have to post your values in _POST['JSON']");
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "No _POST['JSON']");
+  die;
 }
 
 $data = json_decode($_POST['JSON'],true);
 
+if (checkUserId($_POST['UserId']) == false){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
+  die;
+}
+
+if (checkUserId($_POST['UserId']) == false){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
+  die;
+}
+
 $userId = $data['UserId'];
 
 $json_array = array();
-
-if (checkUserId($userId) == false){
-  die ("You forgot your UserId, or gave an invalid UserId!");
-}
 
 try{
   $stmt = $conn->prepare('SELECT * FROM logging WHERE userId = ? ORDER BY ID DESC ');

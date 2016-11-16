@@ -12,10 +12,12 @@ require_once("include/checkUserId.php");
 require_once("include/log.php");
 
 if (!isset($_POST['JSON'])){
-  die("You have to post your values in _POST['JSON']");
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "No _POST['JSON']");
+  die;
 }
 
 $data = json_decode($_POST['JSON'],true);
+
 $userId = $data['UserId'];
 
 

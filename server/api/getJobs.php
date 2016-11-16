@@ -12,10 +12,21 @@ require_once("include/checkUserId.php");
 $conn = db();
 
 if (!isset($_POST['JSON'])){
-  die("You have to post your values in _POST['JSON']");
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "No _POST['JSON']");
+  die;
 }
 
 $data = json_decode($_POST['JSON'],true);
+
+if (checkUserId($_POST['UserId']) == false){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
+  die;
+}
+
+if (checkUserId($_POST['UserId']) == false){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
+  die;
+}
 
 $userId = $data['UserId'];
 
@@ -32,11 +43,6 @@ if (!isset($data["Type"]) || $data["Type"] == ""){
 }
 
 $json_array = array();
-
-if (checkUserId($userId) == false){
-  logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
-  die ("You forgot your UserId, or gave an invalid UserId!");
-}
 
 //Different statements if Type or Status is empty
 

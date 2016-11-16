@@ -12,25 +12,43 @@ require_once("include/checkUserId.php");
 $conn = db();
 
 if (!isset($_POST['JSON'])){
-  die("You have to post your values in _POST['JSON']");
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "No _POST['JSON']");
+  die;
 }
 
 $data = json_decode($_POST['JSON'],true);
+
+if (checkUserId($data['UserId']) == false){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
+  die;
+}
 
 $userId = $data['UserId'];
 
 logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
 
 if (!isset($data["Type"]) || empty($data["Type"])){
-  die("You have to add the type of the job!");
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, "No Type");
+  die;
 }
 $type = $data["Type"];
-$barcode = $data["Barcode"];
-$text = $data["Text"];
-$list = $data["List"];
 
-if (checkUserId($userId) == false){
-  die ("You forgot your UserId, or gave an invalid UserId!");
+if (!isset($data["Barcode"]) || empty($data["Barcode"])){
+  $barcode = "";
+} else{
+  $barcode = $data["Barcode"];
+}
+
+if (!isset($data["Text"]) || empty($data["Text"])){
+  $text = "";
+} else{
+  $text = $data["Text"];
+}
+
+if (!isset($data["Items"]) || empty($data["Items"])){
+  $list = "";
+} else{
+  $list = json_encode($data["Items"]);
 }
 
 try{
