@@ -4,7 +4,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include_once('../php/start.php');
+//Alles wat nodig is require_once
+require_once("include/log.php");
+require_once('../php/start.php');
 require_once("include/checkUserId.php");
 
 $conn = db();
@@ -32,7 +34,6 @@ if (!isset($data["Type"]) || $data["Type"] == ""){
 $json_array = array();
 
 if (checkUserId($userId) == false){
-  require_once("include/log.php");
   logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
   die ("You forgot your UserId, or gave an invalid UserId!");
 }
@@ -40,17 +41,45 @@ if (checkUserId($userId) == false){
 //Different statements if Type or Status is empty
 
 if ($status == "new" && $type == "all"){
-  $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND status = ?');
-  $stmt->execute(array($userId, "new"));
+  try{
+    $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND status = ?');
+    $stmt->execute(array($userId, "new"));
+  }
+  //Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
+  catch (PDOException $e){
+    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+    die;
+  }
 } elseif ($status == "new"){
-  $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND type = ? AND status = ?');
-  $stmt->execute(array($userId, $type, "new"));
+  try{
+    $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND type = ? AND status = ?');
+    $stmt->execute(array($userId, $type, "new"));
+  }
+  //Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
+  catch (PDOException $e){
+    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+    die;
+  }
 } elseif ($type == "all") {
-  $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND status = ?');
-  $stmt->execute(array($userId, $status));
+  try{
+    $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND status = ?');
+    $stmt->execute(array($userId, $status));
+  }
+  //Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
+  catch (PDOException $e){
+    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+    die;
+  }
 }  else {
-  $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND type = ? AND status = ?');
-  $stmt->execute(array($userId, $type, $status));
+  try{
+    $stmt = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND type = ? AND status = ?');
+    $stmt->execute(array($userId, $type, $status));
+  }
+  //Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
+  catch (PDOException $e){
+    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+    die;
+  }
 }
 
 $result = $stmt -> fetchAll();
