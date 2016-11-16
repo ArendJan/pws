@@ -18,17 +18,29 @@ require_once("include/checkUserId.php");
 $conn = db();
 
 if (!isset($_POST['JSON'])){
-  die("You have to post your values in _POST['JSON']");
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "No _POST['JSON']");
+  die;
 }
 
 $data = json_decode($_POST['JSON'],true);
+
+if (checkUserId($_POST['UserId']) == false){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
+  die;
+}
+
+if (checkUserId($_POST['UserId']) == false){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
+  die;
+}
 
 $userId = $data['UserId'];
 
 logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
 
 if (!isset($data["Barcode"])){
-  die("You have to post your barcode!");
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, "You forgot a barcode");
+  die;
 }
 
 $code = $data["Barcode"];
@@ -39,9 +51,6 @@ if (!isset($data["Action"]) || $data['Action'] == ""){
   $action = $data["Action"];
 }
 
-if (checkUserId($userId) == false){
-  die('You forgot your userId, or you gave an invalid userId!');
-}
 if($action == "add"){
   echo "Adding Product";
   addItem($code, $userId);

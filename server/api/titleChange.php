@@ -9,30 +9,40 @@ require_once("include/checkUserId.php");
 require_once("include/log.php");
 
 if (!isset($_POST['JSON'])){
-  die("You have to post your values in _POST['JSON']");
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "No _POST['JSON']");
+  die;
 }
 
 $data = json_decode($_POST['JSON'],true);
+
+if (checkUserId($_POST['UserId']) == false){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
+  die;
+}
+
+if (checkUserId($_POST['UserId']) == false){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
+  die;
+}
 
 $userId = $data['UserId'];
 
 logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
 
 if (!isset($data["Barcode"])){
-  die("You have to post your barcode!");
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, "Forgot a barcode");
+  die;
 } else {
   $code = $data["Barcode"];
 }
 
 if (!isset($data["Title"]) || $data['Title'] == ""){
-  die("Please provide a title");
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, "Forgot a title");
+  die;
 }
 
   $title = $data["Title"];
 
-if (!checkUserId($userId)){
-  die('You forgot your userId, or you gave an invalid userId!');
-}
 require_once(dirname(__FILE__)."/../php/start.php");
 $conn = db();
 
