@@ -4,6 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+//Alles wat nodig is require_once
 require_once('../php/start.php');
 require_once("include/checkUserId.php");
 require_once("include/checkJobId.php");
@@ -41,6 +42,7 @@ try{
   $upstmt = $conn->prepare('UPDATE jobs SET status = ? WHERE userId = ? AND ID = ?');
   $upstmt->execute(array($status, $userId, $jobId));
 }
+//Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
 catch (PDOException $e){
   errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
   die;

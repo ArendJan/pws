@@ -4,7 +4,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include_once('../php/start.php');
+//Alles wat nodig is require_once
+require_once("include/log.php");
+require_once('../php/start.php');
 require_once("include/checkUserId.php");
 
 $conn = db();
@@ -17,7 +19,6 @@ $data = json_decode($_POST['JSON'],true);
 
 $userId = $data['UserId'];
 
-require_once("include/log.php");
 logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
 
 if (!isset($data["Barcode"]) || empty($data["Barcode"])){
@@ -40,6 +41,7 @@ try{
   $stmt = $conn->prepare("INSERT INTO `products` (`ID`, `userId`, `barcode`, `description`, `ammount`, `open`, `closed`) VALUES (NULL, ?, ?, ?, '0', '0', '0');");
   $stmt->execute(array($userId, $barcode, $title));
 }
+//Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
 catch (PDOException $e){
   errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
   die;

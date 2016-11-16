@@ -1,11 +1,14 @@
 <?php
 function addItem($code, $userId){
 
+  //Alles wat nodig is require_once
   require_once("log.php");
   require_once(dirname(__FILE__)."/../../php/start.php");
   require_once(dirname(__FILE__)."/getItem.php");
+
   $conn = db();
 
+  //Functie parameteres doorgooien naar JSON voor in DB
   $params = array('code' => $code, 'userId' => $userId);
   $params = json_encode($params);
 
@@ -15,6 +18,7 @@ function addItem($code, $userId){
     $checkstmt->execute(array($code, $userId));  $checkstmt = $conn->prepare("SELECT barcode FROM products WHERE barcode = ? AND userId = ?");
       $checkstmt->execute(array($code, $userId));
   }
+  //Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
   catch (PDOException $e){
     errorLogging(basename($_SERVER['PHP_SELF']), $params, $userId, $e);
     die();

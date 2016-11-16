@@ -4,7 +4,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include_once('../php/start.php');
+//Alles wat nodig is require_once
+require_once('../php/start.php');
 require_once("include/checkUserId.php");
 require_once("include/log.php");
 
@@ -28,6 +29,7 @@ try{
   $stmt = $conn->prepare('SELECT * FROM logging WHERE userId = ? ORDER BY ID DESC ');
   $stmt->execute(array($userId));
 }
+//Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
 catch (PDOException $e){
   errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
   die;

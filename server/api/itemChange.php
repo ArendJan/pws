@@ -4,22 +4,18 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include_once('../php/start.php');
+//Alles wat nodig is require_once
+require_once('../php/start.php');
 require_once("include/checkUserId.php");
-
-$conn = db();
-
 require_once("include/log.php");
-
 require_once("include/newItem.php");
-
 require_once("include/delItem.php");
 require_once("include/delOpen.php");
 require_once("include/delClosed.php");
-
 require_once("include/openItem.php");
-
 require_once("include/checkUserId.php");
+
+$conn = db();
 
 if (!isset($_POST['JSON'])){
   die("You have to post your values in _POST['JSON']");
@@ -69,6 +65,7 @@ try{
   $returnstmt = $conn->prepare('SELECT * FROM products WHERE userId = ? AND barcode = ?');
   $returnstmt->execute(array($userId, $code));
 }
+//Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
 catch (PDOException $e){
   errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
   die;
