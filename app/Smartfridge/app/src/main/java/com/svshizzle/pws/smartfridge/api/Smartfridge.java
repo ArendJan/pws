@@ -33,6 +33,20 @@ public class Smartfridge {
     private String apiUrl = "";
     private boolean signedIn = false;
 
+    public boolean isJSONValid(String test) {
+        try {
+            new JSONObject(test);
+        } catch (JSONException ex) {
+            // edited, to include @Arthur's comment
+            // e.g. in case JSONArray is valid as well...
+            try {
+                new JSONArray(test);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
+    }
     public String getUserid() {
         return userid;
     }
@@ -107,7 +121,9 @@ public class Smartfridge {
 
                         Log.d("asdf", requestReturn.getResponse());
                         containsDone(processContains(requestReturn.getResponse()));
-                        SmartfridgeSave.setContainsBackup(activity, requestReturn.getResponse());
+                        if(isJSONValid(requestReturn.getResponse())) {
+                            SmartfridgeSave.setContainsBackup(activity, requestReturn.getResponse());
+                        }
 
                     }catch (JSONException e){
                         containsError(e.getLocalizedMessage());
@@ -445,13 +461,15 @@ public class Smartfridge {
                     try {
                         ArrayList<LogItem> logs = processLog(requestReturn.getResponse());
                         getLogDone(logs);
-                        SmartfridgeSave.setLogBackup(activity, requestReturn.getResponse());
+                        if(isJSONValid(requestReturn.getResponse())) {
+                            SmartfridgeSave.setLogBackup(activity, requestReturn.getResponse());
+                        }
                     }catch (JSONException e){
                         getLogError(e.getLocalizedMessage());
 
                     }
                     }else{
-                        getLogError("Jsonerror");
+                        getLogError(requestReturn.getResponse());
                     }
                 }
 

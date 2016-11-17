@@ -93,7 +93,7 @@ public class LogListAdapter extends BaseAdapter {
             switch (object.getString("Type")){
                 case "shutdown":
                     return activity.getString(R.string.log_item_markJob_shutdown, String.valueOf(object.getInt("ID")));
-                case "reboot":
+                case "restart":
                     return activity.getString(R.string.log_item_markJob_reboot, String.valueOf(object.getInt("ID")));
                 case "text":
                     return activity.getString(R.string.log_item_markJob_text, object.getString("Text"), String.valueOf(object.getInt("ID")));
@@ -140,7 +140,7 @@ public class LogListAdapter extends BaseAdapter {
             switch (object.getString("Type")) {
                 case "shutdown":
                     return activity.getString(R.string.log_item_createJob_shutdown);
-                case "reboot":
+                case "restart":
                     return activity.getString(R.string.log_item_createJob_reboot);
                 case "text":
                     return activity.getString(R.string.log_item_createJob_text, object.getString("Text"));

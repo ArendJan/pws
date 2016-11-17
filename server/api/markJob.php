@@ -17,7 +17,8 @@ if (!isset($_POST['JSON'])){
 }
 
 $data = json_decode($_POST['JSON'],true);
-
+$userId = $data["UserId"];
+$jobId = $data["JobId"];
 if (checkUserId($data['UserId']) == false){
   errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
   die;
@@ -34,10 +35,7 @@ if (!isset($data["Status"]) || $data["Status"] == ""){
 }
 
 if ($status == "new" || $status == "done"){
-  if (checkUserId($_POST['UserId']) == false){
-    errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], "", "Forgot userId, or invalid userId");
-    die;
-  }
+  
 
   $userId = $data['UserId'];
 
