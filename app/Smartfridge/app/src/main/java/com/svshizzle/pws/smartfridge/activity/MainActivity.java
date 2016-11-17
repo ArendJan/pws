@@ -1,7 +1,7 @@
 package com.svshizzle.pws.smartfridge.activity;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.app.*;
+import android.app.ListFragment;
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -69,6 +69,9 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_log);
                 break;
             case 3:
+                fragment = new ListFragment();
+                title = getString(R.string.title_list);
+            case 4:
                 fragment = new SettingsFragment();
                 title = getString(R.string.title_settings);
             default:
