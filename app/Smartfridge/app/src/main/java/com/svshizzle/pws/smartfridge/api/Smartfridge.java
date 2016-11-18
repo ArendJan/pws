@@ -442,12 +442,15 @@ public class Smartfridge {
     public void createItemError(String e){
 
     }
-
     public void getLog(){
+        getLog("DESC");
+    }
+    public void getLog(String order){
         JSONObject jsonObject = new JSONObject();
         try {
 
             jsonObject.put("UserId",userid);
+            jsonObject.put("Sort", order);
 
         }catch (JSONException e ){
         }
