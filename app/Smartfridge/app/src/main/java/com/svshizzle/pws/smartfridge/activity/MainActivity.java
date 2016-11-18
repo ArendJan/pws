@@ -1,7 +1,6 @@
 package com.svshizzle.pws.smartfridge.activity;
 
 import android.app.*;
-import android.app.ListFragment;
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.view.View;
 
 import com.svshizzle.pws.smartfridge.R;
 import com.svshizzle.pws.smartfridge.api.Smartfridge;
-import com.svshizzle.pws.smartfridge.api.SmartfridgeSave;
 
 
 public class MainActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
@@ -71,12 +69,15 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
             case 3:
                 fragment = new ListFragment();
                 title = getString(R.string.title_list);
+                break;
             case 4:
                 fragment = new SettingsFragment();
                 title = getString(R.string.title_settings);
+                break;
             default:
                 break;
         }
+        Log.d("dit is main", title);
 
         if (fragment != null) {
 

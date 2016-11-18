@@ -23,13 +23,23 @@ if (checkUserId($data['UserId']) == false){
   die;
 }
 
+if(!isset($data["Sort"])||empty($data["Sort"])){
+$sort = "ASC";  
+}else{
+  $sort = $data["Sort"];
+}
+if(!in_array($sort, array("DESC","ASC"))){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, "The sort variable hasn't got a correct value. Only ASC or DESC");
+  die;
+}
+
 
 $userId = $data['UserId'];
 
 $json_array = array();
 
 try{
-  $stmt = $conn->prepare('SELECT * FROM logging WHERE userId = ? ORDER BY ID DESC ');
+  $stmt = $conn->prepare('SELECT * FROM logging WHERE userId = ? ORDER BY ID '.$sort);
   $stmt->execute(array($userId));
 }
 //Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
@@ -40,13 +50,13 @@ catch (PDOException $e){
 
 $result = $stmt -> fetchAll();
 foreach( $result as $row ) {
-
+  $row_array = array();
   $row_array['ID'] = $row['ID'];
   $row_array['Time'] = $row['time'];
   $row_array['Script'] = $row['script'];
   $row_array['Params'] = json_decode($row['params']);
   $row_array["UserId"] = $row["userId"];
-  if($row["script"]=="markJob.php"){
+  if($row["script"]==="markJob.php"){
     $jobId2 = $row_array["Params"]->JobId;
 
     $stmt2 = $conn->prepare('SELECT * FROM jobs WHERE userId = ? AND ID = ?');
@@ -71,7 +81,7 @@ foreach( $result as $row ) {
 
     }
   }
-  if($row["script"]=="itemChange.php"){
+  if($row["script"]==="itemChange.php"){
     $barcode = $row_array["Params"]->Barcode;
 
     $stmt2 = $conn->prepare('SELECT * FROM products WHERE userId = ? AND barcode = ?');
