@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -97,7 +98,6 @@ public class Smartfridge {
         return  signedIn;
     }
 
-
     public void contains(){
         JSONObject jsonObject = new JSONObject();
         try {
@@ -105,6 +105,7 @@ public class Smartfridge {
             Log.d("userid", userid);
 
             jsonObject.put("UserId", userid);
+
 
         }catch (JSONException e ){
         }
@@ -497,6 +498,48 @@ public class Smartfridge {
                 logs.add(log);
             }
 return logs;
+    }
+
+    public void listJob(List<String> items){
+        JSONObject jsonObject = new JSONObject();
+        try {
+
+            JSONArray array = new JSONArray();
+            for(int x = 0;x<items.size();x++){
+
+                JSONObject object = new JSONObject();
+                object.put("Title", items.get(x));
+                array.put(object);
+
+            }
+            jsonObject.put("Items", array);
+            jsonObject.put("UserId",userid);
+            jsonObject.put("Type", "List");
+
+        }catch (JSONException e ){
+        }
+        final RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
+            @Override
+            protected void onPostExecute(RequestReturn requestReturn) {
+                super.onPostExecute(requestReturn);
+
+                if(!requestReturn.isError()) {
+
+                        listJobDone();
+
+                }else{
+                    listJobError(requestReturn.getResponse());
+                }
+            }
+
+        };
+        requestClassPost.execute(apiUrl + "addJob");
+    }
+    public void listJobDone(){
+
+    }
+    public void listJobError(String e){
+
     }
 
 

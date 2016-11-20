@@ -90,6 +90,9 @@
     <string name="log_item_itemChange_add">An closed item(%1$s) was added to the fridge.</string>
     <string name="log_item_itemChange">An item(%1$s) was changed.</string>
 
+    <!--Text for the button of the shopping list
 
+    -->
+<string name="ShoppingListButtonText">Print the shoppinglist!</string>
 
 </resources>
