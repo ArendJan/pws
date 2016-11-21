@@ -22,5 +22,6 @@ function openItem($code, $userId){
     errorLogging(basename($_SERVER['PHP_SELF']), $params, $userId, $e);
     die();
   }
+  $GLOBALS['doLog'] = "y";
 }
 ?>

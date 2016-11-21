@@ -47,5 +47,6 @@ function addItem($code, $userId){
       die();
     }
   }
+  $GLOBALS['doLog'] = "y";
 }
 ?>
