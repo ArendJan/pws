@@ -32,7 +32,6 @@ if (checkUserId($data['UserId']) == false){
 
 $userId = $data['UserId'];
 
-logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
 
 if (!isset($data["Barcode"])){
   errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, "You forgot a barcode");
@@ -48,22 +47,21 @@ if (!isset($data["Action"]) || $data['Action'] == ""){
 }
 
 if($action == "add"){
-  echo "Adding Product";
   addItem($code, $userId);
 } else if ($action == "del") {
-  echo "Removing Product";
   delItem($code, $userId);
 } else if ($action == "open") {
-  echo "Opening Product";
   openItem($code, $userId);
 } else if ($action == "delOpen") {
-  echo "Deleting Open Product";
   delOpen($code, $userId);
 } else if ($action == "delClosed") {
-  echo "Deleting Closed Product";
   delClosed($code, $userId);
 }else{
   die ("Not a correct action");
+}
+
+if ($GLOBALS['doLog'] ==  "y") {
+  logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
 }
 
 try{
@@ -88,4 +86,5 @@ $row_array['Open'] = intval($result['open']);
 
 array_push($return_arr,$row_array);
 echo json_encode($return_arr);
+
 ?>
