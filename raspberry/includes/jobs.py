@@ -3,6 +3,7 @@ import threading
 from time import gmtime, strftime
 import os
 import datetime
+import json
 #This is the file with all posible jobs defined.
 #If you want to add a job to the list, add it to the dictionary and create the correct function for it.
 
@@ -23,9 +24,10 @@ def update(job):
 
 def listFunc(job):     #Prints the list of the items you should buy!!!
     output = ""
+    liste = json.loads(job["List"])
+    for item in liste: #iterates through the list
 
-    for item in job["Items"]: #iterates through the list
-        output += "- " + item["Title"] + "\n"
+        output += "-" + item["Title"] + "\n"
     printCommand(output)
 
 def text(job): #Print the text entered on the website / app.
@@ -99,7 +101,7 @@ def downloadGithub():
 options = {
     "restart" : restart,
     "barcode" : qrCode,
-    "list" :listFunc,
+    "List" :listFunc,
     "text" :  text,
     "update" : update,
     "shutdown" : shutdown
