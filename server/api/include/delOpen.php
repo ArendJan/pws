@@ -30,7 +30,7 @@ catch (PDOException $e){
     $delstmt = $conn->prepare("UPDATE products SET open = open - 1 WHERE barcode = ? AND userId = ?");
   } else {
       errorLogging(basename($_SERVER['PHP_SELF']), $params, $userId, "Open = 0 or < 0");
-      die("Open = 0 or < 0 (Which is weird)");
+      die();
   }
   try{
     $delstmt->execute(array($code, $userId));
