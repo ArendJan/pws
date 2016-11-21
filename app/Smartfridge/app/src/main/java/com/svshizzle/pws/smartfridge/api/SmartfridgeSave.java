@@ -51,4 +51,28 @@ editor.commit();
         editor.commit();
 
     }
+
+    public static void setContainsBackup(Context context, String containsBackup){
+        SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(context.getString(R.string.SharedPreferencesContainsBackup), containsBackup);
+        editor.commit();
+    }
+    public static void setLogBackup(Context context, String logBackup){
+        SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(context.getString(R.string.SharedPreferencesLogBackup), logBackup);
+        editor.commit();
+    }
+    public static String getContainsBackup ( Context context){
+        SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
+        String output =  sharedPreferences.getString(context.getString(R.string.SharedPreferencesContainsBackup), "asdqwerqwerqwerqwerwqe");
+        return output;
+    }
+    public static String getLogBackup ( Context context){
+        SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
+        String output =  sharedPreferences.getString(context.getString(R.string.SharedPreferencesLogBackup), "asdqwerqwerqwerqwerwqe");
+
+        return output;
+    }
 }

@@ -25,12 +25,14 @@
         <item>@string/nav_item_home</item>
         <item>@string/nav_item_jobs</item>
         <item>@string/nav_item_log</item>
+        <item>@string/title_list</item>
         <item>@string/nav_item_settings</item>
     </string-array>
 
     <string name="title_home">Home</string>
     <string name="title_jobs">Jobs</string>
     <string name="title_log">Log</string>
+    <string name="title_list">Shopping List</string>
     <string name="title_settings">Settings</string>
 
     <string name="noInternetMessage">Oops, you currently don\'t have a network connection. Try again when you do.</string>
@@ -46,6 +48,8 @@
     <string name="SharedPreferencesSignedIn">signedin</string>
     <string name="SharedPreferencesAPIURL">apiurl</string>
     <string name="SharedPreferencesName">preferences</string>
+    <string name="SharedPreferencesContainsBackup">containsbackup</string>
+    <string name="SharedPreferencesLogBackup">logbackup</string>
 
 
 
@@ -66,4 +70,29 @@
     <string name="jobs_barcode_hint">Box of cookies</string>
     <string name="jobs_barcode_text_done">Barcode is being printed</string>
     <string name="jobs_barcode_text_create_done">Item added to database</string>
+
+    <string name="log_item_markJob">The job with id %1$s was done.</string>
+    <string name="log_item_markJob_barcode">A barcode(%1$s) was printed. #%2$s</string>
+    <string name="log_item_markJob_text">A text(%1$s) came out of the printer. #%2$s</string>
+    <string name="log_item_markJob_reboot">The fridge rebooted. #%1$s</string>
+    <string name="log_item_markJob_shutdown">The fridge went down. #%1$s</string>
+
+
+    <string name="log_item_createJob_shutdown">A shutdown command was sent.</string>
+    <string name="log_item_createJob_reboot">A reboot command was sent.</string>
+    <string name="log_item_createJob_barcode">A barcode(%1$s) job was added.</string>
+    <string name="log_item_createJob_text">A text(%1$s) was printed.</string>
+    <string name="log_item_createJob_list">A list of items was added to the fridges jobs.</string>
+    <string name="log_item_createJob">A job was added.</string>
+
+    <string name="log_item_itemChange_del">You removed an item(%1$s) from the fridge.</string>
+    <string name="log_item_itemChange_open">An open item(%1$s) was added to the fridge.</string>
+    <string name="log_item_itemChange_add">An closed item(%1$s) was added to the fridge.</string>
+    <string name="log_item_itemChange">An item(%1$s) was changed.</string>
+
+    <!--Text for the button of the shopping list
+
+    -->
+<string name="ShoppingListButtonText">Print the shoppinglist!</string>
+
 </resources>

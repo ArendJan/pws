@@ -15,6 +15,8 @@ public class LogItem {
     private String script = "";
     private JSONObject parameters;
     private String userId = "";
+    private JSONObject jobDetails;
+    private JSONObject itemDetails;
 
     public LogItem() {
     }
@@ -74,13 +76,41 @@ public class LogItem {
             this.time = object.getString("Time");
             this.id = object.getInt("ID");
             this.script = object.getString("Script");
-            this.parameters = object.getJSONObject("Params");
+            try {
+                this.parameters = object.getJSONObject("Params");
+            }catch (JSONException e){
+                this.parameters = new JSONObject();
+            }
             this.userId = object.getString("UserId");
-            Log.d("test", time);
+            Log.d("script=", script);
+            if("markJob.php".equals(script)){
+
+                this.jobDetails = object.getJSONObject("JobDetails");
+            }
+            if("itemChange.php".equals(script)){
+                this.itemDetails = object.getJSONObject("ItemDetails");
+            }
+
             return this;
         }catch (JSONException e){
             Log.d("what?", e.getLocalizedMessage());
         }
         return this;
+    }
+
+    public JSONObject getJobDetails() {
+        return jobDetails;
+    }
+
+    public void setJobDetails(JSONObject jobDetails) {
+        this.jobDetails = jobDetails;
+    }
+
+    public JSONObject getItemDetails() {
+        return itemDetails;
+    }
+
+    public void setItemDetails(JSONObject itemDetails) {
+        this.itemDetails = itemDetails;
     }
 }

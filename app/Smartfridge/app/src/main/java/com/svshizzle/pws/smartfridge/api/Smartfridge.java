@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -33,6 +34,20 @@ public class Smartfridge {
     private String apiUrl = "";
     private boolean signedIn = false;
 
+    public boolean isJSONValid(String test) {
+        try {
+            new JSONObject(test);
+        } catch (JSONException ex) {
+            // edited, to include @Arthur's comment
+            // e.g. in case JSONArray is valid as well...
+            try {
+                new JSONArray(test);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
+    }
     public String getUserid() {
         return userid;
     }
@@ -83,7 +98,6 @@ public class Smartfridge {
         return  signedIn;
     }
 
-
     public void contains(){
         JSONObject jsonObject = new JSONObject();
         try {
@@ -91,6 +105,7 @@ public class Smartfridge {
             Log.d("userid", userid);
 
             jsonObject.put("UserId", userid);
+
 
         }catch (JSONException e ){
         }
@@ -102,29 +117,38 @@ public class Smartfridge {
                 if(requestReturn.isError()){
                     containsError(requestReturn.getResponse());
                 }else {
-                    ArrayList<Item> items = new ArrayList<Item>();
+
                     try {
 
                         Log.d("asdf", requestReturn.getResponse());
-                        JSONArray reader = new JSONArray(requestReturn.getResponse());
-                        for (int x = 0; x < reader.length(); x++) {
-
-                            JSONObject object = reader.getJSONObject(x);
-                            Item item = new Item();
-                            item.loadFromJson(object);
-                            items.add(item);
+                        containsDone(processContains(requestReturn.getResponse()));
+                        if(isJSONValid(requestReturn.getResponse())) {
+                            SmartfridgeSave.setContainsBackup(activity, requestReturn.getResponse());
                         }
+
                     }catch (JSONException e){
                         containsError(e.getLocalizedMessage());
-                        return;
+
                     }
-                    containsDone(items);
+
 
                 }
             }
         };
         String url = "http://pws.svshizzle.com/api/contains";
         request.execute(url);
+    }
+    public ArrayList<Item> processContains(String output)throws JSONException{
+        ArrayList<Item> items = new ArrayList<Item>();
+        JSONArray reader = new JSONArray(output);
+        for (int x = 0; x < reader.length(); x++) {
+
+            JSONObject object = reader.getJSONObject(x);
+            Item item = new Item();
+            item.loadFromJson(object);
+            items.add(item);
+        }
+        return items;
     }
 
     public void containsDone(ArrayList<Item> items){
@@ -419,42 +443,40 @@ public class Smartfridge {
     public void createItemError(String e){
 
     }
-
     public void getLog(){
+        getLog("DESC");
+    }
+    public void getLog(String order){
         JSONObject jsonObject = new JSONObject();
         try {
 
             jsonObject.put("UserId",userid);
+            jsonObject.put("Sort", order);
 
         }catch (JSONException e ){
         }
-        RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
+        final RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
             @Override
             protected void onPostExecute(RequestReturn requestReturn) {
                 super.onPostExecute(requestReturn);
 
                 if(!requestReturn.isError()) {
-                    ArrayList<LogItem> logs = new ArrayList<LogItem>();
-                    try {
 
-                        Log.d("asdf", requestReturn.getResponse());
-                        JSONArray reader = new JSONArray(requestReturn.getResponse());
-                        for (int x = 0; x < reader.length(); x++) {
-                            Log.d("item", "weet ik niet");
-                            JSONObject object = reader.getJSONObject(x);
-                            LogItem log = new LogItem();
-                            log.loadFromJson(object);
-                            logs.add(log);
+                    try {
+                        ArrayList<LogItem> logs = processLog(requestReturn.getResponse());
+                        getLogDone(logs);
+                        if(isJSONValid(requestReturn.getResponse())) {
+                            SmartfridgeSave.setLogBackup(activity, requestReturn.getResponse());
                         }
                     }catch (JSONException e){
                         getLogError(e.getLocalizedMessage());
-                        return;
+
                     }
-                    getLogDone(logs);
-                }else{
-                    getLogError(requestReturn.getResponse());
+                    }else{
+                        getLogError(requestReturn.getResponse());
+                    }
                 }
-            }
+
         };
         requestClassPost.execute(apiUrl + "getLog");
     }
@@ -462,6 +484,61 @@ public class Smartfridge {
 
     }
     public void getLogError(String e){
+
+    }
+
+    public ArrayList<LogItem> processLog(String output) throws JSONException{
+        ArrayList<LogItem> logs = new ArrayList<LogItem>();
+            JSONArray reader = new JSONArray(output);
+            for (int x = 0; x < reader.length(); x++) {
+
+                JSONObject object = reader.getJSONObject(x);
+                LogItem log = new LogItem();
+                log.loadFromJson(object);
+                logs.add(log);
+            }
+return logs;
+    }
+
+    public void listJob(List<String> items){
+        JSONObject jsonObject = new JSONObject();
+        try {
+
+            JSONArray array = new JSONArray();
+            for(int x = 0;x<items.size();x++){
+
+                JSONObject object = new JSONObject();
+                object.put("Title", items.get(x));
+                array.put(object);
+
+            }
+            jsonObject.put("Items", array);
+            jsonObject.put("UserId",userid);
+            jsonObject.put("Type", "List");
+
+        }catch (JSONException e ){
+        }
+        final RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
+            @Override
+            protected void onPostExecute(RequestReturn requestReturn) {
+                super.onPostExecute(requestReturn);
+
+                if(!requestReturn.isError()) {
+
+                        listJobDone();
+
+                }else{
+                    listJobError(requestReturn.getResponse());
+                }
+            }
+
+        };
+        requestClassPost.execute(apiUrl + "addJob");
+    }
+    public void listJobDone(){
+
+    }
+    public void listJobError(String e){
 
     }
 

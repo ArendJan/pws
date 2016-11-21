@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="horizontal"
+    android:padding="5dip" >
+
+    <!-- Title Of Song-->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/log_row_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:textColor="#040404"
+            android:typeface="sans"
+            android:textSize="15dip"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/log_row_time"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/log_row_title"
+                android:textColor="#343434"
+                android:textSize="10dip"
+                android:layout_marginTop="1dip"
+
+                android:text=""
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="3 closed  1 open"
+                android:layout_width="214dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/log_row_extratext"
+                android:textSize="10dip"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Artist Name -->
+
+    <!-- Rightend Duration -->
+
+
+</RelativeLayout>
