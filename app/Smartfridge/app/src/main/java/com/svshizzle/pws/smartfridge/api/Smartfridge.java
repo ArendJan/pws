@@ -514,7 +514,7 @@ return logs;
             }
             jsonObject.put("Items", array);
             jsonObject.put("UserId",userid);
-            jsonObject.put("Type", "List");
+            jsonObject.put("Type", "list");
 
         }catch (JSONException e ){
         }
@@ -539,6 +539,41 @@ return logs;
 
     }
     public void listJobError(String e){
+
+    }
+    public void getActive(){
+        JSONObject jsonObject = new JSONObject();
+        try {
+
+
+
+
+            jsonObject.put("UserId",userid);
+
+
+        }catch (JSONException e ){
+        }
+        final RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
+            @Override
+            protected void onPostExecute(RequestReturn requestReturn) {
+                super.onPostExecute(requestReturn);
+
+                if(!requestReturn.isError()) {
+                    //Y-m-d H:i:s
+                    getActiveDone(requestReturn.getResponse());
+
+                }else{
+                    getActiveError(requestReturn.getResponse());
+                }
+            }
+
+        };
+        requestClassPost.execute(apiUrl + "getActive");
+    }
+    public void getActiveDone(String output){
+
+    }
+    public void getActiveError(String error){
 
     }
 
