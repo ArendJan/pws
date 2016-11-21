@@ -21,6 +21,7 @@ if (!isset($_POST['JSON'])){
 $data = json_decode($_POST['JSON'],true);
 
 $userId = $data['UserId'];
+
 logging(basename($_SERVER['PHP_SELF']),$_POST['JSON'],$userId);
 
 if (!isset($data["Sort"]) || $data["Sort"] == ""){
@@ -37,8 +38,10 @@ if (checkUserId($data['UserId']) == false){
 
 if($sort == "everything"){
   try{
-    $stmt = $conn->prepare('SELECT * FROM products WHERE userId = ?');
+
+  $stmt = $conn->prepare('SELECT * FROM products WHERE userId = ?');
     $stmt->execute(array($userId));
+
   }
   //Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
   catch (PDOException $e){
@@ -106,8 +109,9 @@ if($sort == "everything"){
   }
 }elseif ($sort == "opened+closed")  {
   try{
-    $stmt = $conn->prepare('SELECT * FROM products WHERE closed > 0 OR open > 0 AND userId = ?');
+    $stmt = $conn->prepare('SELECT * FROM products WHERE (closed > 0 OR open > 0) AND userId = ?');
     $stmt->execute(array($userId));
+
   }
   //Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
   catch (PDOException $e){

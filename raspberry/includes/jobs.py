@@ -13,7 +13,7 @@ import json
 
 
 def restart(job):
-    subprocess.Popen(["sudo", "restart"]) #Sends sudo restart to the terminal, which will restart the RPi
+    subprocess.Popen(["sudo", "reboot"]) #Sends sudo restart to the terminal, which will restart the RPi
 
 def shutdown(job):
     subprocess.Popen(["sudo", "halt"]).wait() #Sends sudo halt to the terminal, which directly shuts the pi down
