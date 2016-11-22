@@ -135,7 +135,9 @@ public class ListFragment extends Fragment {
                         Log.d("Title", title);
                         listItemses.add(new ListItems(change, barcode, title));
                     } else if(index!=-1){
-                        listItemses.get(index).setAmount(change + listItemses.get(index).getAmount());
+                        if(listItemses.get(index).getAmount()>0&&change==-1 || change==1) {
+                            listItemses.get(index).setAmount(change + listItemses.get(index).getAmount());
+                        }
                     }
 
 
@@ -144,7 +146,7 @@ public class ListFragment extends Fragment {
                 }
 
 
-            }else if(item.getScript().equals("logReset.php")){
+            }else if(item.getScript().equals("resetLog.php")){
                 listItemses = new ArrayList<ListItems>();
             }
         }
