@@ -97,13 +97,15 @@ public class Smartfridge {
     public boolean isSignedin(){
         return  signedIn;
     }
-
     public void contains(){
+        contains("opened+closed");
+    }
+    public void contains(String sort){
         JSONObject jsonObject = new JSONObject();
         try {
 
             Log.d("userid", userid);
-
+            jsonObject.put("Sort", sort);
             jsonObject.put("UserId", userid);
 
 
@@ -135,7 +137,7 @@ public class Smartfridge {
                 }
             }
         };
-        String url = "http://pws.svshizzle.com/api/contains";
+        String url = apiUrl + "contains";
         request.execute(url);
     }
     public ArrayList<Item> processContains(String output)throws JSONException{
@@ -148,6 +150,7 @@ public class Smartfridge {
             item.loadFromJson(object);
             items.add(item);
         }
+        Log.d("process", "Contains");
         return items;
     }
 
@@ -193,11 +196,13 @@ public class Smartfridge {
                 super.onPostExecute(requestReturn);
                 if(!requestReturn.isError()) {
                     Log.d("return", requestReturn.getResponse());
+
                     JSONObject object;
                     try {
 
 
-                        object = new JSONObject(requestReturn.getResponse());
+                        object = new JSONArray(requestReturn.getResponse()).getJSONObject(0);
+
                     }catch (JSONException e){
                         changeItemError(e.getLocalizedMessage());
                         return;
@@ -446,7 +451,7 @@ public class Smartfridge {
     public void getLog(){
         getLog("DESC");
     }
-    public void getLog(String order){
+    public void getLog(final String order){
         JSONObject jsonObject = new JSONObject();
         try {
 
@@ -466,7 +471,11 @@ public class Smartfridge {
                         ArrayList<LogItem> logs = processLog(requestReturn.getResponse());
                         getLogDone(logs);
                         if(isJSONValid(requestReturn.getResponse())) {
-                            SmartfridgeSave.setLogBackup(activity, requestReturn.getResponse());
+                            if(order.equals("ASC")) {
+                                SmartfridgeSave.setLogASCBackup(activity, requestReturn.getResponse());
+                            }else{
+                                SmartfridgeSave.setLogDESCBackup(activity, requestReturn.getResponse());
+                            }
                         }
                     }catch (JSONException e){
                         getLogError(e.getLocalizedMessage());
@@ -561,6 +570,10 @@ return logs;
                 if(!requestReturn.isError()) {
                     //Y-m-d H:i:s
                     getActiveDone(requestReturn.getResponse());
+                    if(isJSONValid(requestReturn.getResponse())){
+                        Log.d("dit wordt opgeslagen", "Jajajajja");
+                        SmartfridgeSave.setActiveBackup(activity, requestReturn.getResponse());
+                    }
 
                 }else{
                     getActiveError(requestReturn.getResponse());
@@ -574,6 +587,42 @@ return logs;
 
     }
     public void getActiveError(String error){
+
+    }
+    public void setLogReset(){
+        JSONObject jsonObject = new JSONObject();
+        try {
+
+
+
+
+            jsonObject.put("UserId",userid);
+
+
+        }catch (JSONException e ){
+        }
+        final RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
+            @Override
+            protected void onPostExecute(RequestReturn requestReturn) {
+                super.onPostExecute(requestReturn);
+
+                if(!requestReturn.isError() && requestReturn.getResponse().equals("y")) {
+                    //Y-m-d H:i:s
+                    setLogResetDone();
+
+
+                }else{
+                    setLogResetError(requestReturn.getResponse());
+                }
+            }
+
+        };
+        requestClassPost.execute(apiUrl + "resetLog");
+    }
+    public void setLogResetDone(){
+
+    }
+    public void setLogResetError(String error){
 
     }
 
