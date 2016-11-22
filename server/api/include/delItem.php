@@ -34,7 +34,8 @@ try {
       //Doe -1 bij closed product
       $delstmt = $conn->prepare("UPDATE products SET closed = closed - 1 WHERE barcode = ? AND userId = ?");
     } else {
-      die("Ammount = 0 or < 0 (Which is weird)");
+      errorLogging(basename($_SERVER['PHP_SELF']), $params, $userId, "Closed = 0 or < 0");
+      die();
     }
   }
   try {
@@ -44,5 +45,6 @@ try {
     errorLogging(basename($_SERVER['PHP_SELF']), $params, $userId, $e);
     die();
   }
+  $GLOBALS['doLog'] = "y";
 }
 ?>
