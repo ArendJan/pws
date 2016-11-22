@@ -64,7 +64,7 @@ public class LogFragment extends Fragment {
                 try {
 
 
-                    ArrayList<LogItem> arrayList = smartfridge.processLog(SmartfridgeSave.getLogBackup(getActivity()));
+                    ArrayList<LogItem> arrayList = smartfridge.processLog(SmartfridgeSave.getLogDESCBackup(getActivity()));
                     createList(arrayList);
                 }catch (JSONException e){
                     Log.d("exception", e.getLocalizedMessage());
@@ -89,6 +89,9 @@ public class LogFragment extends Fragment {
         });
     }
     private void getLog(){
+        if(swipeRefreshLayout == null){
+            return;
+        }
         swipeRefreshLayout.setRefreshing(true);
 
         Smartfridge smartfridge = new Smartfridge(getActivity()){
@@ -98,6 +101,9 @@ createList(items);
             }
             @Override
             public void getLogError(String e){
+                if(swipeRefreshLayout==null){
+                    return;
+                }
                 swipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(getActivity(), "Oops, refreshing failed. Errormessage:"+e, Toast.LENGTH_LONG).show();
             }
@@ -128,8 +134,14 @@ createList(items);
             }
         }
         listView = (ListView)activity.findViewById(R.id.logListView);
+        if(listView == null){
+            return;
+        }
         adapter = new LogListAdapter(activity, itemArrayList);
         listView.setAdapter(adapter);
+        if(swipeRefreshLayout == null ){
+            return;
+        }
         swipeRefreshLayout.setRefreshing(false);
 
     }

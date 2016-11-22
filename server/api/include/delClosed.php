@@ -25,7 +25,7 @@ function delClosed($code, $userId){
 
   $ding = $countstmt->fetch();
 
-  $closed = $ding['Closed'];
+  $closed = $ding['closed'];
 
     if($closed > 0) {
       //Doe -1 bij closed product

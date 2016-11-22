@@ -108,7 +108,7 @@ public class ItemDialog extends Dialog implements
 
             @Override
             public void changeItemError(String e) {
-                Toast.makeText(activity, activity.getString(R.string.noInternetMessage), Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, activity.getString(R.string.noInternetMessage)+e, Toast.LENGTH_LONG).show();
             }
         };
         smartfridge.changeItem(action, item.getBarcode());
@@ -121,6 +121,9 @@ public class ItemDialog extends Dialog implements
         TextView title = (TextView) findViewById(R.id.ItemDialogTitle);
         TextView barcode = (TextView) findViewById(R.id.ItemDialogBarcode);
         EditText titleEdit = (EditText) findViewById(R.id.ItemDialogTitleEdit);
+        if(openNumberView == null || closedNumberView == null || title == null || barcode == null || titleEdit == null){
+            return;
+        }
         titleEdit.setText(item.getTitle());
         title.setText(item.getTitle());
         openNumberView.setText(Integer.toString(item.getOpen()));
@@ -146,6 +149,8 @@ public class ItemDialog extends Dialog implements
                         ItemDialog.item = item;
                         createScreen(item);
                     }
+
+
                 };
                 smartfridge.changeTitle(editText.getText().toString(), item.getBarcode());
             }
