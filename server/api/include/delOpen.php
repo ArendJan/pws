@@ -23,7 +23,7 @@ catch (PDOException $e){
 }
   $ding = $countstmt->fetch();
 
-  $open = $ding['Open'];
+  $open = $ding['open'];
 
   if ($open > 0){
     //Doe -1 bij open product

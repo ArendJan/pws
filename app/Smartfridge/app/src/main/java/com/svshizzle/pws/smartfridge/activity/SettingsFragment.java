@@ -52,7 +52,7 @@ public class SettingsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.activity_home_fragment, container, false);
 
 
-
+//THIS DOESN"T WORKKKKK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         return rootView;
     }

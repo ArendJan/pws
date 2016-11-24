@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 
@@ -46,6 +47,7 @@ public class ListFragment extends Fragment {
     ArrayList<ShoppingListItem> shoppingListItems;
     ListListAdapter adapter;
     ProgressDialog dialog;
+    SwipeRefreshLayout swipeRefreshLayout;
     public ListFragment() {
 
     }
@@ -73,8 +75,10 @@ public class ListFragment extends Fragment {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-
+                makeSwipe();
                 makeList();
+                makeReset();
+
 
 
 
@@ -85,8 +89,49 @@ public class ListFragment extends Fragment {
 
         return rootView;
     }
+    private void makeSwipe(){
+        swipeRefreshLayout = (SwipeRefreshLayout) activity.findViewById(R.id.shoppingListRefresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                makeList();
+            }
+        });
+    }
+    private void makeReset(){
+        Button reset = (Button) activity.findViewById(R.id.shoppingListReset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog = new ProgressDialog(activity);
+                dialog.setMessage("Resetting the shopping list...");
+                dialog.setCancelable(false);
+                dialog.show();
+                Smartfridge smartfridge = new Smartfridge(activity){
+                    @Override
+                    public void setLogResetDone() {
+                        dialog.dismiss();
+                        Toast.makeText(activity, "Done, your shopping list has been reset!", Toast.LENGTH_LONG).show();
+                        makeList();
+                    }
+
+                    @Override
+                    public void setLogResetError(String error) {
+                        dialog.dismiss();
+                        Toast.makeText(activity, "Oops, epic fail: "+error, Toast.LENGTH_LONG).show();
+
+                    }
+                };
+                smartfridge.setLogReset();
+            }
+        });
+    }
 
     private void makeList(){
+        if(swipeRefreshLayout == null){
+            return;
+        }
+        swipeRefreshLayout.setRefreshing(true);
         Smartfridge smartfridge = new Smartfridge(getActivity()){
             @Override
             public void getLogDone(ArrayList<LogItem> items) {
@@ -97,19 +142,25 @@ public class ListFragment extends Fragment {
             public void getLogError(String e){
 
                 Toast.makeText(getActivity(), "Oops, refreshing failed. Errormessage:"+e, Toast.LENGTH_LONG).show();
+                if(swipeRefreshLayout == null){return;}
+                swipeRefreshLayout.setRefreshing(false);
             }
 
-            @Override
-            public void containsError(String e) {
 
-            }
-
-            @Override
-            public void containsDone(ArrayList<Item> items) {
-
-            }
         };
         smartfridge.getLog("ASC");
+
+
+        try {
+
+
+            ArrayList<LogItem> arrayList = smartfridge.processLog(SmartfridgeSave.getLogASCBackup(getActivity()));
+            createList(arrayList);
+        }catch (JSONException e){
+            Log.d("exception", e.getLocalizedMessage());
+            if(swipeRefreshLayout==null){return;}
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     private void createList(final ArrayList<LogItem> items){
@@ -135,7 +186,9 @@ public class ListFragment extends Fragment {
                         Log.d("Title", title);
                         listItemses.add(new ListItems(change, barcode, title));
                     } else if(index!=-1){
-                        listItemses.get(index).setAmount(change + listItemses.get(index).getAmount());
+                        if(listItemses.get(index).getAmount()>0&&change==-1 || change==1) {
+                            listItemses.get(index).setAmount(change + listItemses.get(index).getAmount());
+                        }
                     }
 
 
@@ -144,7 +197,7 @@ public class ListFragment extends Fragment {
                 }
 
 
-            }else if(item.getScript().equals("logReset.php")){
+            }else if(item.getScript().equals("resetLog.php")){
                 listItemses = new ArrayList<ListItems>();
             }
         }
@@ -162,11 +215,18 @@ public class ListFragment extends Fragment {
         }
         Log.d("aantal2 =", "eets"+shoppingListItems.size());
         final ListView listView =(ListView) activity.findViewById(R.id.shoppingListListView);
-
-        adapter = new ListListAdapter(activity, shoppingListItems);
-        listView.setAdapter(adapter);
-
+        if(listView==null){
+            return;
+        }
         Button b = (Button) activity.findViewById(R.id.shoppingListButton);
+        if(b==null){
+            return;
+        }
+        adapter = new ListListAdapter(activity, shoppingListItems);
+        try {
+            listView.setAdapter(adapter);
+
+
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -217,10 +277,14 @@ public class ListFragment extends Fragment {
                 dialog.setMessage("Uploading list...");
             }
         });
+        if(swipeRefreshLayout==null){
+            return;
+        }
+        swipeRefreshLayout.setRefreshing(false);
 
-
-
-
+        }catch (NullPointerException n){
+            Log.d("eets", n.getLocalizedMessage());
+        }
 
 
     }

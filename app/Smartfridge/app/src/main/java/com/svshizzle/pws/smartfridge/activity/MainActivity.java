@@ -70,11 +70,10 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                 fragment = new ListFragment();
                 title = getString(R.string.title_list);
                 break;
-            case 4:
-                fragment = new SettingsFragment();
-                title = getString(R.string.title_settings);
-                break;
+
             default:
+                fragment = new HomeFragment();
+                title = getString(R.string.title_home);
                 break;
         }
         Log.d("dit is main", title);

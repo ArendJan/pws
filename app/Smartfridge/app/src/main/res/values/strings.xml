@@ -26,7 +26,7 @@
         <item>@string/nav_item_jobs</item>
         <item>@string/nav_item_log</item>
         <item>@string/title_list</item>
-        <item>@string/nav_item_settings</item>
+
     </string-array>
 
     <string name="title_home">Home</string>
@@ -49,8 +49,9 @@
     <string name="SharedPreferencesAPIURL">apiurl</string>
     <string name="SharedPreferencesName">preferences</string>
     <string name="SharedPreferencesContainsBackup">containsbackup</string>
-    <string name="SharedPreferencesLogBackup">logbackup</string>
-
+    <string name="SharedPreferencesLogBackupASC">logbackupASC</string>
+    <string name="SharedPreferencesLogBackupDESC">logbackupDESC</string>
+    <string name="SharedPreferencesActiveBackup">activebackup</string>
 
 
     <!--
@@ -94,5 +95,7 @@
 
     -->
 <string name="ShoppingListButtonText">Print the shoppinglist!</string>
+    <string name="homeSwitchText">Only current items / All</string>
+    <string name="textview">TextView</string>
 
 </resources>

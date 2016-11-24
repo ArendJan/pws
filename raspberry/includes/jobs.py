@@ -101,7 +101,7 @@ def downloadGithub():
 options = {
     "restart" : restart,
     "barcode" : qrCode,
-    "List" :listFunc,
+    "list" :listFunc,
     "text" :  text,
     "update" : update,
     "shutdown" : shutdown

@@ -23,7 +23,7 @@ def awakeThread():
 
 def request():
     try:
-        url = settings.url + "sendAwake"
+        url = settings.url + "sendActive"
         postVars = json.dumps({
         "UserId":settings.userId
         })
