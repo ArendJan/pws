@@ -15,8 +15,7 @@ function addItem($code, $userId){
   //Check of product al bestaat
   try{
     $checkstmt = $conn->prepare("SELECT barcode FROM products WHERE barcode = ? AND userId = ?");
-    $checkstmt->execute(array($code, $userId));  $checkstmt = $conn->prepare("SELECT barcode FROM products WHERE barcode = ? AND userId = ?");
-      $checkstmt->execute(array($code, $userId));
+    $checkstmt->execute(array($code, $userId));
   }
   //Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
   catch (PDOException $e){

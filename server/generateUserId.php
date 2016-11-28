@@ -43,7 +43,7 @@
           $("#done").html(result.ErrorMessage + " Please try again.");
         }else if(result.Error==false){
           $("#done").show();
-          $("#done").html("This is your userId: "+ result.ErrorMessage +". You also recieve an email with this userId!");
+          $("#done").html("This is your userId: "+ result.ErrorMessage +". You will also recieve an email with this userId!");
         }
       }});
     });

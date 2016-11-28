@@ -15,11 +15,11 @@ function retour($error, $errormessage, $url){
 }
 
 if (empty($emailadres) || !isset($emailadres) ) {
-  retour(True,"Voer alle invoervelden in!", "");
+  retour(True,"Fill in all those fields!", "");
   die();
   }
 if(!filter_var($emailadres, FILTER_VALIDATE_EMAIL)){
-  retour(True, "Dit is geen emailadres.", "");
+  retour(True, "This isn't an emailadress.", "");
   die();
 }
 
@@ -35,7 +35,7 @@ try {
   $userId = uniqid();
   $addstmt = $conn->prepare("INSERT INTO users (userId, email) VALUES (?,?)");
   $addstmt->execute(array($userId,$emailadres));
-  //emailFunctie();
+  emailFunctie($userId, $emailadres);
   retour(False, $userId, "");
 }
 catch(PDOException $e)
@@ -47,32 +47,35 @@ function endsWith($haystack, $needle){
   return $needle === "" || (($temp = strlen($haystack) - strlen($needle))>=0 && strpos($haystack, $needle, $temp) !== false);
 }
 
-function emailFunctie(){
-
-  $emailadres= $_POST['Email'];
+function emailFunctie($userId, $emailadres){
 
   //TODO: Stuur email.
-  require "PHPMailer/PHPMailerAutoload.php";
-  $mail = new PHPMailer;
-  $mail->Host = '';
-  $mail->SMTPAuth = true;
-  $mail->Username = '';
-  $mail->Password = '';
-  $mail->SMTPSecure = 'tls';
-  $mail->Port = 587;
-  $mail->setFrom("", "Smart Fridge");
-  $mail->addAddress($emailadres);
+  require ("../php/swift/swift/lib/swift_required.php");
 
-  $mail->isHTML(true);
+  $transport = Swift_SmtpTransport::newInstance('smtp.strato.com',465,'ssl');
+  $transport->setUsername('smartfridge@svshizzle.com');
+  $transport->setPassword('svshizzle123');
+  echo "creds";
 
-  $mail->Subject = "Smartfridge UserId";
-  $mail->Body = "";
-  $mail->AltBody ="";
+  $mailer = Swift_Mailer::newInstance($transport);
+  echo "mailer instance";
 
-  if(!$mail->send()){
-    retour(False,"Mail error, send a message to ...", "");
-    die();
-  }
+  $message = Swift_Message::newInstance();
+  echo "message instance";
+
+  $message->setSubject('Smartfridge UserId');
+  $message->setFrom(array('Smartfridge@svshizzle.com' => 'SmartFridge'));
+  $message->setTo($emailadres);
+  $message->setBody('Your userId for the Smartfridge is: ' . $userId);
+  echo "message";
+
+  $mailer->send($message);
+  echo "send";
+
+  //if(!result){
+  //  retour(False,"Mail error, send a message to ...", "");
+  //  die();
+  //}
 }
 
 ?>
