@@ -40,7 +40,7 @@ def qrCode(job):
     from barcode.writer import ImageWriter
     EAN = barcode.get_barcode_class('EAN')
     ean = EAN(job["Code"], writer=ImageWriter())
-    filename = os.path.dirname(os.path.realpath(__file__)) + "/../printjobs/" + getTimeStamp() + ".txt"
+    #filename = os.path.dirname(os.path.realpath(__file__)) + "/../printjobs/" + getTimeStamp() + ".txt"
     ean.save( os.path.dirname(os.path.realpath(__file__)) + "/../printjobs/ean13_barcode")
     command = "lpr -o fit-to-page " + os.path.dirname(os.path.realpath(__file__)) + "/../printjobs/ean13_barcode.png"
     subprocess.Popen(command, shell=True).wait()

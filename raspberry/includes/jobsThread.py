@@ -19,9 +19,10 @@ def jobThread():
             data = request()
             jsonX = decode(data)
             readAndParse(jsonX)
-            time.sleep(settings.interval)
+            
         except Exception:
             print "oops, wifi has some dezease"
+        time.sleep(settings.interval)
 
 def decode(data):
 
@@ -34,7 +35,7 @@ def request():
         "UserId":settings.userId
         })
         response = requests.post(url, data={"JSON":postVars})
-        print response.text
+        #print response.text
         return response.text
 
     except Exception:

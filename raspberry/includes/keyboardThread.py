@@ -79,22 +79,21 @@ def buttonThread():
 def barcodeThread():
     start = timeit.default_timer()
 
-    #Your statements here
 
 
     print "startBarcode"
     fp = open('/dev/hidraw0', 'rb') #This way the scanner file isn't reopened everytime and parts fall off.
-    stop = timeit.default_timer()
+    #stop = timeit.default_timer()
 
-    print "Opendevice:"+ str(stop - start)
+    #print "Opendevice:"+ str(stop - start)
     while True:
         print "lelellelelellelel"
-        start = timeit.default_timer()
+        #start = timeit.default_timer()
         data = scanCode(fp) #Hier moet barcode code in komen
-        stop = timeit.default_timer()
+        #stop = timeit.default_timer()
         print data
-        print "Scancode:" + str(stop - start)
-        print "lel"
+        #print "Scancode:" + str(stop - start)
+        #print "lel"
         thread = Thread(target=request, args=(data, state))
         thread.start()
         print "done"
@@ -111,11 +110,11 @@ def request(code, astate):
         })
         response = requests.post(url, data={"JSON":postVars})
         print response.text
-        print "responsejsjsjsdfhlkajsdflkjasdflkjasdfjlkasdfljk"
+        #print "responsejsjsjsdfhlkajsdflkjasdflkjasdfjlkasdfljk"
 
     except requests.exceptions.RequestException as e:
         print "ripppp"
-        print # coding=utf-8
+        #print # coding=utf-8
 
 
 
