@@ -47,7 +47,7 @@
             android:id="@+id/loginAPIURLField" />
 
         <Button
-            android:text="Button"
+            android:text="@android:string/VideoView_error_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="@android:string/VideoView_error_button"

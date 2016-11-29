@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Smartfridge</string>
-    <string name="loginText">Please enter your UserId and the API root directory of the Smartfridge server.</string>
-    <string name="title_activity_login">Login</string>
-</resources>

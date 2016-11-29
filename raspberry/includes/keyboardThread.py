@@ -12,14 +12,7 @@ ledIn = 27
 ledOpen = 17
 ledOut = 4
 
-#dev
-import timeit
 
-start = timeit.default_timer()
-
-#Your statements here
-
-stop = timeit.default_timer()
 
 print stop - start
 def start():
@@ -77,9 +70,6 @@ def buttonThread():
             statePrev = state
 
 def barcodeThread():
-    start = timeit.default_timer()
-
-
 
     print "startBarcode"
     fp = open('/dev/hidraw0', 'rb') #This way the scanner file isn't reopened everytime and parts fall off.
@@ -87,13 +77,12 @@ def barcodeThread():
 
     #print "Opendevice:"+ str(stop - start)
     while True:
-        print "lelellelelellelel"
-        #start = timeit.default_timer()
+        
+        
         data = scanCode(fp) #Hier moet barcode code in komen
-        #stop = timeit.default_timer()
+        
         print data
-        #print "Scancode:" + str(stop - start)
-        #print "lel"
+        
         thread = Thread(target=request, args=(data, state))
         thread.start()
         print "done"
@@ -114,7 +103,7 @@ def request(code, astate):
 
     except requests.exceptions.RequestException as e:
         print "ripppp"
-        #print # coding=utf-8
+        
 
 
 

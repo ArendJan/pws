@@ -13,7 +13,7 @@ import json
 
 
 def restart(job):
-    subprocess.Popen(["sudo", "reboot"]) #Sends sudo restart to the terminal, which will restart the RPi
+    subprocess.Popen(["sudo", "reboot"]).wait() #Sends sudo restart to the terminal, which will restart the RPi
 
 def shutdown(job):
     subprocess.Popen(["sudo", "halt"]).wait() #Sends sudo halt to the terminal, which directly shuts the pi down
@@ -63,7 +63,7 @@ def printCommand(text): #This is the function that is called with a string conta
     print command
     subprocess.Popen(command, shell=True).wait()
     os.remove(filename)
-    #subprocess.Popen("lpr <<< '"+text+"'", shell=True).wait()
+    
 
 def getTimeStamp():
     dt = datetime.datetime.now()
