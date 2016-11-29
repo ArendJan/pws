@@ -1,1 +1,0 @@
-print "versie = 2"

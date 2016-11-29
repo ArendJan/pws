@@ -13,7 +13,7 @@ import json
 
 
 def restart(job):
-    subprocess.Popen(["sudo", "reboot"]) #Sends sudo restart to the terminal, which will restart the RPi
+    subprocess.Popen(["sudo", "reboot"]).wait() #Sends sudo restart to the terminal, which will restart the RPi
 
 def shutdown(job):
     subprocess.Popen(["sudo", "halt"]).wait() #Sends sudo halt to the terminal, which directly shuts the pi down
@@ -40,7 +40,7 @@ def qrCode(job):
     from barcode.writer import ImageWriter
     EAN = barcode.get_barcode_class('EAN')
     ean = EAN(job["Code"], writer=ImageWriter())
-    filename = os.path.dirname(os.path.realpath(__file__)) + "/../printjobs/" + getTimeStamp() + ".txt"
+    #filename = os.path.dirname(os.path.realpath(__file__)) + "/../printjobs/" + getTimeStamp() + ".txt"
     ean.save( os.path.dirname(os.path.realpath(__file__)) + "/../printjobs/ean13_barcode")
     command = "lpr -o fit-to-page " + os.path.dirname(os.path.realpath(__file__)) + "/../printjobs/ean13_barcode.png"
     subprocess.Popen(command, shell=True).wait()
@@ -63,7 +63,7 @@ def printCommand(text): #This is the function that is called with a string conta
     print command
     subprocess.Popen(command, shell=True).wait()
     os.remove(filename)
-    #subprocess.Popen("lpr <<< '"+text+"'", shell=True).wait()
+    
 
 def getTimeStamp():
     dt = datetime.datetime.now()

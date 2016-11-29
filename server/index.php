@@ -80,7 +80,7 @@
 
         <!-- First Featurette -->
         <div class="featurette" id="about">
-            <img class="featurette-image img-circle img-responsive pull-right" src="http://placehold.it/500x500">
+            <img class="featurette-image img-circle img-responsive pull-right" src="/img/plaatje1.png">
             <h2 class="featurette-heading">This First Heading
                 <span class="text-muted">Will Catch Your Eye</span>
             </h2>
@@ -91,7 +91,7 @@
 
         <!-- Second Featurette -->
         <div class="featurette" id="services">
-            <img class="featurette-image img-circle img-responsive pull-left" src="http://placehold.it/500x500">
+            <img class="featurette-image img-circle img-responsive pull-left" src="/img/plaatje2.png">
             <h2 class="featurette-heading">The Second Heading
                 <span class="text-muted">Is Pretty Cool Too.</span>
             </h2>

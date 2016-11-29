@@ -1,8 +1,8 @@
 <resources>
 
     <string name="app_name">Smartfridge</string>
-    <string name="title_activity_login">Log in</string>
-    <string name="loginText">Vul uw gebruikersnaam en de API url van de Smartfridge server in.</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="loginText">Please enter your UserId and the URL of the Smartfridge API.</string>
     <string name="loginAPIURL">http://pws.svshizzle.com/api/</string>
     <string name="loginUserIdHint">Your UserId</string>
     <string name="loginUserIdEmpty">You forgot to enter a UserId.</string>
@@ -19,7 +19,7 @@
     <string name="nav_item_home">Home</string>
     <string name="nav_item_jobs">Jobs</string>
     <string name="nav_item_log">Log</string>
-    <string name="nav_item_settings">Instellingen</string>
+    <string name="nav_item_settings">Settings</string>
     <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_home</item>
@@ -96,6 +96,6 @@
     -->
 <string name="ShoppingListButtonText">Print the shoppinglist!</string>
     <string name="homeSwitchText">Only current items / All</string>
-    <string name="textview">TextView</string>
+    <string name="textview"> </string>
 
 </resources>
