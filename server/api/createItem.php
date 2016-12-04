@@ -41,7 +41,7 @@ if (!isset($data["Title"]) || empty($data["Title"])){
 $title = $data["Title"];
 
 try{
-  $stmt = $conn->prepare("INSERT INTO `products` (`ID`, `userId`, `barcode`, `description`, `ammount`, `open`, `closed`) VALUES (NULL, ?, ?, ?, '0', '0', '0');");
+  $stmt = $conn->prepare("INSERT INTO `products` (`ID`, `userId`, `barcode`, `description`, `open`, `closed`) VALUES (NULL, ?, ?, ?, '0', '0');");
   $stmt->execute(array($userId, $barcode, $title));
 }
 //Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
