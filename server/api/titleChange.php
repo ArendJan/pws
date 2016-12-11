@@ -50,9 +50,29 @@ try{
 catch (PDOException $e){
   errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
   die;
+  
+}
+try{
+  $returnstmt = $conn->prepare('SELECT * FROM products WHERE userId = ? AND barcode = ?');
+  $returnstmt->execute(array($userId, $code));
+}
+//Wanneer er een error komt met de query, komt dit in de erroLogging tabel dmv de functie errorLogging in log.php
+catch (PDOException $e){
+  errorLogging(basename($_SERVER['PHP_SELF']), $_POST['JSON'], $userId, $e);
+  die;
 }
 
-require_once(dirname(__FILE__)."/include/returnItem.php");
-echo returnItem($barcode);
+$result = $returnstmt -> fetch();
+
+$return_arr = array();
+
+$row_array['Id'] = intval($result['ID']);
+$row_array['Name'] = $result['description'];
+$row_array['Barcode'] = strval($result['barcode']);
+$row_array['Closed'] = intval($result['closed']);
+$row_array['Open'] = intval($result['open']);
+
+array_push($return_arr,$row_array);
+echo json_encode($return_arr);
 
  ?>

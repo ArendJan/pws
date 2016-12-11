@@ -19,5 +19,4 @@ catch(PDOException $e)
   return $conn;
 }
 
-
 ?>
