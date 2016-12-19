@@ -2,7 +2,7 @@ package com.svshizzle.pws.smartfridge.api;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
+
 
 import com.svshizzle.pws.smartfridge.R;
 

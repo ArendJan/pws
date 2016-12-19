@@ -4,7 +4,7 @@ import android.content.Context;
 
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
+
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

@@ -10,7 +10,7 @@ package com.svshizzle.pws.smartfridge.activity;
 
         import android.support.v4.widget.SwipeRefreshLayout;
 
-        import android.util.Log;
+
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;

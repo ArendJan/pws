@@ -10,7 +10,7 @@ import android.os.Bundle;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment {
         view = rootView;
 
         activity = getActivity();
-        Log.d("wtf", "is aan de hand");
+
         new AsyncTask<Void, Void, Void>(){
             @Override
             protected Void doInBackground(Void... voids) {
@@ -78,28 +78,25 @@ public class HomeFragment extends Fragment {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                Log.d("hier gebeurt iets", "maar wat");
+
                 createSwipeRefresh(activity);
                 createSwitch(activity);
                 requestList(false);
                 checkActive();
                 createActive(SmartfridgeSave.getActiveBackup(activity));
                 Smartfridge smartfridge = new Smartfridge(getActivity());
-                Log.d("dit", "moet wel gebeuren");
+
 
                 try {
 
-                    Log.d("what", "moet gebeuren");
+
                     ArrayList<Item> arrayList = smartfridge.processContains(SmartfridgeSave.getContainsBackup(getActivity()));
-                    Log.d("get", "createlist");
+
                     createList(arrayList);
-                    Log.d("einde", "van verhaal");
+
                 }catch (JSONException e){
-                    Log.d("exception", e.getLocalizedMessage());
-                    Log.d("Exception", "inception");
+                    //TODO:EXCeptions
                 }catch (Exception e){
-                    Log.d("kut", e.getLocalizedMessage());
-                    Log.d("Exception", "inception2");
                 }
 
             }
@@ -123,7 +120,7 @@ public class HomeFragment extends Fragment {
     }
 
     void requestList(boolean swit){
-        Log.d("request", "start");
+
 swipeRefreshLayout.setRefreshing(true);
         Smartfridge smartfridge = new Smartfridge(getActivity()){
 
@@ -136,7 +133,7 @@ swipeRefreshLayout.setRefreshing(true);
             @Override
             public void containsError(String e) {
 
-                Log.d("ebola", e);
+
                 if(swipeRefreshLayout== null){return;}
                 swipeRefreshLayout.setRefreshing(false);
 
@@ -145,9 +142,9 @@ swipeRefreshLayout.setRefreshing(true);
             }
         };
         if(!smartfridge.isSignedin()){
-           Log.d("not", "signedin");
+
         }
-        Log.d("uid", smartfridge.getUserid());
+
         String sort = "opened+closed";
         if(swit ){
             sort = "everything";
@@ -161,14 +158,14 @@ swipeRefreshLayout.setRefreshing(true);
     }
     void createList(ArrayList<Item> items){
         final ArrayList<Item> itemArrayList = new ArrayList<>();
-        Log.d("dit", "is eets");
+
         for(int x = 0;x<items.size();x++){
             itemArrayList.add(items.get(x));
         }
         createSwipeRefresh(activity);
         listView = (ListView)activity.findViewById(R.id.homeListView);
         if(listView==null || swipeRefreshLayout==null){
-            Log.d("kukut", "null");
+
             return;
         }
 
@@ -183,7 +180,7 @@ swipeRefreshLayout.setRefreshing(true);
             }
         });
         swipeRefreshLayout.setRefreshing(false);
-        Log.d("createlist", "end");
+
     }
 
     void createSwipeRefresh(Activity rootView) {
@@ -232,8 +229,7 @@ swipeRefreshLayout.setRefreshing(true);
     }
 
     void createActive(String output) {
-        Log.d("what", output);
-        Log.d("What is", "mos");
+
         try {
 
 
@@ -245,8 +241,6 @@ swipeRefreshLayout.setRefreshing(true);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date1 = format.parse(object.getString("Time"));
             Date date2 = format.parse(currentDateandTime);
-            Log.d("tijd`1", date1.toString());
-            Log.d("Tijd2", date2.toString());
             long millis = date2.getTime() - date1.getTime();
             String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
                     TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
@@ -260,9 +254,9 @@ swipeRefreshLayout.setRefreshing(true);
 
         } catch (JSONException e) {
             //Fuck
-            Log.d("oops", e.getLocalizedMessage());
+            //TODO:exceptions
         } catch (ParseException e) {
-            Log.d("lelele", e.getLocalizedMessage());
+            
         }catch (Exception e){
             Log.d("eets", e.getLocalizedMessage());
         }

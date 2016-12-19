@@ -1,6 +1,6 @@
 package com.svshizzle.pws.smartfridge.model;
 
-import android.util.Log;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;

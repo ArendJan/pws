@@ -5,7 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
+
 
 import org.json.JSONObject;
 
@@ -57,11 +57,11 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
             URL urlToRequest = new URL(url);
             urlConnection = (HttpURLConnection) urlToRequest.openConnection();
 
-            Log.d("asdfasdfxzcv", postParameters);
+
             // handle POST parameters
             if (postParameters != null) {
 
-                Log.d("llel", "dit");
+
 
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestMethod("POST");
@@ -90,21 +90,20 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
 
 
         } catch (MalformedURLException e) {
-            Log.d("malformedurlexception", e.getLocalizedMessage());
+            //TODO:EXCEPTIONS!!!
             // handle invalid URL
         } catch (SocketTimeoutException e) {
-            Log.d("sockettimeout", e.getLocalizedMessage());// hadle timeout
+
         } catch (IOException e) {
-            Log.d("ioexception", e.getLocalizedMessage());// handle I/0
-            Log.d("uitleg", e.getMessage());
-            Log.d("uitleg", e.getStackTrace().toString());
+
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
         }
-                Log.d("kut", "Fuckkkkkkkkkkk");
+
         return null;
+                //TODO:GEEN NULLL
     }
     @Override
     public  RequestReturn doInBackground(String... uri) {
@@ -123,7 +122,7 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
     private static String getResponseText(InputStream inStream) {
         // very nice trick from
         // http://weblogs.java.net/blog/pat/archive/2004/10/stupid_scanner_1.html
-        Log.d("getres", "scanner");
+
         return new Scanner(inStream).useDelimiter("\\A").next();
     }
     private static final char PARAMETER_DELIMITER = '&';
@@ -146,7 +145,7 @@ public class RequestClassPost extends AsyncTask<String, String, RequestReturn> {
                 firstParameter = false;
             }
         }
-        Log.d("anoes",parametersAsQueryString.toString());
+
         return parametersAsQueryString.toString();
     }
     public boolean isNetworkAvailable(final Context context) {
