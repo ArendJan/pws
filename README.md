@@ -1,5 +1,5 @@
 #backup
-De versie van op het moment van inleveren staat op [/arendjan/pwsBackup](PWSBackup)
+De versie van op het moment van inleveren staat op [https://github.com/arendjan/pwsBackup](PWSBackup)
 # pws
 ProfielWerkStuk van AJ en Vinnii
 
