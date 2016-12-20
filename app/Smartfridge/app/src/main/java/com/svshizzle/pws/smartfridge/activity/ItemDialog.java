@@ -6,29 +6,19 @@ package com.svshizzle.pws.smartfridge.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
-
-import com.google.gson.Gson;
-
-
 import com.svshizzle.pws.smartfridge.R;
 import com.svshizzle.pws.smartfridge.api.Smartfridge;
 import com.svshizzle.pws.smartfridge.model.Item;
-import com.svshizzle.pws.smartfridge.request.RequestClassPost;
-import com.svshizzle.pws.smartfridge.request.RequestReturn;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.Locale;
 
 public class ItemDialog extends Dialog implements
         android.view.View.OnClickListener {
@@ -36,7 +26,7 @@ public class ItemDialog extends Dialog implements
     public Activity activity;
     public static Item item;
 
-    public ItemDialog(Activity a, Item item) {
+    ItemDialog(Activity a, Item item) {
         super(a);
         // TODO Auto-generated constructor stub
         this.activity = a;
@@ -70,7 +60,7 @@ public class ItemDialog extends Dialog implements
         switch (v.getId()) {
 
             case R.id.ItemDialogOk:
-                Log.d("ok", "of je sok");
+
                 changeText();
                 dismiss();
                 break;
@@ -92,7 +82,7 @@ public class ItemDialog extends Dialog implements
                 changeText();
                 break;
             default:
-                Log.d("oops", "default is not ok");
+                //TODO:Moet er hier nog iets?
                 break;
         }
 
@@ -126,8 +116,8 @@ public class ItemDialog extends Dialog implements
         }
         titleEdit.setText(item.getTitle());
         title.setText(item.getTitle());
-        openNumberView.setText(Integer.toString(item.getOpen()));
-        closedNumberView.setText(Integer.toString(item.getClosed()));
+        openNumberView.setText(String.format(Locale.getDefault(), "%d",item.getOpen()));
+        closedNumberView.setText(String.format(Locale.getDefault(), "%d",item.getClosed()));
         barcode.setText(item.getBarcode());
 
     }

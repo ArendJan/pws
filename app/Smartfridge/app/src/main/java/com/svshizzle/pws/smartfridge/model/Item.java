@@ -8,11 +8,11 @@ import org.json.JSONObject;
  */
 
 public class Item {
-    int closed = 0;
-    int open = 0;
-    String title = "";
-    int id = 0;
-    String barcode = "";
+    private int closed = 0;
+    private int open = 0;
+    private String title = "";
+    private int id = 0;
+    private String barcode = "";
 
     public Item(int closed, int open, String title, int id, String barcode) {
         this.closed = closed;
@@ -74,7 +74,7 @@ public class Item {
             this.id = object.getInt("Id");
             this.barcode = object.getString("Barcode");
             return this;
-        }catch (JSONException e){
+        }catch (JSONException ignored){
 
         }
         return this;

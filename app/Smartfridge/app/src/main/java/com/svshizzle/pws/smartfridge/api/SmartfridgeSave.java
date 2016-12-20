@@ -11,107 +11,85 @@ import com.svshizzle.pws.smartfridge.R;
  */
 
 public abstract class SmartfridgeSave {
-        public static boolean getSignedin(Context context){
+        static boolean getSignedin(Context context){
             SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
             return sharedPreferences.getBoolean(context.getString(R.string.SharedPreferencesSignedIn), false);
         }
-    public static String getUserId (Context context){
+    static String getUserId(Context context){
 
         SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
-        String output =sharedPreferences.getString(context.getString(R.string.SharedPreferencesUserId), "asdrqwerqweerf");
-        Log.d("output=", output);
-        Log.d("fuck", "als alleen");
-        return output;
+        return sharedPreferences.getString(context.getString(R.string.SharedPreferencesUserId), "");
 
     }
-    public static String getAPIURL ( Context context){
+    static String getAPIURL(Context context){
         SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
-        String output =  sharedPreferences.getString(context.getString(R.string.SharedPreferencesAPIURL), "asdqwerqwerqwerqwerwqe");
-        Log.d("output=", output);
-        Log.d("fuck", "als alleen");
-        return output;
+        return sharedPreferences.getString(context.getString(R.string.SharedPreferencesAPIURL), "");
     }
-    public static void setSignedin(Context context, boolean bool){
+    static void setSignedin(Context context, boolean bool){
         SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(context.getString(R.string.SharedPreferencesSignedIn), bool);
-editor.commit();
+editor.apply();
     }
-    public static void setUserId(Context context, String UID){
+    static void setUserId(Context context, String UID){
         SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(context.getString(R.string.SharedPreferencesUserId), UID);
-        editor.commit();
+        editor.apply();
 
     }
-    public static void setAPIURL(Context context, String APIURL){
+    static void setAPIURL(Context context, String APIURL){
         SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(context.getString(R.string.SharedPreferencesAPIURL), APIURL);
-        editor.commit();
+        editor.apply();
 
     }
 
-    public static void setContainsBackup(Context context, String containsBackup){
-        Log.d("what", containsBackup);
-        Log.d("eets", "what");
+    static void setContainsBackup(Context context, String containsBackup){
         SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(context.getString(R.string.SharedPreferencesContainsBackup), containsBackup);
-        editor.commit();
+        editor.apply();
     }
-    public static void setLogASCBackup(Context context, String logBackup){
-        Log.d("what", logBackup);
-        Log.d("eets", "what");
+    static void setLogASCBackup(Context context, String logBackup){
         SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(context.getString(R.string.SharedPreferencesLogBackupASC), logBackup);
-        editor.commit();
+        editor.apply();
     }
-    public static void setLogDESCBackup(Context context, String logBackup){
-        Log.d("what", logBackup);
-        Log.d("eets", "what");
+    static void setLogDESCBackup(Context context, String logBackup){
         SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(context.getString(R.string.SharedPreferencesLogBackupDESC), logBackup);
-        editor.commit();
+        editor.apply();
     }
     public static String getContainsBackup ( Context context){
 
         SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
-        String output =  sharedPreferences.getString(context.getString(R.string.SharedPreferencesContainsBackup), "");
-        Log.d("what", output);
-        Log.d("eets", "getcontains");
-        return output;
+        return sharedPreferences.getString(context.getString(R.string.SharedPreferencesContainsBackup), "");
     }
     public static String getLogASCBackup ( Context context){
         SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
-        String output =  sharedPreferences.getString(context.getString(R.string.SharedPreferencesLogBackupASC), "");
 
-        return output;
+        return sharedPreferences.getString(context.getString(R.string.SharedPreferencesLogBackupASC), "");
     }
     public static String getLogDESCBackup ( Context context){
         SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
-        String output =  sharedPreferences.getString(context.getString(R.string.SharedPreferencesLogBackupDESC), "");
 
-        return output;
+        return sharedPreferences.getString(context.getString(R.string.SharedPreferencesLogBackupDESC), "");
     }
 
-    public static void setActiveBackup(Context context, String logBackup){
-        Log.d("what", logBackup);
-        Log.d("eets", "setactive");
+    static void setActiveBackup(Context context, String logBackup){
         SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(context.getString(R.string.SharedPreferencesActiveBackup), logBackup);
-        editor.commit();
+        editor.apply();
     }
     public static String getActiveBackup ( Context context){
 
         SharedPreferences sharedPreferences =  context.getSharedPreferences(context.getResources().getString(R.string.SharedPreferencesName), 0);
-        String output =  sharedPreferences.getString(context.getString(R.string.SharedPreferencesActiveBackup), "");
-        Log.d("what", output);
-        Log.d("eets", "getactive");
-        return output;
+        return sharedPreferences.getString(context.getString(R.string.SharedPreferencesActiveBackup), "");
     }
 
 }

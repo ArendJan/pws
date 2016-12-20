@@ -82,7 +82,6 @@ public class LogItem {
                 this.parameters = new JSONObject();
             }
             this.userId = object.getString("UserId");
-            Log.d("script=", script);
             if("markJob.php".equals(script)){
 
                 this.jobDetails = object.getJSONObject("JobDetails");
@@ -93,7 +92,7 @@ public class LogItem {
 
             return this;
         }catch (JSONException e){
-            Log.d("what?", e.getLocalizedMessage());
+            //TODO:EMPTY
         }
         return this;
     }

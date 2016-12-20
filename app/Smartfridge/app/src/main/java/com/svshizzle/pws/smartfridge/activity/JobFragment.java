@@ -1,6 +1,5 @@
 package com.svshizzle.pws.smartfridge.activity;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -47,12 +46,6 @@ public class JobFragment extends Fragment implements android.view.View.OnClickLi
 
 
 
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -75,7 +68,7 @@ public class JobFragment extends Fragment implements android.view.View.OnClickLi
                 break;
 
             default:
-                Log.d("oops", "default is not ok");
+                //TODO:Hier nog iets?
                 break;
         }
 
@@ -99,7 +92,7 @@ public class JobFragment extends Fragment implements android.view.View.OnClickLi
 
             @Override
             public void printJobError(String e) {
-                Log.d("printjoberror", e);
+
                 dialog.dismiss();
                 Toast.makeText(getActivity(), "Oops, something went wrong. Errormessage:"+e, Toast.LENGTH_LONG).show();
             }
@@ -123,7 +116,7 @@ public class JobFragment extends Fragment implements android.view.View.OnClickLi
 
             @Override
             public void shutdownError(String e) {
-                Log.d("shutdownerror",e);
+
                 dialog.dismiss();
                 Toast.makeText(getActivity(), "Oops, something went wrong. Errormessage:"+e, Toast.LENGTH_LONG).show();
             }
@@ -147,7 +140,6 @@ public class JobFragment extends Fragment implements android.view.View.OnClickLi
 
             @Override
             public void restartError(String e) {
-                Log.d("restarterror", e);
                 dialog.dismiss();
                 Toast.makeText(getActivity(), "Oops, something went wrong. Errormessage:"+e, Toast.LENGTH_LONG).show();
             }
@@ -186,7 +178,7 @@ public class JobFragment extends Fragment implements android.view.View.OnClickLi
                 }else{
                     dialog.dismiss();
                 }
-                Log.d("barcodeerror", e);
+
 
             }
 
@@ -202,7 +194,7 @@ public class JobFragment extends Fragment implements android.view.View.OnClickLi
 
             @Override
             public void createItemError(String e) {//TODO:fix als geen internet heeft en beide tegelijkertijd de getbarcodeint hebben opgevraagd, waardoor dialog blijft staan....
-                Log.d("createError", e);
+
                 if(getBarcodeInt()){
                     dialog.setMessage("Barcode job error:"+e+". Adding item to database...");
                 }else{
@@ -216,7 +208,6 @@ public class JobFragment extends Fragment implements android.view.View.OnClickLi
         String barcode = smartfridge.createBarcode();
         dialog.setMessage("Sending a request to the server to print and a request to add the item to the database...");
         Toast.makeText(getActivity(), barcode, Toast.LENGTH_LONG).show();
-        Log.d("barcode", barcode);
         smartfridge.barcode(barcode);
         smartfridge.createItem(barcode, title);
     }

@@ -3,26 +3,19 @@ package com.svshizzle.pws.smartfridge.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.svshizzle.pws.smartfridge.R;
 import com.svshizzle.pws.smartfridge.api.Smartfridge;
-import com.svshizzle.pws.smartfridge.api.SmartfridgeSave;
 import com.svshizzle.pws.smartfridge.request.RequestClass;
 import com.svshizzle.pws.smartfridge.request.RequestClassPost;
 import com.svshizzle.pws.smartfridge.request.RequestReturn;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -62,39 +55,18 @@ public class Login extends AppCompatActivity {
         boolean error = false;
         String errorText = "";
         String Userid = "";
-
-        public String getAPIURL() {
-            return APIURL;
-        }
-
-        public void setAPIURL(String APIURL) {
-            this.APIURL = APIURL;
-        }
-
-        public String getUserid() {
-            return Userid;
-        }
-
-        public void setUserid(String userid) {
-            Userid = userid;
-        }
-
         String APIURL = "";
 
-        public String getErrorText() {
+        String getErrorText() {
             return errorText;
         }
 
-        public void setErrorText(String errorText) {
-            this.errorText = errorText;
-        }
-
-        public checkReturn(boolean error, String errorText) {
+        checkReturn(boolean error, String errorText) {
 
             this.error = error;
             this.errorText = errorText;
         }
-        public checkReturn(boolean error, String errorText, String userid, String apiurl) {
+        checkReturn(boolean error, String errorText, String userid, String apiurl) {
 
             this.error = error;
             this.errorText = errorText;
@@ -102,13 +74,10 @@ public class Login extends AppCompatActivity {
             this.APIURL = apiurl;
 
         }
-        public boolean isError() {
+        boolean isError() {
             return error;
         }
 
-        public void setError(boolean error) {
-            this.error = error;
-        }
     }
 
     private class CheckLogin extends AsyncTask<String, String, checkReturn>{
@@ -131,13 +100,13 @@ public class Login extends AppCompatActivity {
 
 
 
-            RequestClass requestClass = new RequestClass(getApplication());
+            RequestClass requestClass = new RequestClass();
             RequestReturn output = requestClass.getData(APIURL + getResources().getString(R.string.APIServerCheck));
 
 
 
             if(output.isError()|| !output.getResponse().equals("y")){
-                Log.d("wut", output.getResponse());
+
                 return new checkReturn(true, getResources().getString(R.string.loginAPIURLFaulty));
             }
             publishProgress(getResources().getString(R.string.loginDialogUserIdCheck));
@@ -147,20 +116,21 @@ public class Login extends AppCompatActivity {
                 jsonObject.put("UserId",UserId);
 
             }catch (JSONException e ){
+                //TODO:exception
             }
             RequestClassPost requestClassPost = new RequestClassPost(getApplication(), jsonObject);
             output = requestClassPost.doInBackground(APIURL + getResources().getString(R.string.APIUserIdCheck));
-            Log.d("output", output.getResponse());
-            boolean correctUserId = false;
+
+            boolean correctUserId;
             try {
                 jsonObject = new JSONObject(output.getResponse());
                 correctUserId = jsonObject.getString("check").equals("y");
             }catch (JSONException exception){
-                Log.d("exc", exception.getMessage());
+
                 return new checkReturn(true, getResources().getString(R.string.loginUserIdFaulty));
             }
             if(output.isError() || !correctUserId){
-                Log.d("hiero", "gaathetmis");
+
                 return new checkReturn(true, getResources().getString(R.string.loginUserIdFaulty));
             }
 
@@ -179,12 +149,7 @@ public class Login extends AppCompatActivity {
                 Smartfridge smartfridge = new Smartfridge(activity);
                 smartfridge.setSettings(s.APIURL, s.Userid);
                 Intent intent = new Intent(Login.this, MainActivity.class);
-                if(SmartfridgeSave.getAPIURL(activity).equals(s.APIURL)){
-                    Log.d("hehe", "eindelijk!!!");
-                }
-                else{
-                    Log.d("hehe", "kuuuuuuuuuuuuuuuuuuuuuuuuuuutttttttttttttttt");
-                }
+
                 Login.this.startActivity(intent);
                 finish();
             }

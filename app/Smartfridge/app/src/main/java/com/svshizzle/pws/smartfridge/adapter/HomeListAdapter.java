@@ -1,7 +1,7 @@
 package com.svshizzle.pws.smartfridge.adapter;
 
 /**
- * Created by Arend-Jan on 28-10-2016.
+ * Created by Arend-Jan on 28-10-2016.e
  */
 
 import java.util.ArrayList;
@@ -19,13 +19,13 @@ import com.svshizzle.pws.smartfridge.model.Item;
 
 public class HomeListAdapter extends BaseAdapter {
 
-    private Activity activity;
+
     private ArrayList<Item> data;
     private static LayoutInflater inflater=null;
 
 
-    public HomeListAdapter(Activity a, ArrayList<Item> d) {
-        activity = a;
+    public HomeListAdapter(Activity activity, ArrayList<Item> d) {
+
         data=d;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -45,8 +45,9 @@ public class HomeListAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
-        if(convertView==null)
+        if(convertView==null) {
             vi = inflater.inflate(R.layout.home_row, null);
+        }
 
         TextView title = (TextView)vi.findViewById(R.id.Name); // Name
         TextView barcode = (TextView)vi.findViewById(R.id.Barcode); // barcode

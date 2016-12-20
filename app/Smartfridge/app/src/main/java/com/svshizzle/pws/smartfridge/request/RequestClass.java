@@ -1,9 +1,6 @@
 package com.svshizzle.pws.smartfridge.request;
 
-import android.content.Context;
-
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 
 
 import java.io.BufferedReader;
@@ -23,9 +20,9 @@ public class RequestClass extends AsyncTask<String, String, RequestReturn> {
 
 
         private boolean error = false; //If there was an error.
-    private Context activity;
- public RequestClass(Context x){
-     this.activity = x;
+
+ public RequestClass(){
+
  }
     public RequestReturn getData(String html){
         String responseString ="";

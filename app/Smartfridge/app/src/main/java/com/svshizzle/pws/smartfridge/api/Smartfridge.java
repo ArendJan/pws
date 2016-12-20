@@ -1,18 +1,8 @@
 package com.svshizzle.pws.smartfridge.api;
 
 import android.app.Activity;
-import android.content.Intent;
-
-import android.os.AsyncTask;
-
-import android.widget.Toast;
-
-import com.svshizzle.pws.smartfridge.R;
-import com.svshizzle.pws.smartfridge.activity.Login;
-import com.svshizzle.pws.smartfridge.activity.MainActivity;
 import com.svshizzle.pws.smartfridge.model.Item;
 import com.svshizzle.pws.smartfridge.model.LogItem;
-import com.svshizzle.pws.smartfridge.request.RequestClass;
 import com.svshizzle.pws.smartfridge.request.RequestClassPost;
 import com.svshizzle.pws.smartfridge.request.RequestReturn;
 
@@ -29,12 +19,12 @@ import java.util.Random;
  */
 
 public class Smartfridge {
-    Activity activity;
+    private Activity activity;
     private String userid = "";
     private String apiUrl = "";
     private boolean signedIn = false;
 
-    public boolean isJSONValid(String test) {
+    private boolean isJSONValid(String test) {
         try {
             new JSONObject(test);
         } catch (JSONException ex) {
@@ -70,14 +60,14 @@ public class Smartfridge {
         this.signedIn = signedIn;
     }
 
-    public String CONTAINS = "apicontains";
+
 
     public Smartfridge(){}
     public Smartfridge(Activity activity){
         this.activity = activity;
         init();
     }
-    public void init(){
+    private void init(){
         signedIn = SmartfridgeSave.getSignedin(activity);
 
         if(signedIn) {
@@ -85,12 +75,11 @@ public class Smartfridge {
 
             apiUrl = SmartfridgeSave.getAPIURL(activity);
             userid = SmartfridgeSave.getUserId(activity);
-            return;
         }
         else{
             userid = "";
             apiUrl = "";
-            Log.d("notsignedinin", "oops");
+
         }
     }
 
@@ -104,12 +93,13 @@ public class Smartfridge {
         JSONObject jsonObject = new JSONObject();
         try {
 
-            Log.d("userid", userid);
+
             jsonObject.put("Sort", sort);
             jsonObject.put("UserId", userid);
 
 
         }catch (JSONException e ){
+        //TODO: uhm empty
         }
 
         RequestClassPost request = new RequestClassPost(activity,jsonObject ){
@@ -122,7 +112,7 @@ public class Smartfridge {
 
                     try {
 
-                        Log.d("asdf", requestReturn.getResponse());
+
                         containsDone(processContains(requestReturn.getResponse()));
                         if(isJSONValid(requestReturn.getResponse())) {
                             SmartfridgeSave.setContainsBackup(activity, requestReturn.getResponse());
@@ -141,7 +131,7 @@ public class Smartfridge {
         request.execute(url);
     }
     public ArrayList<Item> processContains(String output)throws JSONException{
-        ArrayList<Item> items = new ArrayList<Item>();
+        ArrayList<Item> items = new ArrayList<>();
         JSONArray reader = new JSONArray(output);
         for (int x = 0; x < reader.length(); x++) {
 
@@ -150,18 +140,16 @@ public class Smartfridge {
             item.loadFromJson(object);
             items.add(item);
         }
-        Log.d("process", "Contains");
+
         return items;
     }
 
     public void containsDone(ArrayList<Item> items){
-        Log.d("containsDone", "Not overridden");
+        //This always must be empty
+
     }
     public void containsError(String e) {
-        Log.d("containsError", "Not overridden");
-        if (e != null) {
-            Log.d("error=", e);
-        }
+        //Must be empty
     }
 
     public void setSettings(String url, String uid){
@@ -171,13 +159,6 @@ public class Smartfridge {
         SmartfridgeSave.setSignedin(activity, true);
         SmartfridgeSave.setUserId(activity, uid);
         SmartfridgeSave.setAPIURL(activity, apiUrl);
-
-        if(SmartfridgeSave.getAPIURL(activity).equals(apiUrl)){
-            Log.d("hehe", "eindelijk!!!");
-        }
-        else{
-            Log.d("hehe", "kuuuuuuuuuuuuuuuuuuuuuuuuuuutttttttttttttttt");
-        }
     }
 
 
@@ -189,13 +170,14 @@ public class Smartfridge {
             jsonObject.put("Barcode", barcode);
             jsonObject.put("Action", change);
         }catch (JSONException e ){
+            //TODO:MISSCHIEN IETS
         }
         RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
             @Override
             protected void onPostExecute(RequestReturn requestReturn) {
                 super.onPostExecute(requestReturn);
                 if(!requestReturn.isError()) {
-                    Log.d("return", requestReturn.getResponse());
+
 
                     JSONObject object;
                     try {
@@ -233,20 +215,19 @@ public class Smartfridge {
             jsonObject.put("UserId",userid);
             jsonObject.put("Barcode", barcode);
             jsonObject.put("Title", title);
-        }catch (JSONException e ){
+        }catch (JSONException ignored){
         }
         RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
             @Override
             protected void onPostExecute(RequestReturn requestReturn) {
                 super.onPostExecute(requestReturn);
                 if(!requestReturn.isError()) {
-                    Log.d("return", requestReturn.getResponse());
                     JSONObject object = new JSONObject();
                     try {
 
 
                         object = new JSONObject(requestReturn.getResponse());
-                    }catch (JSONException e){}
+                    }catch (JSONException ignored){}
 
                     changeTitleDone(new Item().loadFromJson(object));
                 }else{
@@ -271,16 +252,13 @@ public class Smartfridge {
             jsonObject.put("UserId",userid);
             jsonObject.put("Type", "text");
             jsonObject.put("Text", text);
-        }catch (JSONException e ){
+        }catch (JSONException ignored){
         }
         RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
             @Override
             protected void onPostExecute(RequestReturn requestReturn) {
                 super.onPostExecute(requestReturn);
                 if(!requestReturn.isError()) {
-                    Log.d("return", requestReturn.getResponse());
-
-
                     printJobDone();
                 }else{
                     printJobError(requestReturn.getResponse());
@@ -307,7 +285,7 @@ public class Smartfridge {
             jsonObject.put("List", "");
             jsonObject.put("barcode", "");
 
-        }catch (JSONException e ){
+        }catch (JSONException ignored){
         }
         RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
             @Override
@@ -339,7 +317,7 @@ public class Smartfridge {
             jsonObject.put("List", "");
             jsonObject.put("barcode", "");
 
-        }catch (JSONException e ){
+        }catch (JSONException ignored){
         }
         RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
             @Override
@@ -372,15 +350,13 @@ public class Smartfridge {
             jsonObject.put("Text", "");
             jsonObject.put("List", "");
 
-        }catch (JSONException e ){
+        }catch (JSONException ignored){
         }
         RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
             @Override
             protected void onPostExecute(RequestReturn requestReturn) {
                 super.onPostExecute(requestReturn);
-                Log.d("barcode", requestReturn.getResponse());
                 if(!requestReturn.isError()) {
-
                     barcodeDone();
                 }else{
                     barcodeError(requestReturn.getResponse());
@@ -425,13 +401,12 @@ public class Smartfridge {
             jsonObject.put("Title", title);
             jsonObject.put("Barcode", barcode);
 
-        }catch (JSONException e ){
+        }catch (JSONException ignored){
         }
         RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
             @Override
             protected void onPostExecute(RequestReturn requestReturn) {
                 super.onPostExecute(requestReturn);
-                Log.d("barcode", requestReturn.getResponse());
                 if(!requestReturn.isError()) {
 
                     createItemDone();
@@ -458,7 +433,7 @@ public class Smartfridge {
             jsonObject.put("UserId",userid);
             jsonObject.put("Sort", order);
 
-        }catch (JSONException e ){
+        }catch (JSONException ignored){
         }
         final RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
             @Override
@@ -497,7 +472,7 @@ public class Smartfridge {
     }
 
     public ArrayList<LogItem> processLog(String output) throws JSONException{
-        ArrayList<LogItem> logs = new ArrayList<LogItem>();
+        ArrayList<LogItem> logs = new ArrayList<>();
             JSONArray reader = new JSONArray(output);
             for (int x = 0; x < reader.length(); x++) {
 
@@ -525,7 +500,7 @@ return logs;
             jsonObject.put("UserId",userid);
             jsonObject.put("Type", "list");
 
-        }catch (JSONException e ){
+        }catch (JSONException ignored){
         }
         final RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
             @Override
@@ -560,7 +535,7 @@ return logs;
             jsonObject.put("UserId",userid);
 
 
-        }catch (JSONException e ){
+        }catch (JSONException ignored){
         }
         final RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
             @Override
@@ -571,7 +546,6 @@ return logs;
                     //Y-m-d H:i:s
                     getActiveDone(requestReturn.getResponse());
                     if(isJSONValid(requestReturn.getResponse())){
-                        Log.d("dit wordt opgeslagen", "Jajajajja");
                         SmartfridgeSave.setActiveBackup(activity, requestReturn.getResponse());
                     }
 
@@ -599,7 +573,7 @@ return logs;
             jsonObject.put("UserId",userid);
 
 
-        }catch (JSONException e ){
+        }catch (JSONException ignored){
         }
         final RequestClassPost requestClassPost = new RequestClassPost(activity, jsonObject){
             @Override

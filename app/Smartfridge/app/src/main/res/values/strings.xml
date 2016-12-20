@@ -97,5 +97,7 @@
 <string name="ShoppingListButtonText">Print the shoppinglist!</string>
     <string name="homeSwitchText">Only current items / All</string>
     <string name="textview"> </string>
+    <string name="HomeRefreshingFail">Oops, refreshing failed. Errormessage:</string>
+    <string name="dialogNameText">Name</string>
 
 </resources>

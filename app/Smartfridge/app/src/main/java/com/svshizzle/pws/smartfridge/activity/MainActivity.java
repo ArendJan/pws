@@ -2,25 +2,22 @@ package com.svshizzle.pws.smartfridge.activity;
 
 import android.app.*;
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
 import android.view.View;
-
 import com.svshizzle.pws.smartfridge.R;
 import com.svshizzle.pws.smartfridge.api.Smartfridge;
 
 
-public class MainActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
+public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
 
 
-    private Toolbar mToolbar;
-    private FragmentDrawer drawerFragment;
-    private Fragment fragment;
+    Toolbar mToolbar;
+    FragmentDrawer drawerFragment;
+    Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +29,9 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         drawerFragment = (FragmentDrawer)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
@@ -52,7 +50,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
     private void displayView(int position) {
 
-        String title = getString(R.string.app_name);
+        String title;
         switch (position) {
             case 0:
                 fragment = new HomeFragment();
@@ -76,7 +74,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_home);
                 break;
         }
-        Log.d("dit is main", title);
+
 
         if (fragment != null) {
 
@@ -85,7 +83,9 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
             fragmentTransaction.commit();
 
             // set the toolbar title
-            getSupportActionBar().setTitle(title);
+            if(getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(title);
+            }
         }
     }
     @Override

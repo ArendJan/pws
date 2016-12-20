@@ -10,7 +10,7 @@ package com.svshizzle.pws.smartfridge.request;
  */
 public class RequestReturn {
 
-    public RequestReturn(String response, boolean error) {
+    RequestReturn(String response, boolean error) {
         this.error = error;
         this.response = response;
     }
@@ -19,19 +19,13 @@ public class RequestReturn {
         return error;
     }
 
-    public void setError(boolean error) {
-        this.error = error;
-    }
+
 
     public String getResponse() {
         return response;
     }
 
-    public void setResponse(String response) {
-        this.response = response;
-    }
-
-    public boolean error = false;
-    public String response = "";
+    private boolean error = false;
+    private String response = "";
 
 }

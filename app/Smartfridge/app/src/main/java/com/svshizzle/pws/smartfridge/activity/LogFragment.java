@@ -9,20 +9,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.svshizzle.pws.smartfridge.R;
-import com.svshizzle.pws.smartfridge.adapter.HomeListAdapter;
 import com.svshizzle.pws.smartfridge.adapter.LogListAdapter;
 import com.svshizzle.pws.smartfridge.api.Smartfridge;
 import com.svshizzle.pws.smartfridge.api.SmartfridgeSave;
-import com.svshizzle.pws.smartfridge.model.Item;
 import com.svshizzle.pws.smartfridge.model.LogItem;
-
 import org.json.JSONException;
-
 import java.util.ArrayList;
 
 
@@ -67,7 +61,7 @@ public class LogFragment extends Fragment {
                     ArrayList<LogItem> arrayList = smartfridge.processLog(SmartfridgeSave.getLogDESCBackup(getActivity()));
                     createList(arrayList);
                 }catch (JSONException e){
-                    Log.d("exception", e.getLocalizedMessage());
+                    //TODO:Dit is nooit goed he
                 }
 
 
@@ -115,11 +109,6 @@ createList(items);
 
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
     }
@@ -127,7 +116,7 @@ createList(items);
     private void createList(ArrayList<LogItem> items){
         final ArrayList<LogItem> itemArrayList = new ArrayList<>();
 
-        Log.d("dit", "is eets");
+
         for(int x = 0;x<items.size();x++){
             if(!items.get(x).getScript().equals("contains.php")) {
                 itemArrayList.add(items.get(x));

@@ -2,15 +2,9 @@ package com.svshizzle.pws.smartfridge.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
-
-
-import android.icu.text.StringPrepParseException;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.support.v4.widget.SwipeRefreshLayout;
-
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,26 +14,18 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.svshizzle.pws.smartfridge.R;
 import com.svshizzle.pws.smartfridge.adapter.HomeListAdapter;
 import com.svshizzle.pws.smartfridge.api.Smartfridge;
 import com.svshizzle.pws.smartfridge.api.SmartfridgeSave;
 import com.svshizzle.pws.smartfridge.model.Item;
-
-import com.svshizzle.pws.smartfridge.model.LogItem;
-import com.svshizzle.pws.smartfridge.request.RequestClassPost;
-import com.svshizzle.pws.smartfridge.request.RequestReturn;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class HomeFragment extends Fragment {
@@ -49,7 +35,7 @@ public class HomeFragment extends Fragment {
     HomeListAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Switch aSwitch;
-    private View view;
+    View view;
     public HomeFragment() {
 
     }
@@ -109,10 +95,6 @@ public class HomeFragment extends Fragment {
 
 
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
 
     @Override
     public void onDetach() {
@@ -137,14 +119,10 @@ swipeRefreshLayout.setRefreshing(true);
                 if(swipeRefreshLayout== null){return;}
                 swipeRefreshLayout.setRefreshing(false);
 
-                Toast.makeText(getActivity(), "Oops, refreshing failed. Errormessage:"+e, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), getString(R.string.HomeRefreshingFail)+e, Toast.LENGTH_LONG).show();
                 //Shit, vincent did something wrong.
             }
         };
-        if(!smartfridge.isSignedin()){
-
-        }
-
         String sort = "opened+closed";
         if(swit ){
             sort = "everything";
@@ -232,17 +210,17 @@ swipeRefreshLayout.setRefreshing(true);
 
         try {
 
-
+            String formatDate = "yyyy-MM-dd HH:mm:ss";
             TextView textView = (TextView) getActivity().findViewById(R.id.homeActiveTextView);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat(formatDate, Locale.getDefault());
             String currentDateandTime = sdf.format(new Date());
             JSONObject object = new JSONObject(output);
 
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat format = new SimpleDateFormat(formatDate, Locale.getDefault());
             Date date1 = format.parse(object.getString("Time"));
             Date date2 = format.parse(currentDateandTime);
             long millis = date2.getTime() - date1.getTime();
-            String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+            String hms = String.format(Locale.getDefault(),"%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
                     TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
                     TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
             System.out.println(hms);
@@ -258,7 +236,6 @@ swipeRefreshLayout.setRefreshing(true);
         } catch (ParseException e) {
             
         }catch (Exception e){
-            Log.d("eets", e.getLocalizedMessage());
         }
 
     }

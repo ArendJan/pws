@@ -13,24 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-
-
-
 import com.svshizzle.pws.smartfridge.R;
-import com.svshizzle.pws.smartfridge.adapter.HomeListAdapter;
-import com.svshizzle.pws.smartfridge.api.Smartfridge;
-import com.svshizzle.pws.smartfridge.model.Item;
-
-import com.svshizzle.pws.smartfridge.request.RequestClassPost;
-import com.svshizzle.pws.smartfridge.request.RequestReturn;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 public class DefaultFragment extends Fragment {
 

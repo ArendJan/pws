@@ -1,6 +1,5 @@
 package com.svshizzle.pws.smartfridge.model;
 
-import android.util.SparseBooleanArray;
 
 /**
  * Created by Arend-Jan on 18-11-2016.
@@ -8,10 +7,10 @@ import android.util.SparseBooleanArray;
 
 public class ShoppingListItem {
 
-    String barcode = "";
-    String title = "";
-    int amount = 0;
-    boolean checked = true;
+    private String barcode = "";
+    private String title = "";
+    private int amount = 0;
+    private boolean checked = true;
 
     public ShoppingListItem(String barcode, String title, int amount) {
         this.barcode = barcode;

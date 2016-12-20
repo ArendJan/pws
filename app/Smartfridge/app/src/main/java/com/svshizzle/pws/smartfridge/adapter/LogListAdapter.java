@@ -5,27 +5,17 @@ package com.svshizzle.pws.smartfridge.adapter;
  */
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.content.Context;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.svshizzle.pws.smartfridge.R;
-import com.svshizzle.pws.smartfridge.model.Item;
 import com.svshizzle.pws.smartfridge.model.LogItem;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import static android.R.attr.cacheColorHint;
-import static android.R.attr.data;
 
 public class LogListAdapter extends BaseAdapter {
 
@@ -64,24 +54,24 @@ public class LogListAdapter extends BaseAdapter {
         LogItem item =  data.get(position);
 
         // Setting all values in listview
-        if(item.getScript().equals("markJob.php")) {
-            title.setText(markJob(item));
-        }
-        else if(item.getScript().equals("itemChange.php")){
-            title.setText(changeItem(item));
-        }
-        else if(item.getScript().equals("addJob.php")){
-            title.setText(addJob(item));
-        }
+        switch (item.getScript()) {
+            case "markJob.php":
+                title.setText(markJob(item));
+                break;
+            case "itemChange.php":
+                title.setText(changeItem(item));
+                break;
+            case "addJob.php":
+                title.setText(addJob(item));
+                break;
+            default:
 
-
-        else {
-            Log.d("unknown", item.getScript());
-            title.setText(item.getScript());
+                title.setText(item.getScript());
+                break;
         }
 
         tijd.setText(item.getTime());
-        extratext.setText("eets");
+        extratext.setText("");
 
         return vi;
     }
@@ -105,7 +95,7 @@ public class LogListAdapter extends BaseAdapter {
 
         }catch (JSONException e){
 
-            Log.d("exception", e.getLocalizedMessage());
+
             return "oops";
         }
     }
@@ -128,7 +118,7 @@ public class LogListAdapter extends BaseAdapter {
 
         }catch (JSONException e){
 
-            Log.d("exception", e.getLocalizedMessage());
+
             return "oops";
         }
     }
@@ -151,7 +141,7 @@ public class LogListAdapter extends BaseAdapter {
             }
         }catch (JSONException e){
 
-            Log.d("exception", e.getLocalizedMessage());
+
             return "oops";
         }
     }
