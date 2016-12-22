@@ -45,13 +45,13 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#about">About</a>
+                        <a href="#about">Smartfridge</a>
                     </li>
                     <li>
-                        <a href="#services">About Us</a>
+                        <a href="#services">Test</a>
                     </li>
                     <li>
-                        <a href="#contact">Contact</a>
+                        <a href="#contact">Documents</a>
                     </li>
                     <li>
                         <a href="#print">Print</a>
@@ -81,10 +81,10 @@
         <!-- First Featurette -->
         <div class="featurette" id="about">
             <img class="featurette-image img-circle img-responsive pull-right" src="/img/plaatje1.png">
-            <h2 class="featurette-heading">This First Heading
-                <span class="text-muted">Will Catch Your Eye</span>
+            <h2 class="featurette-heading">A smart fridge
+                <span class="text-muted">Everybody wants it!</span>
             </h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            <p class="lead">We, Vincent Kling and Arend-Jan van Hilten, have been working very long and hard on our endproject for school. We have created a smart fridge, that knows what is in your fridge and can do all kinds of stuff for you.</p>
         </div>
 
         <hr class="featurette-divider">
@@ -92,27 +92,27 @@
         <!-- Second Featurette -->
         <div class="featurette" id="services">
             <img class="featurette-image img-circle img-responsive pull-left" src="/img/plaatje2.png">
-            <h2 class="featurette-heading">The Second Heading
-                <span class="text-muted">Is Pretty Cool Too.</span>
+            <h2 class="featurette-heading">Test it!
+                <span class="text-muted">On our fridge</span>
             </h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            <p class="lead">You can test our app and even do stuff on our fridge. Our app is downloadable from the <a href="https://play.google.com/store/apps/details?id=com.svshizzle.pws.smartfridge" target="_blank"> Play Store(Android only)</a>. The password for our own setup is kaasblokje. You can also recreate our project, by looking at <a href="https://www.hackster.io/ajv/smart-fridge-4a50b5"target="_blank">this project on Hackster.io(still WIP)</a>. </p>
         </div>
 
         <hr class="featurette-divider">
 
         <!-- Third Featurette -->
         <div class="featurette" id="contact">
-            <img class="featurette-image img-circle img-responsive pull-right" src="http://placehold.it/500x500">
-            <h2 class="featurette-heading">The Third Heading
-                <span class="text-muted">Will Seal the Deal.</span>
+            <img class="featurette-image img-circle img-responsive pull-right" src="/img/documentation.png">
+            <h2 class="featurette-heading">See the output
+                <span class="text-muted">Only Dutch</span>
             </h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            <p class="lead">You can download<a href="/downloads/verslag.docx"> our paper from here</a>, together with<a href="/downloads/bijlagen.docx"> the attachments.</a> These are both in dutch, but we also have made a <a href="https://arendjan.github.io/slate/"target="_blank">documentationpage for the info</a> how to communicate with the server. </p>
         </div>
 
         <hr class="featurette-divider">
         <!-- Third Featurette -->
         <div class="featurette" id="print">
-            <img class="featurette-image img-circle img-responsive pull-right" src="http://placehold.it/500x500">
+            <img class="featurette-image img-circle img-responsive pull-right" src="/img/printer.jpg">
             <h2 class="featurette-heading">Print
                 <span class="text-muted">something in our fridge.</span>
             </h2>
