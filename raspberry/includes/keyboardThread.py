@@ -12,9 +12,6 @@ ledIn = 27
 ledOpen = 17
 ledOut = 4
 
-
-
-print stop - start
 def start():
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
