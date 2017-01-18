@@ -35,7 +35,7 @@ try {
   $userId = uniqid();
   $addstmt = $conn->prepare("INSERT INTO users (userId, email) VALUES (?,?)");
   $addstmt->execute(array($userId,$emailadres));
-  //emailFunctie();
+  emailFunctie($emailadres, $userId);
   retour(False, $userId, "");
 }
 catch(PDOException $e)
@@ -44,32 +44,21 @@ catch(PDOException $e)
 }
 
 
-function emailFunctie(){
+function emailFunctie($email, $userid){
 
-  $emailadres= $_POST['Email'];
+require_once('swift/swift/lib/swift_required.php');
 
-  //TODO: Stuur email.
-  require "PHPMailer/PHPMailerAutoload.php";
-  $mail = new PHPMailer;
-  $mail->Host = '';
-  $mail->SMTPAuth = true;
-  $mail->Username = '';
-  $mail->Password = '';
-  $mail->SMTPSecure = 'tls';
-  $mail->Port = 587;
-  $mail->setFrom("", "Smart Fridge");
-  $mail->addAddress($emailadres);
+$transport = Swift_SmtpTransport::newInstance('smtp.strato.com', 587, 'tls')
+        ->setUsername('smartfridge@svshizzle.com')
+        ->setPassword('Koelkast123');
 
-  $mail->isHTML(true);
+$mailer = Swift_Mailer::newInstance($transport);
 
-  $mail->Subject = "Smartfridge UserId";
-  $mail->Body = "";
-  $mail->AltBody ="";
+$message = Swift_Message::newInstance('Userid')
+  ->setFrom(array('smartfridge@svshizzle.com' => 'Smartfridge'))
+  ->setTo(array($email))
+  ->setBody('Your userid is '. $userid);
 
-  if(!$mail->send()){
-    retour(False,"Mail error, send a message to ...", "");
-    die();
-  }
+$result = $mailer->send($message);
 }
-
 ?>
